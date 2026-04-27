@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Convênios de Saída - Portal da Transparência MG</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        /* ============================================================
+           1. VARIÁVEIS DE CORES
+        ============================================================ */
+        :root {
+            --primary-dark:      #1a3a5c;
+            --primary-darker:    #0f2a44;
+            --accent-red:        #b93c42;
+            --accent-bright:     #db233f;
+            --background-light:  #f5f7fa;
+            --success-green:     #28a745;
+            --warning-yellow:    #ffc107;
+            --info-blue:         #17a2b8;
+            --border-color:      #dee2e6;
+        }
+
+        /* ============================================================
+           2. RESET E CONFIGURAÇÕES GLOBAIS
+        ============================================================ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; overflow-x: hidden; margin: 0; padding: 0; height: auto; min-height: auto; }
+        body {
+            font-family: 'Montserrat', Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-light);
+            padding-bottom: 15px;
+            overflow-x: hidden;
+        }
+        body, button, input, select, textarea, span, div { font-family: 'Montserrat', sans-serif !important; }
+        .material-icons { font-family: 'Material Icons' !important; font-size: 14px; vertical-align: middle; }
+
+        /* ============================================================
+           3. LAYOUT PRINCIPAL
+        ============================================================ */
+        .main-container { height: auto; min-height: auto; overflow: visible; position: relative; }
+        .container-fluid { width: 100%; max-width: 88% !important; padding: 0 40px; margin: 0; }
+        .dashboard-container { width: 100%; max-width: 100%; padding: 0 40px; margin: 0 auto; }
+        .tab-content, .tab-pane { width: 100%; height: auto; min-height: auto; overflow: visible; }
+        .table-container { height: auto; min-height: auto; overflow: visible; position: relative; }
+        .iframe-mode { overflow: visible !important; }
+
+        /* ============================================================
+           4. DATA DE ATUALIZAÇÃO
+        ============================================================ */
+        .data-atualizacao-container { display: flex; justify-content: left; align-items: center; margin: 15px 0; }
+        .data-atualizacao-box {
+            background: transparent !important;
+            border-radius: 8px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--primary-dark);
+            font-weight: 600;
+            box-shadow: none;
+        }
+        .data-atualizacao-box i { font-size: 14px; color: var(--accent-red); }
+
+        /* ============================================================
+           5. FILTROS
+        ============================================================ */
+        .filter-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .filter-label { font-size: 13px; font-weight: 600; color: #1a3a5c; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-control, .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            height: auto;
+            width: 100%;
+        }
+        .form-control:focus, .form-select:focus { border-color: var(--accent-red); box-shadow: 0 0 0 2px rgba(185,60,66,0.15); }
+        .modern-select {
+            border: 1.5px solid #dfe5ec !important;
+            border-radius: 8px !important;
+            padding: 10px 12px !important;
+            font-size: 13px !important;
+            height: 42px !important;
+            line-height: 1.5 !important;
+            background-color: #fff;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+        .modern-select:focus { border-color: #1a3a5c !important; box-shadow: 0 0 0 2px rgba(26,58,92,0.1); }
+        .filters-row { display: flex; gap: 15px; width: 100%; flex-wrap: wrap; margin-bottom: 12px; }
+        .filter-group { flex: 1; min-width: 140px; }
+        .botoes-abaixo { margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+        /* ============================================================
+           6. CARDS DE MÉTRICAS
+        ============================================================ */
+        .metric-card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e9ef;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            overflow: hidden;
+            height: 100%;
+            transition: box-shadow 0.25s ease, transform 0.25s ease;
+        }
+        .metric-card:hover { box-shadow: 0 8px 24px rgba(26,58,92,0.13); transform: translateY(-2px); }
+        .metric-header {
+            background: #20445d;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .metric-body { padding: 12px 15px; }
+        .metric-value { font-size: 20px; font-weight: 700; color: #171c21; }
+        .metric-sublabel { font-size: 10px; color: #94a3b8; font-weight: 500; margin-top: 2px; }
+
+        /* ============================================================
+           7. GRÁFICOS
+        ============================================================ */
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .chart-container canvas { max-width: 100%; }
+        .chart-header {
+            background: #20445d;
+            color: white;
+            padding: 12px 16px;
+            margin: 0;
+        }
+        .chart-title { font-size: 14px; font-weight: 600; color: white; margin: 0; }
+        .chart-wrapper { height: 260px; padding: 10px 15px; width: 100%; }
+
+        /* ============================================================
+           8. TABELAS
+        ============================================================ */
+        .table-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .table-title { font-size: 13px; font-weight: 600; margin: 0; }
+        .table-badge { background: #1a3a5c; color: white; padding: 5px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+        .table-fixed-header-container { position: relative; overflow: auto; width: 100%; max-height: 600px; }
+        .table-fixed-header-container table thead th {
+            background-color: #54697b !important;
+            color: white !important;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-weight: 600;
+            padding: 12px 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .table { width: 100%; font-size: 12px; border-collapse: collapse; table-layout: auto; }
+        .table th, .table td { border: 1px solid #d6dee6; }
+        .table thead th {
+            background-color: #54697b !important;
+            color: white !important;
+            font-weight: 600;
+            font-size: 12px;
+            padding: 12px 10px;
+            text-transform: uppercase;
+            border: 1px solid #d6dee6;
+            cursor: pointer;
+            user-select: none;
+        }
+        .table thead th:first-child { border-top-left-radius: 8px; }
+        .table thead th:last-child  { border-top-right-radius: 8px; }
+        .table thead th:hover { background-color: #3d5566 !important; }
+        .table tbody tr { background-color: #ffffff; }
+        .table tbody td { padding: 10px 10px; vertical-align: middle; border-bottom: 1px solid #f1f1f1; font-size: 12px; }
+        .table tbody tr:hover { background-color: rgba(41,67,90,0.04); }
+        .table tfoot { position: sticky; bottom: 0; z-index: 20; }
+        .table tfoot tr, .table tfoot td { background-color: #dfe3e8 !important; font-weight: 700; font-size: 12px; }
+
+        .orgao-link, .processo-link {
+            color: #006a82;
+            text-decoration: none;
+            font-weight: 400;
+            cursor: pointer;
+        }
+        .orgao-link:hover, .processo-link:hover { color: var(--accent-red); text-decoration: underline; }
+
+        .sortable-header { cursor: pointer; position: relative; padding-right: 22px !important; }
+        .sortable-header:hover { background-color: #3d5566 !important; }
+        .sortable-header i { font-size: 13px; position: absolute; right: 5px; top: 50%; transform: translateY(-50%); opacity: 0.8; }
+
+        /* Badges status */
+        .badge-status { padding: 3px 8px; border-radius: 20px; font-size: 10.5px; font-weight: 700; display: inline-block; letter-spacing: 0.2px; white-space: nowrap; }
+        .badge-vigente      { background: #dcf5e7; color: #0f6b3a; border: 1px solid #b2e6c8; }
+        .badge-concluido    { background: #cce5ff; color: #004085; border: 1px solid #b8d4f5; }
+        .badge-cancelado    { background: #fde8ea; color: #8b1a22; border: 1px solid #f5b8bc; }
+        .badge-suspenso     { background: #fff3cd; color: #856404; border: 1px solid #ffe082; }
+        .badge-inadimplente { background: #fde8ea; color: #8b1a22; border: 1px solid #f5b8bc; }
+        .badge-prestacao    { background: #d1ecf1; color: #0c5460; border: 1px solid #b0dde5; }
+        .badge-outros       { background: #e9ecef; color: #495057; border: 1px solid #ced4da; }
+
+        .nao-aplica { color: #adb5bd; font-size: 11px; }
+        .text-right { text-align: right; }
+
+        /* ============================================================
+           9. BOTÕES
+        ============================================================ */
+        .btn-pesquisa {
+            background: linear-gradient(to right, #20445d, #20445d);
+            border: none;
+            padding: 0 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            height: 36px;
+            white-space: nowrap;
+        }
+        .btn-pesquisa:hover { background: linear-gradient(to right, var(--accent-red), #a32c32); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(185,60,66,0.2); color: white; }
+        .btn-secondary-custom {
+            background: white;
+            border: 2px solid var(--primary-darker);
+            color: var(--primary-darker);
+            padding: 0 16px;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            height: 36px;
+            white-space: nowrap;
+            text-decoration: none !important;
+        }
+        .btn-secondary-custom:hover { background-color: #132837 !important; color: white !important; border-color: #132837 !important; }
+        .btn-export {
+            appearance: none;
+            -webkit-appearance: none;
+            background: transparent !important;
+            border: 1px solid #d6dee6;
+            color: #1a3a5c;
+            padding: 0 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            height: 32px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .btn-export i { font-size: 14px !important; }
+        button.btn-export:hover, a.btn-export:hover { background-color: #1a3a5c !important; border-color: #1a3a5c !important; color: #ffffff !important; }
+        .btn-action {
+            padding: 4px;
+            border-radius: 7px;
+            border: 1.5px solid #1a3a5c;
+            background-color: #ffffff;
+            color: #1a3a5c;
+            width: 32px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .btn-action:hover { background-color: #1a3a5c; color: #ffffff; }
+        .btn-topo {
+            background: #eeeff5;
+            color: #1a3a5c;
+            border: 1px solid #d6dee6;
+            border-radius: 12px;
+            padding: 0 16px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            height: 32px;
+        }
+        .btn-topo:hover { background-color: #1a3a5c; color: #ffffff; border-color: #1a3a5c; }
+
+        /* ============================================================
+           10. NAVEGAÇÃO (abas)
+        ============================================================ */
+        .nav-tabs-container { background: transparent; padding: 10px 0; margin-top: 15px; margin-bottom: 15px; width: 100%; }
+        .nav-tabs { border: none !important; gap: 10px; width: 100%; flex-wrap: wrap; }
+        .nav-tabs .nav-link {
+            border: none !important;
+            background: #ffffff !important;
+            border-radius: 10px !important;
+            padding: 8px 18px !important;
+            font-weight: 500;
+            font-size: 13px;
+            color: #1a3a5c !important;
+            display: inline-flex !important;
+            align-items: center;
+            gap: 6px;
+            transition: all .25s ease;
+            white-space: nowrap;
+        }
+        .nav-tabs .nav-link:hover { background: #e6e9ed !important; }
+        .nav-tabs .nav-link.active { background: #234c63 !important; color: #fff !important; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .nav-tabs .material-icons { font-size: 14px !important; }
+
+        /* ============================================================
+           11. MODAL
+        ============================================================ */
+        .modal-creative .modal-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
+            color: white !important;
+            padding: 15px 20px;
+            border-bottom: none;
+        }
+        .modal-creative .modal-header .modal-title { color: white !important; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+        .modal-creative .modal-header .btn-close { filter: brightness(0) invert(1); opacity: 1; }
+        .info-card { background: #f8fafd; border-radius: 10px; padding: 13px 16px; margin-bottom: 13px; border: 1px solid #e2e8f0; border-left: 4px solid var(--accent-red); }
+        .info-card.primary { border-left-color: var(--primary-dark); }
+        .info-label { font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: 600; margin-bottom: 4px; }
+        .info-value { font-size: 13px; font-weight: 500; color: #1e293b; word-break: break-word; }
+        .info-value.highlight { font-size: 16px; color: var(--accent-red); font-weight: 700; }
+
+        /* ============================================================
+           12. PAGINAÇÃO
+        ============================================================ */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: white;
+            border-top: 1px solid #dee2e6;
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-radius: 0 0 8px 8px;
+        }
+        .pagination-info { display: flex; align-items: center; gap: 12px; font-size: 12px; color: #6c757d; flex-wrap: wrap; }
+        .pagination-controls { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+        .pagination-controls button {
+            min-width: 34px; height: 34px; border: 1px solid #dee2e6; background: white; color: var(--primary-dark);
+            border-radius: 6px; display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s; font-size: 13px; padding: 0 6px;
+        }
+        .pagination-controls button:hover:not(:disabled) { background-color: var(--primary-dark); color: white; border-color: var(--primary-dark); }
+        .pagination-controls button.active { background-color: var(--primary-dark); color: white; border-color: var(--primary-dark); }
+        .pagination-controls button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .page-size-selector { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #6c757d; }
+        .page-size-selector select { width: 70px; border: 1px solid #d6dee6; border-radius: 6px; padding: 4px 6px; font-size: 12px; background-color: white; color: var(--primary-dark); font-weight: 600; cursor: pointer; outline: none; }
+        .page-input { display: flex; align-items: center; gap: 6px; }
+        .page-input input { width: 56px; height: 32px; border: 1px solid #dee2e6; border-radius: 6px; text-align: center; font-size: 13px; padding: 0 4px; }
+        .page-input input:focus { outline: none; border-color: var(--primary-dark); }
+        .page-input button { height: 32px; background: var(--primary-dark); color: white; border: none; border-radius: 6px; padding: 0 10px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+        .page-input button:hover { background: var(--accent-red); }
+
+        /* ============================================================
+           13. TOOLBAR
+        ============================================================ */
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .toolbar-left  { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .toolbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+        /* ============================================================
+           14. LOADING
+        ============================================================ */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(238,241,246,0.95);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .loading-overlay.show { display: flex; }
+        .loading-progress { font-size: 13px; color: #20445d; font-weight: 700; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ============================================================
+           15. TOAST
+        ============================================================ */
+        .toast-sucesso {
+            position: fixed;
+            bottom: 30px; left: 50%;
+            transform: translateX(-50%);
+            background: #e6f4ea; color: #1e4620;
+            border-radius: 12px; padding: 14px 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            display: none; align-items: center; justify-content: center; gap: 10px;
+            z-index: 9999; min-width: 280px;
+        }
+        .toast-notification {
+            position: fixed; top: 20px; right: 20px; background: white;
+            border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 12px 20px; transform: translateX(120%); transition: transform 0.3s ease;
+            z-index: 10000; border-left: 4px solid; max-width: 350px;
+        }
+        .toast-notification.show { transform: translateX(0); }
+        .toast-notification.success { border-left-color: var(--success-green); }
+        .toast-notification.error { border-left-color: var(--accent-red); }
+        .toast-content { display: flex; align-items: center; font-size: 13px; color: var(--primary-dark); gap: 8px; }
+
+        /* ============================================================
+           16. SELETOR DE COLUNAS
+        ============================================================ */
+        .column-selector { position: relative; display: inline-block; }
+        .column-selector-dropdown { display: none; position: absolute; right: 0; top: 100%; background: white; min-width: 260px; box-shadow: 0 8px 16px rgba(0,0,0,0.15); border-radius: 8px; z-index: 2000; margin-top: 5px; padding: 15px; border: 1px solid #e9ecef; max-height: 320px; overflow-y: auto; }
+        .column-selector-dropdown.show { display: block; }
+        .column-selector-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #e9ecef; }
+        .column-selector-header h6 { font-size: 13px; font-weight: 700; color: var(--primary-dark); margin: 0; }
+        .column-selector-close { cursor: pointer; color: #6c757d; font-size: 14px; }
+        .column-selector-close:hover { color: var(--accent-red); }
+        .column-selector-item { display: flex; align-items: center; padding: 6px 8px; border-radius: 4px; cursor: pointer; }
+        .column-selector-item:hover { background-color: #f8f9fa; }
+        .column-selector-item input[type="checkbox"] { width: 14px; height: 14px; margin-right: 8px; cursor: pointer; accent-color: var(--primary-dark); }
+        .column-selector-item label { font-size: 12px; cursor: pointer; flex: 1; color: var(--primary-dark); }
+        .fixed-column-badge { font-size: 10px; background-color: #e9ecef; color: #6c757d; padding: 2px 6px; border-radius: 12px; font-weight: 600; margin-right: 8px; }
+
+        /* ============================================================
+           17. METADATA
+        ============================================================ */
+        .metadata-container { background: white; border-radius: 10px; box-shadow: 0 3px 12px rgba(0,0,0,0.06); overflow: hidden; margin-bottom: 20px; }
+        .metadata-header { background: #20445d; color: white; padding: 12px 16px; font-size: 13px; font-weight: 700; }
+        .metadata-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .metadata-table thead th { background-color: #54697b !important; color: white !important; padding: 10px; font-size: 11px; text-transform: uppercase; font-weight: 600; }
+        .metadata-table tbody tr:nth-child(even) { background: #f8fafd; }
+        .metadata-table tbody td { padding: 10px; border-bottom: 1px solid #f0f4f8; vertical-align: top; color: #334155; }
+        .metadata-table code { background: #e2e8f0; color: #0f172a; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+
+        /* ============================================================
+           18. RESPONSIVIDADE
+        ============================================================ */
+        @media (max-width: 992px) {
+            .container-fluid, .dashboard-container { padding: 0 15px !important; }
+        }
+        @media (max-width: 768px) {
+            .container-fluid, .dashboard-container { padding: 0 10px !important; }
+            .nav-tabs { flex-direction: column; gap: 6px; }
+            .nav-tabs .nav-link { width: 100%; justify-content: flex-start; font-size: 13px; padding: 10px 14px !important; border-radius: 8px !important; }
+            .filters-row { flex-direction: column; }
+            .filter-group { min-width: 100%; width: 100%; }
+            .botoes-abaixo { flex-direction: column; }
+            .btn-pesquisa, .btn-secondary-custom { width: 100%; justify-content: center; }
+            .metric-value { font-size: 16px; }
+            .toolbar { flex-direction: column; align-items: flex-start; }
+            .toolbar-left, .toolbar-right { flex-wrap: wrap; width: 100%; }
+            .pagination-container { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .page-input { display: none; }
+            .table-fixed-header-container { max-height: 400px; }
+            .table { font-size: 11px; }
+            .table thead th, .table tbody td { padding: 8px 6px; font-size: 11px; }
+            .modal-dialog { max-width: 98% !important; width: 98% !important; margin: 4px auto; }
+            .chart-wrapper { height: 200px; }
+        }
+    </style>
+</head>
+<body class="iframe-mode">
+
+<div class="main-container">
+    <div class="container-fluid dashboard-container">
+
+        <!-- Navegação por abas -->
+        <div class="nav-tabs-container">
+            <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" id="visao-geral-tab" data-bs-toggle="tab" data-bs-target="#visao-geral">
+                        <i class="material-icons">bar_chart</i>Visão Geral
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="consulta-tab" data-bs-toggle="tab" data-bs-target="#consulta">
+                        <i class="material-icons">handshake</i>Consulta Individual
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="downloads-tab" data-bs-toggle="tab" data-bs-target="#downloads">
+                        <i class="material-icons">download</i>Downloads
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Data de atualização -->
+        <div class="data-atualizacao-container">
+            <div class="data-atualizacao-box">
+                <i class="material-icons">event</i>
+                Atualizado em: <span id="data-atualizacao-header" style="margin-left:4px;">Carregando...</span>
+            </div>
+        </div>
+
+        <!-- Conteúdo das abas -->
+        <div class="tab-content" id="dashboardTabsContent">
+            <div class="tab-pane fade show active" id="visao-geral" role="tabpanel">
+                <div id="visao-geral-content"></div>
+            </div>
+            <div class="tab-pane fade" id="consulta" role="tabpanel">
+                <div id="consulta-content"></div>
+            </div>
+            <div class="tab-pane fade" id="downloads" role="tabpanel">
+                <div id="downloads-content"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Detalhes Convênio -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content modal-creative">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="material-icons">handshake</i> Detalhes do Convênio
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalContent"></div>
+            <div class="modal-footer" style="gap:8px;">
+                <button class="btn-export" onclick="exportarModalPDF()"><i class="material-icons">print</i> PDF</button>
+                <button class="btn-export" onclick="exportarModalCSV()"><i class="material-icons">description</i> CSV</button>
+                <button class="btn-export" onclick="copiarLinkDireto()"><i class="material-icons">link</i> Copiar Link</button>
+                <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal">
+                    <i class="material-icons">close</i> Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="toastSucesso" class="toast-sucesso">
+    <div class="toast-content">
+        <i class="material-icons" style="color:#28a745">check_circle</i>
+        <span>Link copiado para área de transferência!</span>
+    </div>
+    <span style="cursor:pointer;margin-left:10px;font-size:14px;" onclick="document.getElementById('toastSucesso').style.display='none'">✖</span>
+</div>
+
+<!-- Loading -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner-border" role="status" style="color:#20445d;width:2.5rem;height:2.5rem;"></div>
+    <div class="loading-progress" id="loadingProgress">Carregando dados...</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// ============================================================
+// 1. CONFIGURAÇÕES E VARIÁVEIS GLOBAIS
+// ============================================================
+const CSV_URL = 'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/convenios_saida.csv';
+const PORTAL_DADOS_ABERTOS_URL = 'https://dados.mg.gov.br/dataset/convenios-saida';
+
+let dadosCompletos = [];
+let dadosFiltradosVG = [];
+let dadosFiltradosCI = [];
+let modalConvenioAtual = null;
+
+let sortConfigVG = { coluna: 'valor_total', direcao: 'desc' };
+let sortConfigCI = { coluna: 'data_publicacao', direcao: 'desc' };
+
+let paginacaoVG = { paginaAtual: 1, itensPorPagina: 50, totalPaginas: 1 };
+let paginacaoCI = { paginaAtual: 1, itensPorPagina: 50, totalPaginas: 1 };
+
+let chartStatus = null;
+let chartAno    = null;
+
+// Colunas visíveis consulta (as fixas sempre aparecem)
+let colunasVisiveis = {
+    ano: true,
+    codigo_orgao: true,
+    sigla: true,
+    orgao: false,
+    numero_siafi: true,
+    situacao: true,
+    cnpj_proponente: true,
+    razao_social: true,
+    data_publicacao: true,
+    data_inicio: true,
+    data_termino: true,
+    status: true,
+    valor_concedente: true,
+    valor_parlamentar: true,
+};
+// Fixas: numero_siafi, valor_empenhado, valor_pago, acoes
+
+const ordemColunasCI = [
+    'ano','codigo_orgao','sigla','orgao','numero_siafi',
+    'situacao','cnpj_proponente','razao_social',
+    'data_publicacao','data_inicio','data_termino','status',
+    'valor_concedente','valor_parlamentar',
+    'valor_empenhado','valor_pago','acoes'
+];
+
+const chartPalette = ['#1a3a5c','#2c5f8a','#3a7cb8','#5a9fd4','#7ab8e0','#9dd1ec','#d4a017','#c0392b','#27ae60','#8e44ad'];
+
+// ============================================================
+// 2. AUXILIARES
+// ============================================================
+function mostrarLoading(show, msg) {
+    const overlay = document.getElementById('loadingOverlay');
+    if (show) overlay.classList.add('show');
+    else { overlay.classList.remove('show'); overlay.style.display = 'none'; }
+    if (msg) document.getElementById('loadingProgress').textContent = msg;
+}
+
+function mostrarToast(mensagem, tipo) {
+    document.querySelectorAll('.toast-notification').forEach(t => t.remove());
+    const toast = document.createElement('div');
+    toast.className = `toast-notification ${tipo}`;
+    toast.innerHTML = `<div class="toast-content"><i class="material-icons me-1">${tipo==='success'?'check_circle':'error'}</i><span>${mensagem}</span></div>`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 100);
+    setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
+}
+
+function iframeUpdateHeight() {
+    const h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) + 10;
+    try { if (window.parent && window.parent !== window) window.parent.postMessage({ iframeHeight: h, height: h, type: 'resize' }, '*'); } catch(e) {}
+}
+
+function voltarAoTopo() {
+    if (window.parent && window.parent !== window) window.parent.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function formatarMoeda(valor) {
+    if (valor === undefined || valor === null || valor === '' || valor === '-') return 'R$ 0,00';
+    const num = typeof valor === 'string' ? parseFloat(valor.replace(',','.')) : parseFloat(valor);
+    if (isNaN(num)) return 'R$ 0,00';
+    return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2 });
+}
+
+function formatarData(dataStr) {
+    if (!dataStr || dataStr === '' || dataStr === '-') return '-';
+    if (dataStr.includes('/')) return dataStr;
+    const p = dataStr.split(/[-T]/);
+    if (p.length >= 3) return `${p[2].substring(0,2)}/${p[1]}/${p[0]}`;
+    return dataStr;
+}
+
+function parsearValor(v) {
+    if (!v || v === '' || v === '-') return 0;
+    if (typeof v === 'number') return v;
+    return parseFloat(v.toString().replace(/\./g,'').replace(',','.')) || 0;
+}
+
+function getBadgeStatus(status) {
+    const s = (status || '').toLowerCase().trim();
+    if (s.includes('vigente') || s.includes('ativo') || s.includes('em execução') || s.includes('em execucao')) return 'badge-vigente';
+    if (s.includes('concluído') || s.includes('concluido') || s.includes('encerrado') || s.includes('prestação de contas') || s.includes('prestacao de contas')) return 'badge-concluido';
+    if (s.includes('cancelado') || s.includes('rescindido') || s.includes('inadimplente')) return 'badge-cancelado';
+    if (s.includes('suspenso') || s.includes('impedido')) return 'badge-suspenso';
+    if (s.includes('aguardando') || s.includes('análise') || s.includes('analise')) return 'badge-prestacao';
+    return 'badge-outros';
+}
+
+function extrairAno(row) {
+    const campos = ['ano','ANO','Ano','ano_convenio'];
+    for (const c of campos) if (row[c]) return row[c];
+    const data = row['data_publicacao'] || row['DATA_PUBLICACAO'] || row['data_inicio'] || '';
+    if (data) { const m = data.match(/(\d{4})/); if (m) return m[1]; }
+    return '';
+}
+
+function ordenarDados(dados, coluna, direcao) {
+    return [...dados].sort((a, b) => {
+        let va = a[coluna] !== undefined && a[coluna] !== null ? a[coluna] : '';
+        let vb = b[coluna] !== undefined && b[coluna] !== null ? b[coluna] : '';
+        const numericos = ['valor_concedente','valor_parlamentar','valor_empenhado','valor_pago','valor_total','total_convenios'];
+        if (numericos.includes(coluna)) { va = parsearValor(va); vb = parsearValor(vb); }
+        else { va = va.toString().toLowerCase(); vb = vb.toString().toLowerCase(); }
+        return direcao === 'asc' ? (va < vb ? -1 : va > vb ? 1 : 0) : (va > vb ? -1 : va < vb ? 1 : 0);
+    });
+}
+
+// ============================================================
+// 3. CARREGAMENTO DE DADOS
+// ============================================================
+async function carregarDados() {
+    mostrarLoading(true, 'Carregando convênios...');
+    try {
+        const resp = await fetch(CSV_URL);
+        if (!resp.ok) throw new Error('Erro ao carregar CSV');
+        const csvText = await resp.text();
+        Papa.parse(csvText, {
+            header: true,
+            skipEmptyLines: true,
+            complete: (results) => {
+                dadosCompletos = results.data.map(row => {
+                    const ano = extrairAno(row);
+
+                    // Formatar CNPJ: 00.000.000/0000-00
+                    function formatarCNPJ(cnpj) {
+                        if (!cnpj) return '';
+                        const s = cnpj.toString().replace(/\D/g, '').padStart(14, '0');
+                        if (s.length !== 14) return cnpj;
+                        return s.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+                    }
+
+                    // Limpar numero_siafi removendo decimais (ex: 9503579,0 -> 9503579)
+                    function limparSiafi(val) {
+                        if (!val) return '';
+                        return val.toString().replace(/[,\.]\d+$/, '').trim();
+                    }
+
+                    return {
+                        ano:                    ano || '',
+                        codigo_orgao:           row['codigo_orgao'] || row['CODIGO_ORGAO'] || row['cod_orgao'] || '',
+                        sigla:                  row['sigla'] || row['SIGLA'] || row['orgao_sigla'] || '',
+                        orgao:                  row['orgao'] || row['ORGAO'] || row['nome_orgao'] || '',
+                        numero_siafi:           limparSiafi(row['numero_siafi'] || row['NUMERO_SIAFI'] || row['numero'] || row['NUMERO'] || ''),
+                        situacao:               row['situacao'] || row['SITUACAO'] || '',
+                        cnpj_proponente:        formatarCNPJ(row['cnpj_proponente'] || row['CNPJ_PROPONENTE'] || row['cnpj_empresa'] || ''),
+                        razao_social:           row['razao_social_proponente'] || row['RAZAO_SOCIAL_PROPONENTE'] || row['razao_social'] || row['RAZAO_SOCIAL'] || row['empresa'] || '',
+                        data_publicacao:        row['data_publicacao'] || row['DATA_PUBLICACAO'] || '',
+                        data_inicio:            row['data_inicio'] || row['DATA_INICIO'] || '',
+                        data_termino:           row['data_termino'] || row['DATA_TERMINO'] || row['data_fim'] || '',
+                        status:                 row['status_convenio'] || row['STATUS_CONVENIO'] || row['status'] || row['STATUS'] || '',
+                        valor_concedente:       parsearValor(row['valor_concedente'] || row['VALOR_CONCEDENTE'] || 0),
+                        valor_parlamentar:      parsearValor(row['valor_parlamentar'] || row['VALOR_PARLAMENTAR'] || 0),
+                        valor_empenhado:        parsearValor(row['valor_despesa_empenhada'] || row['VALOR_DESPESA_EMPENHADA'] || row['valor_empenhado'] || 0),
+                        valor_pago:             parsearValor(row['valor_despesa_paga'] || row['VALOR_DESPESA_PAGA'] || row['valor_pago'] || 0),
+                        valor_global:           parsearValor(row['valor_global'] || row['VALOR_GLOBAL'] || 0),
+                        objeto:                 row['objeto'] || row['OBJETO'] || '',
+                        municipio:              row['municipio'] || row['MUNICIPIO'] || '',
+                        _raw: row
+                    };
+                }).filter(d => d.numero_siafi || d.orgao);
+
+                dadosFiltradosVG = [...dadosCompletos];
+                dadosFiltradosCI = [...dadosCompletos];
+
+                renderizarVisaoGeral();
+                renderizarConsulta();
+                renderizarDownloads();
+                setTimeout(iframeUpdateHeight, 400);
+            }
+        });
+    } catch (e) {
+        console.error('Erro:', e);
+        mostrarToast('Erro ao carregar os dados.', 'error');
+    } finally {
+        mostrarLoading(false);
+    }
+}
+
+async function setupAtualizacaoData() {
+    const el = document.getElementById('data-atualizacao-header');
+    try {
+        const resp = await fetch(`https://api.github.com/repos/kesiabomfa/portal_convenios_saida/commits?path=dataset/data/convenios_saida.csv&per_page=1`);
+        if (resp.ok) {
+            const cs = await resp.json();
+            if (cs && cs.length > 0) { el.textContent = new Date(cs[0].commit.committer.date).toLocaleDateString('pt-BR'); return; }
+        }
+    } catch(e) {}
+    el.textContent = new Date().toLocaleDateString('pt-BR');
+}
+
+// ============================================================
+// 4. VISÃO GERAL
+// ============================================================
+function obterOpcoesVG() {
+    return {
+        anos: [...new Set(dadosCompletos.map(d => d.ano).filter(Boolean))].sort((a,b)=>b-a),
+        orgaos: [...new Set(dadosCompletos.map(d => d.orgao).filter(Boolean))].sort(),
+        siglas: [...new Set(dadosCompletos.map(d => d.sigla).filter(Boolean))].sort(),
+        status: [...new Set(dadosCompletos.map(d => d.status).filter(Boolean))].sort()
+    };
+}
+
+function calcularMetricasVG(dados) {
+    const totalConvenios = new Set(dados.map(d => d.numero_siafi).filter(Boolean)).size || dados.length;
+    let valorTotal = 0, valorPago = 0;
+    dados.forEach(d => {
+        valorTotal += (d.valor_concedente || 0) + (d.valor_parlamentar || 0);
+        valorPago  += d.valor_pago || 0;
+    });
+    return { totalConvenios, valorTotal, valorPago };
+}
+
+function agruparVisaoGeral(dados) {
+    const mapa = new Map();
+    dados.forEach(d => {
+        const chave = `${d.codigo_orgao}|${d.sigla}|${d.orgao}`;
+        if (!mapa.has(chave)) mapa.set(chave, { codigo_orgao: d.codigo_orgao, sigla: d.sigla, orgao: d.orgao, total_convenios: 0, valor_total: 0, valor_pago: 0, _convenios: new Set() });
+        const r = mapa.get(chave);
+        r.valor_total += (d.valor_concedente || 0) + (d.valor_parlamentar || 0);
+        r.valor_pago += d.valor_pago || 0;
+        if (d.numero_siafi) r._convenios.add(d.numero_siafi);
+    });
+    return Array.from(mapa.values()).map(r => ({ ...r, total_convenios: r._convenios.size || r.total_convenios }));
+}
+
+function agruparPorStatus(dados) {
+    const mapa = new Map();
+    dados.forEach(d => { const s = d.status || 'Não informado'; if (!mapa.has(s)) mapa.set(s, 0); mapa.set(s, mapa.get(s) + 1); });
+    return Array.from(mapa.entries()).map(([status, total]) => ({ status, total })).sort((a,b) => b.total - a.total);
+}
+
+function agruparPorAno(dados) {
+    const mapa = new Map();
+    dados.forEach(d => { const a = d.ano || 'N/I'; if (!mapa.has(a)) mapa.set(a, 0); mapa.set(a, mapa.get(a) + 1); });
+    return Array.from(mapa.entries()).map(([ano, total]) => ({ ano, total })).sort((a,b) => a.ano - b.ano);
+}
+
+function renderizarVisaoGeral() {
+    const container = document.getElementById('visao-geral-content');
+    if (!container) return;
+    const opcoes = obterOpcoesVG();
+    const metricas = calcularMetricasVG(dadosFiltradosVG);
+    const dadosAgrupados = ordenarDados(agruparVisaoGeral(dadosFiltradosVG), sortConfigVG.coluna, sortConfigVG.direcao);
+    window.vgAgrupados = dadosAgrupados;
+    paginacaoVG.totalPaginas = Math.ceil(dadosAgrupados.length / paginacaoVG.itensPorPagina);
+
+    container.innerHTML = `
+    <div class="filter-container">
+        <div class="filters-row">
+            <div class="filter-group">
+                <label class="filter-label">Ano</label>
+                <select class="form-select modern-select" id="filtroAnoVG">
+                    <option value="">Todos</option>
+                    ${opcoes.anos.map(a=>`<option value="${a}">${a}</option>`).join('')}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Sigla Órgão</label>
+                <select class="form-select modern-select" id="filtroOrgaoVG">
+                    <option value="">Todos</option>
+                    ${opcoes.siglas.map(s=>`<option value="${s}">${s}</option>`).join('')}
+                </select>
+            </div>
+        </div>
+        <div class="botoes-abaixo">
+            <button class="btn-pesquisa" onclick="aplicarFiltrosVG()"><i class="material-icons">search</i> Pesquisar</button>
+            <button class="btn-secondary-custom" onclick="limparFiltrosVG()"><i class="material-icons">clear</i> Limpar Filtros</button>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4">
+            <div class="metric-card">
+                <div class="metric-header">Total de Convênios</div>
+                <div class="metric-body"><div class="metric-value" id="metricConveniosVG">${metricas.totalConvenios.toLocaleString('pt-BR')}</div><div class="metric-sublabel">convênios únicos</div></div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4">
+            <div class="metric-card">
+                <div class="metric-header">Valor Total</div>
+                <div class="metric-body"><div class="metric-value" style="font-size:14px" id="metricValorTotalVG">${formatarMoeda(metricas.valorTotal)}</div><div class="metric-sublabel">concedente + parlamentar</div></div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4">
+            <div class="metric-card">
+                <div class="metric-header">Valor Pago</div>
+                <div class="metric-body"><div class="metric-value" style="font-size:14px" id="metricValorPagoVG">${formatarMoeda(metricas.valorPago)}</div><div class="metric-sublabel">despesa paga</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <div class="chart-container">
+                <div class="chart-header"><h4 class="chart-title">Convênios por Status</h4></div>
+                <div class="chart-wrapper"><canvas id="chartStatus"></canvas></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart-container">
+                <div class="chart-header"><h4 class="chart-title">Convênios por Ano</h4></div>
+                <div class="chart-wrapper"><canvas id="chartAno"></canvas></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <div class="toolbar-left">
+            <button class="btn-export" onclick="exportarVGCSV()"><i class="material-icons">description</i> CSV</button>
+            <button class="btn-export" onclick="exportarVGPDF()"><i class="material-icons">print</i> PDF</button>
+            <button class="btn-export" onclick="copiarLinkDireto()"><i class="material-icons">link</i> Copiar Link</button>
+        </div>
+        <div class="toolbar-right" style="display:flex;align-items:center;gap:8px;">
+            <input type="text" id="buscaVG" maxlength="30" placeholder="Buscar registros..." class="form-control" style="height:32px;font-size:12px;width:220px;padding:4px 10px;" oninput="buscarVG(this.value)">
+            <span class="table-badge" id="badgeVG">${dadosAgrupados.length} órgãos</span>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <div class="table-fixed-header-container">
+            <table class="table" id="tabelaVG">
+                <thead>
+                    <tr>
+                        <th class="sortable-header" onclick="toggleSortVG('codigo_orgao')">Código <i class="material-icons">unfold_more</i></th>
+                        <th class="sortable-header" onclick="toggleSortVG('sigla')">Sigla Órgão <i class="material-icons">unfold_more</i></th>
+                        <th class="sortable-header text-center" onclick="toggleSortVG('total_convenios')">Qtd. Convênios <i class="material-icons">unfold_more</i></th>
+                        <th class="sortable-header text-right" onclick="toggleSortVG('valor_total')">Valor Total <i class="material-icons">unfold_more</i></th>
+                        <th class="sortable-header text-right" onclick="toggleSortVG('valor_pago')">Valor Pago <i class="material-icons">unfold_more</i></th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyVG"></tbody>
+            </table>
+        </div>
+        <div class="pagination-container" id="paginacaoVG"></div>
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;margin-top:12px;">
+        <button class="btn-topo" onclick="voltarAoTopo()"><i class="material-icons">arrow_upward</i> Voltar ao topo</button>
+    </div>`;
+
+    atualizarTabelaVG();
+    setTimeout(() => { criarGraficoStatus(agruparPorStatus(dadosFiltradosVG)); criarGraficoAno(agruparPorAno(dadosFiltradosVG)); }, 120);
+    setTimeout(iframeUpdateHeight, 400);
+}
+
+function atualizarTabelaVG() {
+    const dados = window.vgAgrupados || [];
+    const inicio = (paginacaoVG.paginaAtual - 1) * paginacaoVG.itensPorPagina;
+    const pagina = dados.slice(inicio, inicio + paginacaoVG.itensPorPagina);
+    document.getElementById('tbodyVG').innerHTML = pagina.map(item => `
+        <tr>
+            <td>${item.codigo_orgao || '-'}</td>
+            <td><a href="#" class="orgao-link" onclick="irParaConsultaSigla('${(item.sigla||'').replace(/'/g,"\\'")}');return false;">${item.sigla || '-'}</a></td>
+            <td class="text-center">${item.total_convenios}</td>
+            <td class="text-right">${formatarMoeda(item.valor_total)}</td>
+            <td class="text-right">${formatarMoeda(item.valor_pago)}</td>
+        </tr>`).join('');
+    renderizarPaginacao('vg');
+}
+
+function criarGraficoStatus(dados) {
+    const ctx = document.getElementById('chartStatus')?.getContext('2d');
+    if (!ctx) return;
+    if (chartStatus) chartStatus.destroy();
+    chartStatus = new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels: dados.map(d=>d.status), datasets:[{ data: dados.map(d=>d.total), backgroundColor: chartPalette, borderWidth: 0 }] },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{position:'bottom',labels:{font:{size:10}}}, tooltip:{callbacks:{label:c=>`${c.raw} convênios`}} } }
+    });
+}
+
+function criarGraficoAno(dados) {
+    const ctx = document.getElementById('chartAno')?.getContext('2d');
+    if (!ctx) return;
+    if (chartAno) chartAno.destroy();
+    chartAno = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: dados.map(d=>d.ano), datasets:[{ label:'Convênios', data: dados.map(d=>d.total), backgroundColor:'#1a3a5c', borderRadius:4 }] },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>`${c.raw} convênios`}} }, scales:{ y:{beginAtZero:true,ticks:{stepSize:1}} } }
+    });
+}
+
+function toggleSortVG(col) {
+    if (sortConfigVG.coluna===col) sortConfigVG.direcao = sortConfigVG.direcao==='asc'?'desc':'asc';
+    else { sortConfigVG.coluna=col; sortConfigVG.direcao='desc'; }
+    window.vgAgrupados = ordenarDados(window.vgAgrupados, sortConfigVG.coluna, sortConfigVG.direcao);
+    paginacaoVG.paginaAtual = 1;
+    atualizarTabelaVG();
+}
+
+window.aplicarFiltrosVG = function() {
+    const ano = document.getElementById('filtroAnoVG')?.value;
+    const sigla = document.getElementById('filtroOrgaoVG')?.value;
+    dadosFiltradosVG = dadosCompletos.filter(d => {
+        if (ano && d.ano !== ano) return false;
+        if (sigla && d.sigla !== sigla) return false;
+        return true;
+    });
+    window.vgAgrupados = ordenarDados(agruparVisaoGeral(dadosFiltradosVG), sortConfigVG.coluna, sortConfigVG.direcao);
+    const m = calcularMetricasVG(dadosFiltradosVG);
+    document.getElementById('metricConveniosVG').textContent = m.totalConvenios.toLocaleString('pt-BR');
+    document.getElementById('metricValorTotalVG').textContent = formatarMoeda(m.valorTotal);
+    document.getElementById('metricValorPagoVG').textContent = formatarMoeda(m.valorPago);
+    if (chartStatus) chartStatus.destroy();
+    if (chartAno) chartAno.destroy();
+    criarGraficoStatus(agruparPorStatus(dadosFiltradosVG));
+    criarGraficoAno(agruparPorAno(dadosFiltradosVG));
+    paginacaoVG.paginaAtual = 1;
+    paginacaoVG.totalPaginas = Math.ceil(window.vgAgrupados.length / paginacaoVG.itensPorPagina);
+    atualizarTabelaVG();
+    document.getElementById('badgeVG').textContent = window.vgAgrupados.length + ' órgãos';
+};
+
+window.limparFiltrosVG = function() {
+    ['filtroAnoVG','filtroOrgaoVG'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+    dadosFiltradosVG = [...dadosCompletos];
+    window.vgAgrupados = ordenarDados(agruparVisaoGeral(dadosFiltradosVG), sortConfigVG.coluna, sortConfigVG.direcao);
+    const m = calcularMetricasVG(dadosFiltradosVG);
+    document.getElementById('metricConveniosVG').textContent = m.totalConvenios.toLocaleString('pt-BR');
+    document.getElementById('metricValorTotalVG').textContent = formatarMoeda(m.valorTotal);
+    document.getElementById('metricValorPagoVG').textContent = formatarMoeda(m.valorPago);
+    if (chartStatus) chartStatus.destroy();
+    if (chartAno) chartAno.destroy();
+    criarGraficoStatus(agruparPorStatus(dadosFiltradosVG));
+    criarGraficoAno(agruparPorAno(dadosFiltradosVG));
+    paginacaoVG.paginaAtual = 1;
+    paginacaoVG.totalPaginas = Math.ceil(window.vgAgrupados.length / paginacaoVG.itensPorPagina);
+    atualizarTabelaVG();
+    document.getElementById('badgeVG').textContent = window.vgAgrupados.length + ' órgãos';
+};
+
+window.buscarVG = function(termo) {
+    const t = (termo||'').toLowerCase().trim();
+    const base = window.vgAgrupados || [];
+    const filtrado = t ? base.filter(item =>
+        (item.codigo_orgao||'').toLowerCase().includes(t) ||
+        (item.orgao||'').toLowerCase().includes(t) ||
+        (item.sigla||'').toLowerCase().includes(t)
+    ) : base;
+    const inicio = 0, fim = paginacaoVG.itensPorPagina;
+    document.getElementById('tbodyVG').innerHTML = filtrado.slice(inicio,fim).map(item=>`
+        <tr>
+            <td>${item.codigo_orgao||'-'}</td>
+            <td><a href="#" class="orgao-link" onclick="irParaConsultaSigla('${(item.sigla||'').replace(/'/g,"\\'")}');return false;">${item.sigla||'-'}</a></td>
+            <td class="text-center">${item.total_convenios}</td>
+            <td class="text-right">${formatarMoeda(item.valor_total)}</td>
+            <td class="text-right">${formatarMoeda(item.valor_pago)}</td>
+        </tr>`).join('');
+    document.getElementById('badgeVG').textContent = filtrado.length + ' órgãos';
+};
+
+window.irParaConsulta = function(orgao) {
+    document.getElementById('consulta-tab').click();
+    setTimeout(() => {
+        const el = document.getElementById('filtroOrgaoCI');
+        if (el) el.value = orgao;
+        aplicarFiltrosCI();
+    }, 300);
+};
+
+window.irParaConsultaSigla = function(sigla) {
+    document.getElementById('consulta-tab').click();
+    setTimeout(() => {
+        const el = document.getElementById('filtroOrgaoCI');
+        if (el) el.value = sigla;
+        aplicarFiltrosCI();
+    }, 300);
+};
+
+// ============================================================
+// 5. CONSULTA INDIVIDUAL
+// ============================================================
+function obterOpcoesCI() {
+    return {
+        anos: [...new Set(dadosCompletos.map(d=>d.ano).filter(Boolean))].sort((a,b)=>b-a),
+        codigos: [...new Set(dadosCompletos.map(d=>d.codigo_orgao).filter(Boolean))].sort(),
+        orgaos: [...new Set(dadosCompletos.map(d=>d.orgao).filter(Boolean))].sort(),
+        status: [...new Set(dadosCompletos.map(d=>d.status).filter(Boolean))].sort(),
+        situacoes: [...new Set(dadosCompletos.map(d=>d.situacao).filter(Boolean))].sort(),
+        siafis: [...new Set(dadosCompletos.map(d=>d.numero_siafi).filter(Boolean))].sort(),
+        razoes: [...new Set(dadosCompletos.map(d=>d.razao_social).filter(Boolean))].sort(),
+        municipios: [...new Set(dadosCompletos.map(d=>d.municipio).filter(Boolean))].sort()
+    };
+}
+
+function gerarCabecalhosCI() {
+    const cabs = [];
+    for (const col of ordemColunasCI) {
+        if (col==='numero_siafi') cabs.push(`<th class="sortable-header" onclick="toggleSortCI('numero_siafi')">Nº SIAFI <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='ano' && colunasVisiveis.ano) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('ano')">Ano <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='codigo_orgao' && colunasVisiveis.codigo_orgao) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('codigo_orgao')">Cód. Órgão <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='sigla' && colunasVisiveis.sigla) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('sigla')">Sigla <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='orgao' && colunasVisiveis.orgao) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('orgao')">Órgão <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='situacao' && colunasVisiveis.situacao) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('situacao')">Situação <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='cnpj_proponente' && colunasVisiveis.cnpj_proponente) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('cnpj_proponente')">CNPJ Proponente <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='razao_social' && colunasVisiveis.razao_social) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('razao_social')">Razão Social <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='data_publicacao' && colunasVisiveis.data_publicacao) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('data_publicacao')">Dt. Publicação <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='data_inicio' && colunasVisiveis.data_inicio) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('data_inicio')">Dt. Início <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='data_termino' && colunasVisiveis.data_termino) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('data_termino')">Dt. Término <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='status' && colunasVisiveis.status) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('status')">Status <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='valor_concedente' && colunasVisiveis.valor_concedente) cabs.push(`<th class="sortable-header text-right" onclick="toggleSortCI('valor_concedente')">V. Concedente <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='valor_parlamentar' && colunasVisiveis.valor_parlamentar) cabs.push(`<th class="sortable-header text-right" onclick="toggleSortCI('valor_parlamentar')">V. Parlamentar <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='valor_empenhado') cabs.push(`<th class="sortable-header text-right" onclick="toggleSortCI('valor_empenhado')">V. Empenhado <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='valor_pago') cabs.push(`<th class="sortable-header text-right" onclick="toggleSortCI('valor_pago')">V. Pago <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='acoes') cabs.push('<th class="text-center">Ações</th>');
+    }
+    return cabs.join('');
+}
+
+function renderizarConsulta() {
+    const container = document.getElementById('consulta-content');
+    if (!container) return;
+    const opcoes = obterOpcoesCI();
+    container.innerHTML = `
+    <div class="filter-container">
+        <div class="filters-row">
+            <div class="filter-group">
+                <label class="filter-label">Ano</label>
+                <select class="form-select modern-select" id="filtroAnoCI">
+                    <option value="">Todos</option>
+                    ${opcoes.anos.map(a=>`<option value="${a}">${a}</option>`).join('')}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Código Órgão</label>
+                <input type="text" class="form-control" id="filtroCodOrgaoCI" list="listCodOrgao" placeholder="Digite ou selecione...">
+                <datalist id="listCodOrgao">${opcoes.codigos.map(c=>`<option value="${c}">`).join('')}</datalist>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Sigla Órgão</label>
+                <input type="text" class="form-control" id="filtroOrgaoCI" list="listOrgaoCI" placeholder="Digite ou selecione...">
+                <datalist id="listOrgaoCI">${opcoes.orgaos.map(o=>`<option value="${o}">`).join('')}</datalist>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Município</label>
+                <input type="text" class="form-control" id="filtroMunicipioCI" list="listMunicipioCI" placeholder="Digite ou selecione...">
+                <datalist id="listMunicipioCI">${opcoes.municipios.map(m=>`<option value="${m}">`).join('')}</datalist>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Status</label>
+                <select class="form-select modern-select" id="filtroStatusCI">
+                    <option value="">Todos</option>
+                    ${opcoes.status.map(s=>`<option value="${s}">${s}</option>`).join('')}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Situação</label>
+                <select class="form-select modern-select" id="filtroSituacaoCI">
+                    <option value="">Todas</option>
+                    ${opcoes.situacoes.map(s=>`<option value="${s}">${s}</option>`).join('')}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Nº SIAFI</label>
+                <input type="text" class="form-control" id="filtroSiafiCI" list="listSiafi" placeholder="Digite...">
+                <datalist id="listSiafi">${opcoes.siafis.map(s=>`<option value="${s}">`).join('')}</datalist>
+            </div>
+            <div class="filter-group" style="flex:2;min-width:200px;">
+                <label class="filter-label">Razão Social Proponente</label>
+                <input type="text" class="form-control" id="filtroRazaoCI" list="listRazao" placeholder="Digite ou selecione...">
+                <datalist id="listRazao">${opcoes.razoes.slice(0,200).map(r=>`<option value="${r}">`).join('')}</datalist>
+            </div>
+        </div>
+        <div class="botoes-abaixo">
+            <button class="btn-pesquisa" onclick="aplicarFiltrosCI()"><i class="material-icons">search</i> Pesquisar</button>
+            <button class="btn-secondary-custom" onclick="limparFiltrosCI()"><i class="material-icons">clear</i> Limpar Filtros</button>
+        </div>
+    </div>
+
+    <div class="toolbar">
+        <div class="toolbar-left">
+            <button class="btn-export" onclick="exportarCICSV()"><i class="material-icons">description</i> CSV</button>
+            <button class="btn-export" onclick="exportarCIPDF()"><i class="material-icons">print</i> PDF</button>
+            <button class="btn-export" onclick="copiarLinkDireto()"><i class="material-icons">link</i> Copiar Link</button>
+            ${renderizarSeletorColunas()}
+        </div>
+        <div class="toolbar-right" style="display:flex;align-items:center;gap:8px;">
+            <input type="text" id="buscaCI" maxlength="40" placeholder="Buscar registros..." class="form-control" style="height:32px;font-size:12px;width:220px;padding:4px 10px;" oninput="buscarCI(this.value)">
+            <span class="table-badge" id="badgeCI">${dadosFiltradosCI.length} convênios</span>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <div class="table-fixed-header-container">
+            <table class="table" id="tabelaCI">
+                <thead><tr id="theadCI">${gerarCabecalhosCI()}</tr></thead>
+                <tbody id="tbodyCI"></tbody>
+            </table>
+        </div>
+        <div class="pagination-container" id="paginacaoCI"></div>
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;margin-top:12px;">
+        <button class="btn-topo" onclick="voltarAoTopo()"><i class="material-icons">arrow_upward</i> Voltar ao topo</button>
+    </div>`;
+
+    window.cifiltrados = [...dadosFiltradosCI];
+    window.cifiltrados = ordenarDados(window.cifiltrados, sortConfigCI.coluna, sortConfigCI.direcao);
+    paginacaoCI.paginaAtual = 1;
+    paginacaoCI.totalPaginas = Math.ceil(window.cifiltrados.length / paginacaoCI.itensPorPagina);
+    atualizarTabelaCI();
+}
+
+function gerarLinhasCI(dados) {
+    if (!dados || dados.length === 0) return '<tr><td colspan="20" class="text-center py-4">Nenhum registro encontrado</td></tr>';
+    return dados.map(d => {
+        let linha = '<tr>';
+        for (const col of ordemColunasCI) {
+            if (col==='numero_siafi') linha += `<td><a href="#" class="processo-link" onclick="verDetalhes('${(d.numero_siafi||'').replace(/'/g,"\\'")}');return false;">${d.numero_siafi||'-'}</a></td>`;
+            else if (col==='ano' && colunasVisiveis.ano) linha += `<td>${d.ano||'-'}</td>`;
+            else if (col==='codigo_orgao' && colunasVisiveis.codigo_orgao) linha += `<td>${d.codigo_orgao||'-'}</td>`;
+            else if (col==='sigla' && colunasVisiveis.sigla) linha += `<td>${d.sigla||'-'}</td>`;
+            else if (col==='orgao' && colunasVisiveis.orgao) linha += `<td>${d.orgao||'-'}</td>`;
+            else if (col==='situacao' && colunasVisiveis.situacao) linha += `<td>${d.situacao||'-'}</td>`;
+            else if (col==='cnpj_proponente' && colunasVisiveis.cnpj_proponente) linha += `<td>${d.cnpj_proponente||'-'}</td>`;
+            else if (col==='razao_social' && colunasVisiveis.razao_social) linha += `<td title="${d.razao_social||''}">${(d.razao_social||'-').substring(0,35)}${(d.razao_social||'').length>35?'...':''}</td>`;
+            else if (col==='data_publicacao' && colunasVisiveis.data_publicacao) linha += `<td>${formatarData(d.data_publicacao)}</td>`;
+            else if (col==='data_inicio' && colunasVisiveis.data_inicio) linha += `<td>${formatarData(d.data_inicio)}</td>`;
+            else if (col==='data_termino' && colunasVisiveis.data_termino) linha += `<td>${formatarData(d.data_termino)}</td>`;
+            else if (col==='status' && colunasVisiveis.status) linha += `<td><span class="badge-status ${getBadgeStatus(d.status)}">${d.status||'-'}</span></td>`;
+            else if (col==='valor_concedente' && colunasVisiveis.valor_concedente) linha += `<td class="text-right">${formatarMoeda(d.valor_concedente)}</td>`;
+            else if (col==='valor_parlamentar' && colunasVisiveis.valor_parlamentar) linha += `<td class="text-right">${formatarMoeda(d.valor_parlamentar)}</td>`;
+            else if (col==='valor_empenhado') linha += `<td class="text-right">${formatarMoeda(d.valor_empenhado)}</td>`;
+            else if (col==='valor_pago') linha += `<td class="text-right">${formatarMoeda(d.valor_pago)}</td>`;
+            else if (col==='acoes') linha += `<td class="text-center"><button class="btn-action" onclick="verDetalhes('${(d.numero_siafi||'').replace(/'/g,"\\'")}')"><i class="material-icons" style="font-size:15px">visibility</i></button></td>`;
+        }
+        return linha + '</tr>';
+    }).join('');
+}
+
+function atualizarTabelaCI() {
+    const dados = window.cifiltrados || [];
+    const inicio = (paginacaoCI.paginaAtual - 1) * paginacaoCI.itensPorPagina;
+    const pagina = dados.slice(inicio, inicio + paginacaoCI.itensPorPagina);
+    document.getElementById('tbodyCI').innerHTML = gerarLinhasCI(pagina);
+    document.getElementById('badgeCI').textContent = `${dados.length} convênios`;
+    renderizarPaginacao('ci');
+}
+
+function toggleSortCI(col) {
+    if (sortConfigCI.coluna===col) sortConfigCI.direcao = sortConfigCI.direcao==='asc'?'desc':'asc';
+    else { sortConfigCI.coluna=col; sortConfigCI.direcao='asc'; }
+    window.cifiltrados = ordenarDados(window.cifiltrados, sortConfigCI.coluna, sortConfigCI.direcao);
+    paginacaoCI.paginaAtual = 1;
+    atualizarTabelaCI();
+}
+
+window.aplicarFiltrosCI = function() {
+    const ano = document.getElementById('filtroAnoCI')?.value;
+    const cod = (document.getElementById('filtroCodOrgaoCI')?.value||'').toLowerCase().trim();
+    const orgao = (document.getElementById('filtroOrgaoCI')?.value||'').toLowerCase().trim();
+    const status = document.getElementById('filtroStatusCI')?.value;
+    const situacao = document.getElementById('filtroSituacaoCI')?.value;
+    const siafi = (document.getElementById('filtroSiafiCI')?.value||'').toLowerCase().trim();
+    const razao = (document.getElementById('filtroRazaoCI')?.value||'').toLowerCase().trim();
+    const municipio = (document.getElementById('filtroMunicipioCI')?.value||'').toLowerCase().trim();
+    dadosFiltradosCI = dadosCompletos.filter(d => {
+        if (ano && d.ano !== ano) return false;
+        if (cod && !(d.codigo_orgao||'').toLowerCase().includes(cod)) return false;
+        if (orgao && !(d.orgao||'').toLowerCase().includes(orgao)) return false;
+        if (status && d.status !== status) return false;
+        if (situacao && d.situacao !== situacao) return false;
+        if (siafi && !(d.numero_siafi||'').toLowerCase().includes(siafi)) return false;
+        if (razao && !(d.razao_social||'').toLowerCase().includes(razao)) return false;
+        if (municipio && !(d.municipio||'').toLowerCase().includes(municipio)) return false;
+        return true;
+    });
+    window.cifiltrados = ordenarDados(dadosFiltradosCI, sortConfigCI.coluna, sortConfigCI.direcao);
+    paginacaoCI.paginaAtual = 1;
+    paginacaoCI.totalPaginas = Math.ceil(window.cifiltrados.length / paginacaoCI.itensPorPagina);
+    atualizarTabelaCI();
+};
+
+window.limparFiltrosCI = function() {
+    ['filtroAnoCI','filtroStatusCI','filtroSituacaoCI'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+    ['filtroCodOrgaoCI','filtroOrgaoCI','filtroSiafiCI','filtroRazaoCI','filtroMunicipioCI'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+    dadosFiltradosCI = [...dadosCompletos];
+    window.cifiltrados = ordenarDados(dadosFiltradosCI, sortConfigCI.coluna, sortConfigCI.direcao);
+    paginacaoCI.paginaAtual = 1;
+    paginacaoCI.totalPaginas = Math.ceil(window.cifiltrados.length / paginacaoCI.itensPorPagina);
+    atualizarTabelaCI();
+};
+
+window.buscarCI = function(termo) {
+    const t = (termo||'').toLowerCase().trim();
+    const base = window.cifiltrados || [];
+    const filtrado = t ? base.filter(d =>
+        (d.numero_siafi||'').toLowerCase().includes(t) ||
+        (d.orgao||'').toLowerCase().includes(t) ||
+        (d.razao_social||'').toLowerCase().includes(t) ||
+        (d.cnpj_proponente||'').toLowerCase().includes(t) ||
+        (d.status||'').toLowerCase().includes(t)
+    ) : base;
+    document.getElementById('tbodyCI').innerHTML = gerarLinhasCI(filtrado.slice(0, paginacaoCI.itensPorPagina));
+    document.getElementById('badgeCI').textContent = `${filtrado.length} convênios`;
+};
+
+// ============================================================
+// 6. SELETOR DE COLUNAS
+// ============================================================
+function renderizarSeletorColunas() {
+    return `<div class="column-selector">
+        <button class="btn-export" onclick="toggleColumnSelector()"><i class="material-icons">view_column</i> Colunas</button>
+        <div class="column-selector-dropdown" id="columnSelectorDropdown">
+            <div class="column-selector-header"><h6>Selecionar Colunas</h6><span class="column-selector-close" onclick="toggleColumnSelector()">✕</span></div>
+            <div class="column-selector-item"><input type="checkbox" id="colAno" ${colunasVisiveis.ano?'checked':''} onchange="atualizarColunasCI('ano',this.checked)"><label for="colAno">Ano</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colCodOrgao" ${colunasVisiveis.codigo_orgao?'checked':''} onchange="atualizarColunasCI('codigo_orgao',this.checked)"><label for="colCodOrgao">Código Órgão</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colSigla" ${colunasVisiveis.sigla?'checked':''} onchange="atualizarColunasCI('sigla',this.checked)"><label for="colSigla">Sigla</label></div>
+
+            <div class="column-selector-item"><span class="fixed-column-badge">Fixa</span><label>Nº SIAFI</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colSituacao" ${colunasVisiveis.situacao?'checked':''} onchange="atualizarColunasCI('situacao',this.checked)"><label for="colSituacao">Situação</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colCnpj" ${colunasVisiveis.cnpj_proponente?'checked':''} onchange="atualizarColunasCI('cnpj_proponente',this.checked)"><label for="colCnpj">CNPJ Proponente</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colRazao" ${colunasVisiveis.razao_social?'checked':''} onchange="atualizarColunasCI('razao_social',this.checked)"><label for="colRazao">Razão Social</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colDtPub" ${colunasVisiveis.data_publicacao?'checked':''} onchange="atualizarColunasCI('data_publicacao',this.checked)"><label for="colDtPub">Dt. Publicação</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colDtIni" ${colunasVisiveis.data_inicio?'checked':''} onchange="atualizarColunasCI('data_inicio',this.checked)"><label for="colDtIni">Dt. Início</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colDtTerm" ${colunasVisiveis.data_termino?'checked':''} onchange="atualizarColunasCI('data_termino',this.checked)"><label for="colDtTerm">Dt. Término</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colStatus" ${colunasVisiveis.status?'checked':''} onchange="atualizarColunasCI('status',this.checked)"><label for="colStatus">Status</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colVConc" ${colunasVisiveis.valor_concedente?'checked':''} onchange="atualizarColunasCI('valor_concedente',this.checked)"><label for="colVConc">V. Concedente</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colVParl" ${colunasVisiveis.valor_parlamentar?'checked':''} onchange="atualizarColunasCI('valor_parlamentar',this.checked)"><label for="colVParl">V. Parlamentar</label></div>
+            <div class="column-selector-item"><span class="fixed-column-badge">Fixa</span><label>V. Empenhado</label></div>
+            <div class="column-selector-item"><span class="fixed-column-badge">Fixa</span><label>V. Pago</label></div>
+            <div class="column-selector-item"><span class="fixed-column-badge">Fixa</span><label>Ações</label></div>
+            <div class="mt-1 pt-1 border-top text-muted" style="font-size:10px;padding:6px 8px"><i class="fas fa-info-circle"></i> Colunas fixas não podem ser removidas</div>
+        </div>
+    </div>`;
+}
+
+window.toggleColumnSelector = function() { document.getElementById('columnSelectorDropdown')?.classList.toggle('show'); };
+window.atualizarColunasCI = function(col, checked) {
+    colunasVisiveis[col] = checked;
+    const thead = document.querySelector('#tabelaCI thead tr');
+    if (thead) thead.innerHTML = gerarCabecalhosCI();
+    atualizarTabelaCI();
+};
+
+// ============================================================
+// 7. MODAL DETALHES
+// ============================================================
+window.verDetalhes = function(siafi) {
+    const d = dadosCompletos.find(x => x.numero_siafi === siafi);
+    if (!d) return;
+    modalConvenioAtual = d;
+    const raw = d._raw || {};
+
+    // Montar todos os campos disponíveis
+    const camposExtras = Object.entries(raw).filter(([k]) =>
+        !['ano','codigo_orgao','sigla','orgao','numero_siafi','situacao','cnpj_proponente','razao_social',
+          'data_publicacao','data_inicio','data_termino','status','valor_concedente','valor_parlamentar',
+          'valor_despesa_empenhada','valor_empenhado','valor_despesa_paga','valor_pago','valor_global','objeto','municipio'].includes(k.toLowerCase())
+    ).filter(([k,v]) => v && v !== '');
+
+    document.getElementById('modalContent').innerHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <div class="info-card primary">
+                    <div class="info-label">Nº SIAFI</div><div class="info-value highlight">${d.numero_siafi||'-'}</div>
+                    <div class="info-label mt-2">Status</div><div class="info-value"><span class="badge-status ${getBadgeStatus(d.status)}">${d.status||'-'}</span></div>
+                    <div class="info-label mt-2">Situação</div><div class="info-value">${d.situacao||'-'}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-card">
+                    <div class="info-label">Código Órgão</div><div class="info-value">${d.codigo_orgao||'-'}</div>
+                    <div class="info-label mt-2">Sigla</div><div class="info-value">${d.sigla||'-'}</div>
+                    <div class="info-label mt-2">Órgão</div><div class="info-value">${d.orgao||'-'}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <div class="info-card">
+                    <div class="info-label">CNPJ Proponente</div><div class="info-value">${d.cnpj_proponente||'-'}</div>
+                    <div class="info-label mt-2">Razão Social</div><div class="info-value">${d.razao_social||'-'}</div>
+                    ${d.municipio?`<div class="info-label mt-2">Município</div><div class="info-value">${d.municipio}</div>`:''}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-card">
+                    <div class="info-label">Datas</div>
+                    <div class="info-value"><strong>Publicação:</strong> ${formatarData(d.data_publicacao)}</div>
+                    <div class="info-value"><strong>Início:</strong> ${formatarData(d.data_inicio)}</div>
+                    <div class="info-value"><strong>Término:</strong> ${formatarData(d.data_termino)}</div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-3 col-6">
+                <div class="info-card">
+                    <div class="info-label">V. Concedente</div>
+                    <div class="info-value highlight" style="font-size:14px">${formatarMoeda(d.valor_concedente)}</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="info-card">
+                    <div class="info-label">V. Parlamentar</div>
+                    <div class="info-value highlight" style="font-size:14px">${formatarMoeda(d.valor_parlamentar)}</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="info-card">
+                    <div class="info-label">V. Empenhado</div>
+                    <div class="info-value highlight" style="font-size:14px">${formatarMoeda(d.valor_empenhado)}</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="info-card">
+                    <div class="info-label">V. Pago</div>
+                    <div class="info-value highlight" style="font-size:14px">${formatarMoeda(d.valor_pago)}</div>
+                </div>
+            </div>
+        </div>
+        ${d.objeto ? `<div class="row mt-2"><div class="col-12"><div class="info-card"><div class="info-label">Objeto</div><div class="info-value">${d.objeto}</div></div></div></div>` : ''}
+        ${camposExtras.length > 0 ? `
+        <h6 class="mt-3 fw-bold" style="font-size:13px;color:#1a3a5c"><i class="material-icons" style="vertical-align:middle">info</i> Dados Adicionais</h6>
+        <div class="row">
+            ${camposExtras.map(([k,v])=>`
+            <div class="col-md-4">
+                <div class="info-card" style="border-left-color:#54697b">
+                    <div class="info-label">${k.replace(/_/g,' ')}</div>
+                    <div class="info-value" style="font-size:12px">${v}</div>
+                </div>
+            </div>`).join('')}
+        </div>` : ''}`;
+    new bootstrap.Modal(document.getElementById('detailModal')).show();
+};
+
+// ============================================================
+// 8. PAGINAÇÃO
+// ============================================================
+function renderizarPaginacao(tipo) {
+    const isVG = tipo === 'vg';
+    const pag = isVG ? paginacaoVG : paginacaoCI;
+    const dados = isVG ? (window.vgAgrupados||[]) : (window.cifiltrados||[]);
+    const container = document.getElementById(isVG ? 'paginacaoVG' : 'paginacaoCI');
+    const sfx = isVG ? 'VG' : 'CI';
+    if (!container) return;
+    if (dados.length === 0) { container.innerHTML = '<div class="pagination-info">Nenhum registro encontrado</div>'; return; }
+    const totalPag = Math.ceil(dados.length / pag.itensPorPagina);
+    pag.totalPaginas = totalPag;
+    const inicio = (pag.paginaAtual - 1) * pag.itensPorPagina + 1;
+    const fim = Math.min(pag.paginaAtual * pag.itensPorPagina, dados.length);
+    let html = `<div class="pagination-info"><span>Mostrando ${inicio.toLocaleString('pt-BR')}–${fim.toLocaleString('pt-BR')} de ${dados.length.toLocaleString('pt-BR')} registros</span>
+        <div class="page-size-selector"><span>Por pág:</span><select id="ipp${sfx}" onchange="alterarIpp('${tipo}')"><option value="25" ${pag.itensPorPagina==25?'selected':''}>25</option><option value="50" ${pag.itensPorPagina==50?'selected':''}>50</option><option value="100" ${pag.itensPorPagina==100?'selected':''}>100</option></select></div></div>`;
+    html += `<div class="pagination-controls">
+        <button onclick="mudarPagina('${tipo}',1)" ${pag.paginaAtual===1?'disabled':''} title="Primeira"><i class="fas fa-angle-double-left"></i></button>
+        <button onclick="mudarPagina('${tipo}',${pag.paginaAtual-1})" ${pag.paginaAtual===1?'disabled':''} title="Anterior"><i class="fas fa-angle-left"></i></button>`;
+    let ini2 = Math.max(1, pag.paginaAtual-2), fim2 = Math.min(totalPag, ini2+4);
+    if (ini2 > 1) { html += `<button onclick="mudarPagina('${tipo}',1)">1</button>`; if(ini2>2) html += `<span style="padding:0 4px">…</span>`; }
+    for (let i=ini2; i<=fim2; i++) html += `<button onclick="mudarPagina('${tipo}',${i})" class="${i===pag.paginaAtual?'active':''}">${i}</button>`;
+    if (fim2 < totalPag) { if(fim2<totalPag-1) html += `<span style="padding:0 4px">…</span>`; html += `<button onclick="mudarPagina('${tipo}',${totalPag})">${totalPag}</button>`; }
+    html += `<button onclick="mudarPagina('${tipo}',${pag.paginaAtual+1})" ${pag.paginaAtual===totalPag?'disabled':''} title="Próxima"><i class="fas fa-angle-right"></i></button>
+        <button onclick="mudarPagina('${tipo}',${totalPag})" ${pag.paginaAtual===totalPag?'disabled':''} title="Última"><i class="fas fa-angle-double-right"></i></button></div>`;
+    html += `<div class="page-input"><input type="number" id="irPag${sfx}" min="1" max="${totalPag}" value="${pag.paginaAtual}" onkeypress="if(event.key==='Enter')irParaPagina('${tipo}')"><button onclick="irParaPagina('${tipo}')">Ir</button></div>`;
+    container.innerHTML = html;
+}
+
+window.mudarPagina = function(tipo, pagina) {
+    const pag = tipo === 'vg' ? paginacaoVG : paginacaoCI;
+    if (pagina < 1 || pagina > pag.totalPaginas) return;
+    pag.paginaAtual = pagina;
+    if (tipo === 'vg') atualizarTabelaVG();
+    else atualizarTabelaCI();
+};
+
+window.alterarIpp = function(tipo) {
+    const sfx = tipo === 'vg' ? 'VG' : 'CI';
+    const val = parseInt(document.getElementById('ipp'+sfx).value);
+    const pag = tipo === 'vg' ? paginacaoVG : paginacaoCI;
+    pag.itensPorPagina = val;
+    pag.paginaAtual = 1;
+    if (tipo === 'vg') atualizarTabelaVG();
+    else atualizarTabelaCI();
+};
+
+window.irParaPagina = function(tipo) {
+    const sfx = tipo === 'vg' ? 'VG' : 'CI';
+    const pag = tipo === 'vg' ? paginacaoVG : paginacaoCI;
+    let p = parseInt(document.getElementById('irPag'+sfx)?.value);
+    if (isNaN(p) || p < 1) p = 1;
+    if (p > pag.totalPaginas) p = pag.totalPaginas;
+    mudarPagina(tipo, p);
+};
+
+// ============================================================
+// 9. DOWNLOADS
+// ============================================================
+function renderizarDownloads() {
+    const container = document.getElementById('downloads-content');
+    if (!container) return;
+    container.innerHTML = `
+    <div class="filter-container">
+        <div style="text-align:center;padding:16px 0 8px;">
+            <i class="material-icons" style="font-size:48px;color:#20445d;">cloud_download</i>
+            <h5 style="margin-top:8px;margin-bottom:4px;font-size:15px;">Portal de Dados Abertos</h5>
+            <p style="color:#6c757d;font-size:13px;margin-bottom:12px;">Acesse os dados completos de Convênios de Saída do Estado de Minas Gerais</p>
+            <a href="${PORTAL_DADOS_ABERTOS_URL}" target="_blank" class="btn-pesquisa text-decoration-none">
+                <i class="material-icons">open_in_new</i> Acessar Portal Dados MG
+            </a>
+        </div>
+    </div>
+
+    <div class="filter-container">
+        <h5 style="font-size:14px;font-weight:700;color:#20445d;margin-bottom:12px;"><i class="material-icons" style="vertical-align:middle;margin-right:4px;">download</i> Download Direto</h5>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+            <button class="btn-export" style="height:36px;" onclick="exportarCICSV()">
+                <i class="material-icons">description</i> CSV — Todos os Convênios
+            </button>
+            <button class="btn-export" style="height:36px;" onclick="exportarCIPDF()">
+                <i class="material-icons">print</i> PDF — Todos os Convênios
+            </button>
+        </div>
+    </div>
+
+    <div class="filter-container">
+        <h5 style="font-size:14px;font-weight:700;color:#20445d;margin-bottom:12px;"><i class="material-icons" style="vertical-align:middle;margin-right:4px;">info</i> Metadados — Dicionário de Variáveis</h5>
+        <div class="metadata-container">
+            <div class="metadata-header"><i class="material-icons me-2" style="vertical-align:middle">handshake</i> Convênios de Saída</div>
+            <div class="table-responsive">
+                <table class="metadata-table">
+                    <thead><tr><th>Campo</th><th>Descrição</th><th>Tipo</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>ano</code></td><td>Ano do convênio</td><td>Número</td></tr>
+                        <tr><td><code>codigo_orgao</code></td><td>Código do órgão concedente</td><td>Texto</td></tr>
+                        <tr><td><code>sigla</code></td><td>Sigla do órgão concedente</td><td>Texto</td></tr>
+                        <tr><td><code>orgao</code></td><td>Nome do órgão concedente</td><td>Texto</td></tr>
+                        <tr><td><code>numero_siafi</code></td><td>Número SIAFI do convênio</td><td>Texto</td></tr>
+                        <tr><td><code>situacao</code></td><td>Situação do convênio</td><td>Texto</td></tr>
+                        <tr><td><code>cnpj_proponente</code></td><td>CNPJ do proponente/convenente</td><td>Texto</td></tr>
+                        <tr><td><code>razao_social</code></td><td>Razão social do proponente</td><td>Texto</td></tr>
+                        <tr><td><code>data_publicacao</code></td><td>Data de publicação do convênio</td><td>Data</td></tr>
+                        <tr><td><code>data_inicio</code></td><td>Data de início da vigência</td><td>Data</td></tr>
+                        <tr><td><code>data_termino</code></td><td>Data de término da vigência</td><td>Data</td></tr>
+                        <tr><td><code>status</code></td><td>Status atual do convênio</td><td>Texto</td></tr>
+                        <tr><td><code>valor_concedente</code></td><td>Valor repassado pelo concedente</td><td>Moeda</td></tr>
+                        <tr><td><code>valor_parlamentar</code></td><td>Valor de emenda parlamentar</td><td>Moeda</td></tr>
+                        <tr><td><code>valor_despesa_empenhada</code></td><td>Valor de despesa empenhada</td><td>Moeda</td></tr>
+                        <tr><td><code>valor_despesa_paga</code></td><td>Valor de despesa efetivamente paga</td><td>Moeda</td></tr>
+                        <tr><td><code>objeto</code></td><td>Descrição do objeto do convênio</td><td>Texto</td></tr>
+                        <tr><td><code>municipio</code></td><td>Município beneficiário</td><td>Texto</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>`;
+    setTimeout(iframeUpdateHeight, 300);
+}
+
+// ============================================================
+// 10. EXPORTAÇÕES
+// ============================================================
+function copiarLinkDireto() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        const toast = document.getElementById('toastSucesso');
+        toast.style.display = 'flex';
+        setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }).catch(() => mostrarToast('Erro ao copiar link.', 'error'));
+}
+window.copiarLink = copiarLinkDireto;
+
+window.exportarVGCSV = function() {
+    const dados = (window.vgAgrupados||[]).map(d=>[d.codigo_orgao,d.orgao,d.sigla,d.total_convenios,d.valor_total,d.valor_pago]);
+    const csv = [['Código','Órgão','Sigla','Qtd. Convênios','Valor Total','Valor Pago'].join(';'), ...dados.map(l=>l.map(c=>`"${c||''}"`).join(';'))].join('\n');
+    const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='visao_geral_convenios.csv'; a.click();
+};
+
+window.exportarVGPDF = function() {
+    const { jsPDF } = window.jspdf; const doc = new jsPDF({orientation:'landscape'});
+    doc.setFontSize(12); doc.setTextColor(32,68,93); doc.text('Visão Geral — Convênios de Saída', 14, 12);
+    doc.setFontSize(9); doc.setTextColor(100,100,100); doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 18);
+    doc.autoTable({ head:[['Código','Órgão','Sigla','Qtd.','Valor Total','Valor Pago']], body:(window.vgAgrupados||[]).slice(0,100).map(d=>[d.codigo_orgao||'-',d.orgao||'-',d.sigla||'-',d.total_convenios,formatarMoeda(d.valor_total),formatarMoeda(d.valor_pago)]), startY:22, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:8} });
+    doc.save('visao_geral_convenios.pdf');
+};
+
+window.exportarCICSV = function() {
+    const dados = (window.cifiltrados||dadosCompletos).map(d=>[
+        d.ano,d.codigo_orgao,d.sigla,d.orgao,d.numero_siafi,
+        d.situacao,d.cnpj_proponente,d.razao_social,
+        formatarData(d.data_publicacao),formatarData(d.data_inicio),formatarData(d.data_termino),
+        d.status,d.valor_concedente,d.valor_parlamentar,d.valor_empenhado,d.valor_pago
+    ]);
+    const csv = [['Ano','Cód. Órgão','Sigla','Órgão','Nº SIAFI','Situação','CNPJ Proponente','Razão Social','Dt. Publicação','Dt. Início','Dt. Término','Status','V. Concedente','V. Parlamentar','V. Empenhado','V. Pago'].join(';'), ...dados.map(l=>l.map(c=>`"${c||''}"`).join(';'))].join('\n');
+    const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='convenios_saida.csv'; a.click();
+};
+
+window.exportarCIPDF = function() {
+    const { jsPDF } = window.jspdf; const doc = new jsPDF({orientation:'landscape'});
+    doc.setFontSize(12); doc.setTextColor(32,68,93); doc.text('Consulta — Convênios de Saída', 14, 12);
+    doc.setFontSize(9); doc.setTextColor(100,100,100); doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 18);
+    doc.autoTable({ head:[['Ano','Sigla','Órgão','Nº SIAFI','Status','Razão Social','V. Empenhado','V. Pago']], body:(window.cifiltrados||[]).slice(0,100).map(d=>[d.ano||'-',d.sigla||'-',d.orgao||'-',d.numero_siafi||'-',d.status||'-',(d.razao_social||'-').substring(0,30),formatarMoeda(d.valor_empenhado),formatarMoeda(d.valor_pago)]), startY:22, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:7} });
+    doc.save('convenios_saida.pdf');
+};
+
+window.exportarModalPDF = function() {
+    if (!modalConvenioAtual) return;
+    const { jsPDF } = window.jspdf; const doc = new jsPDF({orientation:'portrait'});
+    const d = modalConvenioAtual;
+    doc.setFontSize(14); doc.setTextColor(32,68,93); doc.text('Detalhes do Convênio', 14, 15);
+    doc.setFontSize(10); doc.setTextColor(100,100,100); doc.text(`SIAFI: ${d.numero_siafi||'-'} | Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 22);
+    doc.autoTable({ head:[['Campo','Valor']], body:[['Nº SIAFI',d.numero_siafi||'-'],['Status',d.status||'-'],['Situação',d.situacao||'-'],['Código Órgão',d.codigo_orgao||'-'],['Sigla',d.sigla||'-'],['Órgão',d.orgao||'-'],['CNPJ Proponente',d.cnpj_proponente||'-'],['Razão Social',d.razao_social||'-'],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',formatarMoeda(d.valor_concedente)],['V. Parlamentar',formatarMoeda(d.valor_parlamentar)],['V. Empenhado',formatarMoeda(d.valor_empenhado)],['V. Pago',formatarMoeda(d.valor_pago)],['Objeto',(d.objeto||'-').substring(0,80)]], startY:28, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:9}, columnStyles:{0:{fontStyle:'bold',cellWidth:55}} });
+    doc.save(`convenio_${d.numero_siafi||'detalhes'}.pdf`);
+};
+
+window.exportarModalCSV = function() {
+    if (!modalConvenioAtual) return;
+    const d = modalConvenioAtual;
+    const rows = [['Campo','Valor'],['Nº SIAFI',d.numero_siafi],['Status',d.status],['Situação',d.situacao],['Código Órgão',d.codigo_orgao],['Sigla',d.sigla],['Órgão',d.orgao],['CNPJ Proponente',d.cnpj_proponente],['Razão Social',d.razao_social],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',d.valor_concedente],['V. Parlamentar',d.valor_parlamentar],['V. Empenhado',d.valor_empenhado],['V. Pago',d.valor_pago],['Objeto',d.objeto||'']];
+    const csv = rows.map(r=>r.map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(';')).join('\n');
+    const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`convenio_${d.numero_siafi||'detalhes'}.csv`; a.click();
+};
+
+// ============================================================
+// 11. INICIALIZAÇÃO
+// ============================================================
+document.addEventListener('click', e => {
+    if (!e.target.closest('.column-selector')) document.querySelectorAll('.column-selector-dropdown').forEach(d => d.classList.remove('show'));
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    setupAtualizacaoData();
+    carregarDados();
+    document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
+        tab.addEventListener('shown.bs.tab', () => setTimeout(iframeUpdateHeight, 300));
+    });
+    window.addEventListener('resize', () => { clearTimeout(window.resizeTimer); window.resizeTimer = setTimeout(iframeUpdateHeight, 250); });
+});
+
+// Iframe resize observer
+(function() {
+    function sendHeight() {
+        const h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) + 10;
+        try { if(window.parent&&window.parent!==window) window.parent.postMessage({iframeHeight:h,iframeResize:true,type:'resize'},'*'); } catch(e) {}
+    }
+    if (window.ResizeObserver) new ResizeObserver(sendHeight).observe(document.body);
+    else { window.addEventListener('resize', sendHeight); setInterval(sendHeight, 2000); }
+    sendHeight();
+})();
+</script>
+</body>
+</html>
