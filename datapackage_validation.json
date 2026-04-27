@@ -1,0 +1,169 @@
+{
+  "version": "4.16.6",
+  "time": 2.921,
+  "errors": [],
+  "tasks": [
+    {
+      "resource": {
+        "description": "Insira a descrição/explicação detalhada deste recurso.",
+        "dialect": {
+          "delimiter": ";"
+        },
+        "encoding": "utf-8-sig",
+        "format": "csv",
+        "hashing": "md5",
+        "name": "convenios_saida",
+        "path": "data/convenios_saida.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "name": "id_convenio",
+              "type": "integer"
+            },
+            {
+              "name": "cd_plano_trabalho",
+              "type": "integer"
+            },
+            {
+              "name": "id_situacao_convenio",
+              "type": "integer"
+            },
+            {
+              "name": "situacao",
+              "type": "string"
+            },
+            {
+              "name": "numero_proposta",
+              "type": "string"
+            },
+            {
+              "name": "numero_plano",
+              "type": "string"
+            },
+            {
+              "name": "numero_convenio",
+              "type": "string"
+            },
+            {
+              "name": "numero_siafi",
+              "type": "string"
+            },
+            {
+              "name": "codigo_orgao",
+              "type": "integer"
+            },
+            {
+              "name": "orgao_sigla",
+              "type": "string"
+            },
+            {
+              "name": "municipio",
+              "type": "string"
+            },
+            {
+              "name": "cnpj_proponente",
+              "type": "integer"
+            },
+            {
+              "name": "razao_social_proponente",
+              "type": "string"
+            },
+            {
+              "name": "situacao_cagec",
+              "type": "string"
+            },
+            {
+              "name": "data_publicacao",
+              "type": "datetime"
+            },
+            {
+              "name": "data_inicio",
+              "type": "datetime"
+            },
+            {
+              "name": "data_termino",
+              "type": "datetime"
+            },
+            {
+              "name": "valor_concedente",
+              "type": "integer"
+            },
+            {
+              "name": "valor_parlamentar",
+              "type": "integer"
+            },
+            {
+              "name": "id_status_convenio",
+              "type": "integer"
+            },
+            {
+              "name": "status_convenio",
+              "type": "string"
+            },
+            {
+              "name": "valor_despesa_empenhada",
+              "type": "integer"
+            },
+            {
+              "name": "valor_despesa_paga",
+              "type": "integer"
+            },
+            {
+              "name": "tempo_analise_tecnica_continuo",
+              "type": "string"
+            },
+            {
+              "name": "tempo_analisejuridica_continuo",
+              "type": "string"
+            },
+            {
+              "name": "tempo_a_encaminhador_continuo",
+              "type": "string"
+            }
+          ]
+        },
+        "scheme": "file",
+        "title": "Insira um título humanamente legível para este recurso.",
+        "stats": {
+          "hash": "2fe7dc817e8e0a57773bd779528d11d0",
+          "bytes": 13729494,
+          "fields": 26,
+          "rows": 57253
+        }
+      },
+      "time": 2.901,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [],
+      "stats": {
+        "errors": 0
+      },
+      "valid": true
+    }
+  ],
+  "stats": {
+    "errors": 0,
+    "tasks": 1
+  },
+  "valid": true
+}
