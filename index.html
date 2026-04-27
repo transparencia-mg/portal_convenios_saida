@@ -1067,21 +1067,38 @@ window.buscarVG = function(termo) {
 };
 
 window.irParaConsulta = function(orgao) {
+    dadosFiltradosCI = [...dadosCompletos];
     document.getElementById('consulta-tab').click();
     setTimeout(() => {
+        ['filtroAnoCI','filtroStatusCI','filtroSituacaoCI'].forEach(id => {
+            const el = document.getElementById(id); if (el) el.value = '';
+        });
+        ['filtroCodOrgaoCI','filtroSiafiCI','filtroRazaoCI','filtroMunicipioCI'].forEach(id => {
+            const el = document.getElementById(id); if (el) el.value = '';
+        });
         const el = document.getElementById('filtroOrgaoCI');
         if (el) el.value = orgao;
         aplicarFiltrosCI();
-    }, 300);
+    }, 400);
 };
 
 window.irParaConsultaSigla = function(sigla) {
+    // Limpar filtros antes de navegar
+    dadosFiltradosCI = [...dadosCompletos];
     document.getElementById('consulta-tab').click();
     setTimeout(() => {
+        // Limpar todos os filtros de texto
+        ['filtroAnoCI','filtroStatusCI','filtroSituacaoCI'].forEach(id => {
+            const el = document.getElementById(id); if (el) el.value = '';
+        });
+        ['filtroCodOrgaoCI','filtroSiafiCI','filtroRazaoCI','filtroMunicipioCI'].forEach(id => {
+            const el = document.getElementById(id); if (el) el.value = '';
+        });
+        // Preencher o filtro de sigla
         const el = document.getElementById('filtroOrgaoCI');
         if (el) el.value = sigla;
         aplicarFiltrosCI();
-    }, 300);
+    }, 400);
 };
 
 // ============================================================
@@ -1096,6 +1113,7 @@ function obterOpcoesCI() {
         situacoes: [...new Set(dadosCompletos.map(d=>d.situacao).filter(Boolean))].sort(),
         siafis: [...new Set(dadosCompletos.map(d=>d.numero_siafi).filter(Boolean))].sort(),
         razoes: [...new Set(dadosCompletos.map(d=>d.razao_social).filter(Boolean))].sort(),
+        siglas: [...new Set(dadosCompletos.map(d=>d.sigla).filter(Boolean))].sort(),
         municipios: [...new Set(dadosCompletos.map(d=>d.municipio).filter(Boolean))].sort()
     };
 }
@@ -1146,7 +1164,7 @@ function renderizarConsulta() {
             <div class="filter-group">
                 <label class="filter-label">Sigla Órgão</label>
                 <input type="text" class="form-control" id="filtroOrgaoCI" list="listOrgaoCI" placeholder="Digite ou selecione...">
-                <datalist id="listOrgaoCI">${opcoes.orgaos.map(o=>`<option value="${o}">`).join('')}</datalist>
+                <datalist id="listOrgaoCI">${opcoes.siglas.map(s=>`<option value="${s}">`).join('')}</datalist>
             </div>
             <div class="filter-group">
                 <label class="filter-label">Município</label>
@@ -1274,7 +1292,7 @@ window.aplicarFiltrosCI = function() {
     dadosFiltradosCI = dadosCompletos.filter(d => {
         if (ano && d.ano !== ano) return false;
         if (cod && !(d.codigo_orgao||'').toLowerCase().includes(cod)) return false;
-        if (orgao && !(d.orgao||'').toLowerCase().includes(orgao)) return false;
+        if (orgao && !(d.sigla||'').toLowerCase().includes(orgao)) return false;
         if (status && d.status !== status) return false;
         if (situacao && d.situacao !== situacao) return false;
         if (siafi && !(d.numero_siafi||'').toLowerCase().includes(siafi)) return false;
