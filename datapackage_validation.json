@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 23.258,
+  "time": 21.873,
   "errors": [],
   "tasks": [
     {
@@ -132,7 +132,7 @@
           "rows": 57253
         }
       },
-      "time": 2.948,
+      "time": 2.607,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -175,16 +175,16 @@
         "schema": {
           "fields": [
             {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
               "name": "codigo_orgao",
               "type": "integer"
             },
             {
-              "name": "nome_orgao",
+              "name": "unidade_orcamentaria_nome",
               "type": "string"
-            },
-            {
-              "name": "numero_siafi",
-              "type": "integer"
             },
             {
               "name": "ano_empenho",
@@ -227,11 +227,19 @@
               "type": "string"
             },
             {
-              "name": "cnpj_cpf_proponente",
+              "name": "cnpj_proponente",
               "type": "string"
             },
             {
               "name": "valor_pago_financeiro",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_processado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_nao_processado",
               "type": "string"
             }
           ]
@@ -239,13 +247,13 @@
         "scheme": "file",
         "title": "Insira um título humanamente legível para este recurso.",
         "stats": {
-          "hash": "a1b1d78ce7959f1eae54f36953a5f138",
-          "bytes": 31563078,
-          "fields": 15,
-          "rows": 146384
+          "hash": "4fff253488f9d3d33cc0a1fe35563ad8",
+          "bytes": 34816102,
+          "fields": 17,
+          "rows": 146356
         }
       },
-      "time": 5.741,
+      "time": 5.389,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -288,16 +296,16 @@
         "schema": {
           "fields": [
             {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
               "name": "codigo_orgao",
               "type": "integer"
             },
             {
-              "name": "nome_orgao",
+              "name": "unidade_orcamentaria_nome",
               "type": "string"
-            },
-            {
-              "name": "numero_siafi",
-              "type": "integer"
             },
             {
               "name": "ano_empenho",
@@ -340,11 +348,19 @@
               "type": "string"
             },
             {
-              "name": "cnpj_cpf_proponente",
+              "name": "cnpj_proponente",
               "type": "string"
             },
             {
               "name": "valor_pago_financeiro",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_processado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_nao_processado",
               "type": "string"
             }
           ]
@@ -352,13 +368,13 @@
         "scheme": "file",
         "title": "Insira um título humanamente legível para este recurso.",
         "stats": {
-          "hash": "55a581a42daafcaf90e08e77cc7aa7f7",
-          "bytes": 27515724,
-          "fields": 15,
-          "rows": 117344
+          "hash": "5639ce0bd69ebec7be5e8cc55cdeff6e",
+          "bytes": 30147664,
+          "fields": 17,
+          "rows": 117332
         }
       },
-      "time": 4.63,
+      "time": 4.399,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -401,16 +417,16 @@
         "schema": {
           "fields": [
             {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
               "name": "codigo_orgao",
               "type": "integer"
             },
             {
-              "name": "nome_orgao",
+              "name": "unidade_orcamentaria_nome",
               "type": "string"
-            },
-            {
-              "name": "numero_siafi",
-              "type": "integer"
             },
             {
               "name": "ano_empenho",
@@ -453,11 +469,19 @@
               "type": "string"
             },
             {
-              "name": "cnpj_cpf_proponente",
+              "name": "cnpj_proponente",
               "type": "string"
             },
             {
               "name": "valor_pago_financeiro",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_processado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_nao_processado",
               "type": "string"
             }
           ]
@@ -465,13 +489,13 @@
         "scheme": "file",
         "title": "Insira um título humanamente legível para este recurso.",
         "stats": {
-          "hash": "f363d09fa0113e60cc928a4222a302ca",
-          "bytes": 31593572,
-          "fields": 15,
-          "rows": 135249
+          "hash": "0171a3343558e586ee4adf88bb321b0c",
+          "bytes": 34974696,
+          "fields": 17,
+          "rows": 135244
         }
       },
-      "time": 5.259,
+      "time": 5.055,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -514,16 +538,16 @@
         "schema": {
           "fields": [
             {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
               "name": "codigo_orgao",
               "type": "integer"
             },
             {
-              "name": "nome_orgao",
+              "name": "unidade_orcamentaria_nome",
               "type": "string"
-            },
-            {
-              "name": "numero_siafi",
-              "type": "integer"
             },
             {
               "name": "ano_empenho",
@@ -566,11 +590,19 @@
               "type": "string"
             },
             {
-              "name": "cnpj_cpf_proponente",
+              "name": "cnpj_proponente",
               "type": "string"
             },
             {
               "name": "valor_pago_financeiro",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_processado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_nao_processado",
               "type": "string"
             }
           ]
@@ -578,13 +610,13 @@
         "scheme": "file",
         "title": "Insira um título humanamente legível para este recurso.",
         "stats": {
-          "hash": "d740f904be7050317715d6c5819c23bb",
-          "bytes": 21156560,
-          "fields": 15,
-          "rows": 88347
+          "hash": "33a39a2f79a80d19ba6dfc13a200fe30",
+          "bytes": 23137284,
+          "fields": 17,
+          "rows": 88344
         }
       },
-      "time": 3.473,
+      "time": 3.286,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -627,16 +659,16 @@
         "schema": {
           "fields": [
             {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
               "name": "codigo_orgao",
               "type": "integer"
             },
             {
-              "name": "nome_orgao",
+              "name": "unidade_orcamentaria_nome",
               "type": "string"
-            },
-            {
-              "name": "numero_siafi",
-              "type": "integer"
             },
             {
               "name": "ano_empenho",
@@ -679,11 +711,19 @@
               "type": "string"
             },
             {
-              "name": "cnpj_cpf_proponente",
+              "name": "cnpj_proponente",
               "type": "string"
             },
             {
               "name": "valor_pago_financeiro",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_processado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_nao_processado",
               "type": "string"
             }
           ]
@@ -691,13 +731,13 @@
         "scheme": "file",
         "title": "Insira um título humanamente legível para este recurso.",
         "stats": {
-          "hash": "d5f9c3a5d16d3a34b3d826295f9413a7",
-          "bytes": 6916292,
-          "fields": 15,
+          "hash": "16884fec34c73feb4df4acbfc1dbc41e",
+          "bytes": 7471671,
+          "fields": 17,
           "rows": 27826
         }
       },
-      "time": 1.117,
+      "time": 1.05,
       "scope": [
         "hash-count-error",
         "byte-count-error",
