@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 21.873,
+  "time": 27.425,
   "errors": [],
   "tasks": [
     {
@@ -132,7 +132,7 @@
           "rows": 57253
         }
       },
-      "time": 2.607,
+      "time": 2.876,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -233,27 +233,19 @@
             {
               "name": "valor_pago_financeiro",
               "type": "string"
-            },
-            {
-              "name": "valor_pago_processado",
-              "type": "string"
-            },
-            {
-              "name": "valor_pago_nao_processado",
-              "type": "string"
             }
           ]
         },
         "scheme": "file",
         "title": "Insira um título humanamente legível para este recurso.",
         "stats": {
-          "hash": "4fff253488f9d3d33cc0a1fe35563ad8",
-          "bytes": 34816102,
-          "fields": 17,
+          "hash": "c51a374540f6abc69f990fd75761683f",
+          "bytes": 31552423,
+          "fields": 15,
           "rows": 146356
         }
       },
-      "time": 5.389,
+      "time": 5.666,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -354,27 +346,19 @@
             {
               "name": "valor_pago_financeiro",
               "type": "string"
-            },
-            {
-              "name": "valor_pago_processado",
-              "type": "string"
-            },
-            {
-              "name": "valor_pago_nao_processado",
-              "type": "string"
             }
           ]
         },
         "scheme": "file",
         "title": "Insira um título humanamente legível para este recurso.",
         "stats": {
-          "hash": "5639ce0bd69ebec7be5e8cc55cdeff6e",
-          "bytes": 30147664,
-          "fields": 17,
+          "hash": "d0e7a405a57c5d5c50d5fc8146c515af",
+          "bytes": 27512119,
+          "fields": 15,
           "rows": 117332
         }
       },
-      "time": 4.399,
+      "time": 4.577,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -475,27 +459,19 @@
             {
               "name": "valor_pago_financeiro",
               "type": "string"
-            },
-            {
-              "name": "valor_pago_processado",
-              "type": "string"
-            },
-            {
-              "name": "valor_pago_nao_processado",
-              "type": "string"
             }
           ]
         },
         "scheme": "file",
         "title": "Insira um título humanamente legível para este recurso.",
         "stats": {
-          "hash": "0171a3343558e586ee4adf88bb321b0c",
-          "bytes": 34974696,
-          "fields": 17,
+          "hash": "9e39375af88e86a6f2fbc32f5674ea02",
+          "bytes": 31592173,
+          "fields": 15,
           "rows": 135244
         }
       },
-      "time": 5.055,
+      "time": 5.262,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -596,27 +572,19 @@
             {
               "name": "valor_pago_financeiro",
               "type": "string"
-            },
-            {
-              "name": "valor_pago_processado",
-              "type": "string"
-            },
-            {
-              "name": "valor_pago_nao_processado",
-              "type": "string"
             }
           ]
         },
         "scheme": "file",
         "title": "Insira um título humanamente legível para este recurso.",
         "stats": {
-          "hash": "33a39a2f79a80d19ba6dfc13a200fe30",
-          "bytes": 23137284,
-          "fields": 17,
-          "rows": 88344
+          "hash": "a5226f0ead860615988c42e320377cd9",
+          "bytes": 21155363,
+          "fields": 15,
+          "rows": 88343
         }
       },
-      "time": 3.286,
+      "time": 3.494,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -717,13 +685,122 @@
             {
               "name": "valor_pago_financeiro",
               "type": "string"
+            }
+          ]
+        },
+        "scheme": "file",
+        "title": "Insira um título humanamente legível para este recurso.",
+        "stats": {
+          "hash": "3bce9d9a02836b800f099946e0b38062",
+          "bytes": 6916303,
+          "fields": 15,
+          "rows": 27826
+        }
+      },
+      "time": 1.099,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [],
+      "stats": {
+        "errors": 0
+      },
+      "valid": true
+    },
+    {
+      "resource": {
+        "description": "Insira a descrição/explicação detalhada deste recurso.",
+        "dialect": {
+          "delimiter": ";"
+        },
+        "encoding": "utf-8-sig",
+        "format": "csv",
+        "hashing": "md5",
+        "name": "restosapagar2021",
+        "path": "data/restosapagar2021.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "name": "numero_siafi",
+              "type": "integer"
             },
             {
-              "name": "valor_pago_processado",
+              "name": "codigo_orgao",
+              "type": "integer"
+            },
+            {
+              "name": "unidade_orcamentaria_nome",
+              "type": "string"
+            },
+            {
+              "name": "data_registro_doc_empenho",
+              "type": "date"
+            },
+            {
+              "name": "numero_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "ano_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "item_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "item_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "fonte_recurso_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "fonte_recurso_descricao",
+              "type": "string"
+            },
+            {
+              "name": "razao_social_credor",
+              "type": "string"
+            },
+            {
+              "name": "cnpj_cpf_credor_formatado",
               "type": "string"
             },
             {
               "name": "valor_pago_nao_processado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_processado",
               "type": "string"
             }
           ]
@@ -731,13 +808,481 @@
         "scheme": "file",
         "title": "Insira um título humanamente legível para este recurso.",
         "stats": {
-          "hash": "16884fec34c73feb4df4acbfc1dbc41e",
-          "bytes": 7471671,
-          "fields": 17,
-          "rows": 27826
+          "hash": "4f8d3997ba549dcc0d10b5cbf1e7c8d8",
+          "bytes": 5142601,
+          "fields": 16,
+          "rows": 21462
         }
       },
-      "time": 1.05,
+      "time": 0.882,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [],
+      "stats": {
+        "errors": 0
+      },
+      "valid": true
+    },
+    {
+      "resource": {
+        "description": "Insira a descrição/explicação detalhada deste recurso.",
+        "dialect": {
+          "delimiter": ";"
+        },
+        "encoding": "utf-8-sig",
+        "format": "csv",
+        "hashing": "md5",
+        "name": "restosapagar2022",
+        "path": "data/restosapagar2022.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
+              "name": "codigo_orgao",
+              "type": "integer"
+            },
+            {
+              "name": "unidade_orcamentaria_nome",
+              "type": "string"
+            },
+            {
+              "name": "data_registro_doc_empenho",
+              "type": "date"
+            },
+            {
+              "name": "numero_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "ano_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "item_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "item_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "fonte_recurso_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "fonte_recurso_descricao",
+              "type": "string"
+            },
+            {
+              "name": "razao_social_credor",
+              "type": "string"
+            },
+            {
+              "name": "cnpj_cpf_credor_formatado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_nao_processado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_processado",
+              "type": "string"
+            }
+          ]
+        },
+        "scheme": "file",
+        "title": "Insira um título humanamente legível para este recurso.",
+        "stats": {
+          "hash": "e48540074e13bbd59e7eb55e7bc5b802",
+          "bytes": 5529016,
+          "fields": 16,
+          "rows": 23295
+        }
+      },
+      "time": 0.962,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [],
+      "stats": {
+        "errors": 0
+      },
+      "valid": true
+    },
+    {
+      "resource": {
+        "description": "Insira a descrição/explicação detalhada deste recurso.",
+        "dialect": {
+          "delimiter": ";"
+        },
+        "encoding": "utf-8-sig",
+        "format": "csv",
+        "hashing": "md5",
+        "name": "restosapagar2023",
+        "path": "data/restosapagar2023.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
+              "name": "codigo_orgao",
+              "type": "integer"
+            },
+            {
+              "name": "unidade_orcamentaria_nome",
+              "type": "string"
+            },
+            {
+              "name": "data_registro_doc_empenho",
+              "type": "date"
+            },
+            {
+              "name": "numero_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "ano_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "item_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "item_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "fonte_recurso_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "fonte_recurso_descricao",
+              "type": "string"
+            },
+            {
+              "name": "razao_social_credor",
+              "type": "string"
+            },
+            {
+              "name": "cnpj_cpf_credor_formatado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_nao_processado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_processado",
+              "type": "string"
+            }
+          ]
+        },
+        "scheme": "file",
+        "title": "Insira um título humanamente legível para este recurso.",
+        "stats": {
+          "hash": "302e3a2670692e13a2c80307ee35ace9",
+          "bytes": 6603606,
+          "fields": 16,
+          "rows": 26370
+        }
+      },
+      "time": 1.085,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [],
+      "stats": {
+        "errors": 0
+      },
+      "valid": true
+    },
+    {
+      "resource": {
+        "description": "Insira a descrição/explicação detalhada deste recurso.",
+        "dialect": {
+          "delimiter": ";"
+        },
+        "encoding": "utf-8-sig",
+        "format": "csv",
+        "hashing": "md5",
+        "name": "restosapagar2024",
+        "path": "data/restosapagar2024.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
+              "name": "codigo_orgao",
+              "type": "integer"
+            },
+            {
+              "name": "unidade_orcamentaria_nome",
+              "type": "string"
+            },
+            {
+              "name": "data_registro_doc_empenho",
+              "type": "date"
+            },
+            {
+              "name": "numero_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "ano_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "item_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "item_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "fonte_recurso_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "fonte_recurso_descricao",
+              "type": "string"
+            },
+            {
+              "name": "razao_social_credor",
+              "type": "string"
+            },
+            {
+              "name": "cnpj_cpf_credor_formatado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_nao_processado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_processado",
+              "type": "string"
+            }
+          ]
+        },
+        "scheme": "file",
+        "title": "Insira um título humanamente legível para este recurso.",
+        "stats": {
+          "hash": "3107718922de82303db05feb12be6d6c",
+          "bytes": 4477768,
+          "fields": 16,
+          "rows": 17915
+        }
+      },
+      "time": 0.74,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [],
+      "stats": {
+        "errors": 0
+      },
+      "valid": true
+    },
+    {
+      "resource": {
+        "description": "Insira a descrição/explicação detalhada deste recurso.",
+        "dialect": {
+          "delimiter": ";"
+        },
+        "encoding": "utf-8-sig",
+        "format": "csv",
+        "hashing": "md5",
+        "name": "restosapagar2025",
+        "path": "data/restosapagar2025.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
+              "name": "codigo_orgao",
+              "type": "integer"
+            },
+            {
+              "name": "unidade_orcamentaria_nome",
+              "type": "string"
+            },
+            {
+              "name": "data_registro_doc_empenho",
+              "type": "date"
+            },
+            {
+              "name": "numero_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "ano_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "item_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "item_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "fonte_recurso_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "fonte_recurso_descricao",
+              "type": "string"
+            },
+            {
+              "name": "razao_social_credor",
+              "type": "string"
+            },
+            {
+              "name": "cnpj_cpf_credor_formatado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_nao_processado",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_processado",
+              "type": "string"
+            }
+          ]
+        },
+        "scheme": "file",
+        "title": "Insira um título humanamente legível para este recurso.",
+        "stats": {
+          "hash": "1bfd17e78634bcba35c3ff703f77750b",
+          "bytes": 3943735,
+          "fields": 16,
+          "rows": 14973
+        }
+      },
+      "time": 0.634,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -768,7 +1313,7 @@
   ],
   "stats": {
     "errors": 0,
-    "tasks": 6
+    "tasks": 11
   },
   "valid": true
 }
