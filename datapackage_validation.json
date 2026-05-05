@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 3.655,
+  "time": 23.258,
   "errors": [],
   "tasks": [
     {
@@ -132,7 +132,459 @@
           "rows": 57253
         }
       },
-      "time": 2.63,
+      "time": 2.948,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [],
+      "stats": {
+        "errors": 0
+      },
+      "valid": true
+    },
+    {
+      "resource": {
+        "description": "Insira a descrição/explicação detalhada deste recurso.",
+        "dialect": {
+          "delimiter": ";"
+        },
+        "encoding": "utf-8-sig",
+        "format": "csv",
+        "hashing": "md5",
+        "name": "empenhos2022",
+        "path": "data/empenhos2022.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "name": "codigo_orgao",
+              "type": "integer"
+            },
+            {
+              "name": "nome_orgao",
+              "type": "string"
+            },
+            {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
+              "name": "ano_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "numero_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "data_registro_doc_empenho",
+              "type": "date"
+            },
+            {
+              "name": "elemento_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "item_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "item_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "fonte_recurso_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "fonte_recurso_descricao",
+              "type": "string"
+            },
+            {
+              "name": "razao_social_proponente",
+              "type": "string"
+            },
+            {
+              "name": "cnpj_cpf_proponente",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_financeiro",
+              "type": "string"
+            }
+          ]
+        },
+        "scheme": "file",
+        "title": "Insira um título humanamente legível para este recurso.",
+        "stats": {
+          "hash": "a1b1d78ce7959f1eae54f36953a5f138",
+          "bytes": 31563078,
+          "fields": 15,
+          "rows": 146384
+        }
+      },
+      "time": 5.741,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [],
+      "stats": {
+        "errors": 0
+      },
+      "valid": true
+    },
+    {
+      "resource": {
+        "description": "Insira a descrição/explicação detalhada deste recurso.",
+        "dialect": {
+          "delimiter": ";"
+        },
+        "encoding": "utf-8-sig",
+        "format": "csv",
+        "hashing": "md5",
+        "name": "empenhos2023",
+        "path": "data/empenhos2023.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "name": "codigo_orgao",
+              "type": "integer"
+            },
+            {
+              "name": "nome_orgao",
+              "type": "string"
+            },
+            {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
+              "name": "ano_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "numero_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "data_registro_doc_empenho",
+              "type": "date"
+            },
+            {
+              "name": "elemento_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "item_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "item_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "fonte_recurso_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "fonte_recurso_descricao",
+              "type": "string"
+            },
+            {
+              "name": "razao_social_proponente",
+              "type": "string"
+            },
+            {
+              "name": "cnpj_cpf_proponente",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_financeiro",
+              "type": "string"
+            }
+          ]
+        },
+        "scheme": "file",
+        "title": "Insira um título humanamente legível para este recurso.",
+        "stats": {
+          "hash": "55a581a42daafcaf90e08e77cc7aa7f7",
+          "bytes": 27515724,
+          "fields": 15,
+          "rows": 117344
+        }
+      },
+      "time": 4.63,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [],
+      "stats": {
+        "errors": 0
+      },
+      "valid": true
+    },
+    {
+      "resource": {
+        "description": "Insira a descrição/explicação detalhada deste recurso.",
+        "dialect": {
+          "delimiter": ";"
+        },
+        "encoding": "utf-8-sig",
+        "format": "csv",
+        "hashing": "md5",
+        "name": "empenhos2024",
+        "path": "data/empenhos2024.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "name": "codigo_orgao",
+              "type": "integer"
+            },
+            {
+              "name": "nome_orgao",
+              "type": "string"
+            },
+            {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
+              "name": "ano_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "numero_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "data_registro_doc_empenho",
+              "type": "date"
+            },
+            {
+              "name": "elemento_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "item_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "item_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "fonte_recurso_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "fonte_recurso_descricao",
+              "type": "string"
+            },
+            {
+              "name": "razao_social_proponente",
+              "type": "string"
+            },
+            {
+              "name": "cnpj_cpf_proponente",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_financeiro",
+              "type": "string"
+            }
+          ]
+        },
+        "scheme": "file",
+        "title": "Insira um título humanamente legível para este recurso.",
+        "stats": {
+          "hash": "f363d09fa0113e60cc928a4222a302ca",
+          "bytes": 31593572,
+          "fields": 15,
+          "rows": 135249
+        }
+      },
+      "time": 5.259,
+      "scope": [
+        "hash-count-error",
+        "byte-count-error",
+        "field-count-error",
+        "row-count-error",
+        "blank-header",
+        "extra-label",
+        "missing-label",
+        "blank-label",
+        "duplicate-label",
+        "incorrect-label",
+        "blank-row",
+        "primary-key-error",
+        "foreign-key-error",
+        "extra-cell",
+        "missing-cell",
+        "type-error",
+        "constraint-error",
+        "unique-error"
+      ],
+      "partial": false,
+      "errors": [],
+      "stats": {
+        "errors": 0
+      },
+      "valid": true
+    },
+    {
+      "resource": {
+        "description": "Insira a descrição/explicação detalhada deste recurso.",
+        "dialect": {
+          "delimiter": ";"
+        },
+        "encoding": "utf-8-sig",
+        "format": "csv",
+        "hashing": "md5",
+        "name": "empenhos2025",
+        "path": "data/empenhos2025.csv",
+        "profile": "tabular-data-resource",
+        "schema": {
+          "fields": [
+            {
+              "name": "codigo_orgao",
+              "type": "integer"
+            },
+            {
+              "name": "nome_orgao",
+              "type": "string"
+            },
+            {
+              "name": "numero_siafi",
+              "type": "integer"
+            },
+            {
+              "name": "ano_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "numero_empenho",
+              "type": "integer"
+            },
+            {
+              "name": "data_registro_doc_empenho",
+              "type": "date"
+            },
+            {
+              "name": "elemento_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "elemento_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "item_despesa_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "item_despesa_descricao",
+              "type": "string"
+            },
+            {
+              "name": "fonte_recurso_codigo",
+              "type": "integer"
+            },
+            {
+              "name": "fonte_recurso_descricao",
+              "type": "string"
+            },
+            {
+              "name": "razao_social_proponente",
+              "type": "string"
+            },
+            {
+              "name": "cnpj_cpf_proponente",
+              "type": "string"
+            },
+            {
+              "name": "valor_pago_financeiro",
+              "type": "string"
+            }
+          ]
+        },
+        "scheme": "file",
+        "title": "Insira um título humanamente legível para este recurso.",
+        "stats": {
+          "hash": "d740f904be7050317715d6c5819c23bb",
+          "bytes": 21156560,
+          "fields": 15,
+          "rows": 88347
+        }
+      },
+      "time": 3.473,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -203,6 +655,10 @@
               "type": "integer"
             },
             {
+              "name": "elemento_despesa_descricao",
+              "type": "string"
+            },
+            {
               "name": "item_despesa_codigo",
               "type": "integer"
             },
@@ -235,13 +691,13 @@
         "scheme": "file",
         "title": "Insira um título humanamente legível para este recurso.",
         "stats": {
-          "hash": "91c820388aba865354195a0a6c8c1b01",
-          "bytes": 6225078,
-          "fields": 14,
+          "hash": "d5f9c3a5d16d3a34b3d826295f9413a7",
+          "bytes": 6916292,
+          "fields": 15,
           "rows": 27826
         }
       },
-      "time": 0.996,
+      "time": 1.117,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -272,7 +728,7 @@
   ],
   "stats": {
     "errors": 0,
-    "tasks": 2
+    "tasks": 6
   },
   "valid": true
 }
