@@ -531,6 +531,11 @@
                         <i class="material-icons">download</i>Downloads
                     </button>
                 </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="dicionario-tab" data-bs-toggle="tab" data-bs-target="#dicionario">
+                        <i class="material-icons">menu_book</i>Dicionário de Dados
+                    </button>
+                </li>
             </ul>
         </div>
 
@@ -555,6 +560,9 @@
             </div>
             <div class="tab-pane fade" id="downloads" role="tabpanel">
                 <div id="downloads-content"></div>
+            </div>
+            <div class="tab-pane fade" id="dicionario" role="tabpanel">
+                <div id="dicionario-content"></div>
             </div>
         </div>
     </div>
@@ -670,7 +678,7 @@ let colunasVisiveis = {
     ano: true,
     codigo_orgao: true,
     sigla: true,
-    orgao: false,
+    orgao: true,
     numero_siafi: true,
     situacao: true,
     cnpj_proponente: true,
@@ -838,6 +846,7 @@ async function carregarDados() {
                     renderizarConsulta();
                     renderizarPagamentos();
                     renderizarDownloads();
+                    renderizarDicionario();
                     setTimeout(iframeUpdateHeight, 400);
                 });
             }
@@ -1027,9 +1036,14 @@ function renderizarVisaoGeral() {
                     ${opcoes.siglas.map(s=>`<option value="${s}">${s}</option>`).join('')}
                 </select>
             </div>
+            <div class="filter-group" style="flex:2;min-width:200px;">
+                <label class="filter-label">Órgão</label>
+                <input type="text" class="form-control" id="filtroNomeOrgaoVG" list="listNomeOrgaoVG" placeholder="Digite ou selecione...">
+                <datalist id="listNomeOrgaoVG">${opcoes.orgaos.map(o=>`<option value="${o}">`).join('')}</datalist>
+            </div>
         </div>
         <div class="botoes-abaixo">
-            <button class="btn-pesquisa" onclick="aplicarFiltrosVG()"><i class="material-icons">search</i> Pesquisar</button>
+            <button class="btn-pesquisa" onclick="aplicarFiltrosVG()"><i class="material-icons">filter_alt</i> Atualizar Filtros</button>
             <button class="btn-secondary-custom" onclick="limparFiltrosVG()"><i class="material-icons">clear</i> Limpar Filtros</button>
         </div>
     </div>
@@ -1064,7 +1078,7 @@ function renderizarVisaoGeral() {
         </div>
         <div class="col-md-6">
             <div class="chart-container">
-                <div class="chart-header"><h4 class="chart-title">Convênios por Ano</h4></div>
+                <div class="chart-header"><h4 class="chart-title">Convênios por Ano (Série Histórica Completa)</h4></div>
                 <div class="chart-wrapper"><canvas id="chartAno"></canvas></div>
             </div>
         </div>
@@ -1089,6 +1103,7 @@ function renderizarVisaoGeral() {
                     <tr>
                         <th class="sortable-header" onclick="toggleSortVG('codigo_orgao')">Código <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header" onclick="toggleSortVG('sigla')">Sigla Órgão <i class="material-icons">unfold_more</i></th>
+                        <th class="sortable-header" onclick="toggleSortVG('orgao')">Órgão <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header text-center" onclick="toggleSortVG('total_convenios')">Qtd. Convênios <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header text-right" onclick="toggleSortVG('valor_total')">Valor Total <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header text-right" onclick="toggleSortVG('valor_pago')">Valor Pago <i class="material-icons">unfold_more</i></th>
@@ -1105,7 +1120,7 @@ function renderizarVisaoGeral() {
     </div>`;
 
     atualizarTabelaVG();
-    setTimeout(() => { criarGraficoStatus(agruparPorStatus(dadosFiltradosVG)); criarGraficoAno(agruparPorAno(dadosFiltradosVG)); }, 120);
+    setTimeout(() => { criarGraficoStatus(agruparPorStatus(dadosFiltradosVG)); criarGraficoAno(agruparPorAno(dadosCompletos)); }, 120);
     setTimeout(iframeUpdateHeight, 400);
 }
 
@@ -1117,6 +1132,7 @@ function atualizarTabelaVG() {
         <tr>
             <td>${item.codigo_orgao || '-'}</td>
             <td><a href="#" class="orgao-link" onclick="irParaConsultaSigla('${(item.sigla||'').replace(/'/g,"\\'")}');return false;">${item.sigla || '-'}</a></td>
+            <td title="${item.orgao||''}">${(item.orgao||'-').substring(0,40)}${(item.orgao||'').length>40?'...':''}</td>
             <td class="text-center">${item.total_convenios}</td>
             <td class="text-right">${formatarMoeda(item.valor_total)}</td>
             <td class="text-right">${formatarMoeda(item.valor_pago)}</td>
@@ -1157,9 +1173,11 @@ function toggleSortVG(col) {
 window.aplicarFiltrosVG = function() {
     const ano = document.getElementById('filtroAnoVG')?.value;
     const sigla = document.getElementById('filtroOrgaoVG')?.value;
+    const nomeOrgao = (document.getElementById('filtroNomeOrgaoVG')?.value||'').toLowerCase().trim();
     dadosFiltradosVG = dadosCompletos.filter(d => {
         if (ano && d.ano !== ano) return false;
         if (sigla && d.sigla !== sigla) return false;
+        if (nomeOrgao && !(d.orgao||'').toLowerCase().includes(nomeOrgao)) return false;
         return true;
     });
     window.vgAgrupados = ordenarDados(agruparVisaoGeral(dadosFiltradosVG), sortConfigVG.coluna, sortConfigVG.direcao);
@@ -1168,9 +1186,10 @@ window.aplicarFiltrosVG = function() {
     document.getElementById('metricValorTotalVG').textContent = formatarMoeda(m.valorTotal);
     document.getElementById('metricValorPagoVG').textContent = formatarMoeda(m.valorPago);
     if (chartStatus) chartStatus.destroy();
-    if (chartAno) chartAno.destroy();
     criarGraficoStatus(agruparPorStatus(dadosFiltradosVG));
-    criarGraficoAno(agruparPorAno(dadosFiltradosVG));
+    // O gráfico de série histórica exibe SEMPRE todos os anos (independente do filtro)
+    if (chartAno) chartAno.destroy();
+    criarGraficoAno(agruparPorAno(dadosCompletos));
     paginacaoVG.paginaAtual = 1;
     paginacaoVG.totalPaginas = Math.ceil(window.vgAgrupados.length / paginacaoVG.itensPorPagina);
     atualizarTabelaVG();
@@ -1179,6 +1198,7 @@ window.aplicarFiltrosVG = function() {
 
 window.limparFiltrosVG = function() {
     ['filtroAnoVG','filtroOrgaoVG'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+    ['filtroNomeOrgaoVG'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
     dadosFiltradosVG = [...dadosCompletos];
     window.vgAgrupados = ordenarDados(agruparVisaoGeral(dadosFiltradosVG), sortConfigVG.coluna, sortConfigVG.direcao);
     const m = calcularMetricasVG(dadosFiltradosVG);
@@ -1188,7 +1208,7 @@ window.limparFiltrosVG = function() {
     if (chartStatus) chartStatus.destroy();
     if (chartAno) chartAno.destroy();
     criarGraficoStatus(agruparPorStatus(dadosFiltradosVG));
-    criarGraficoAno(agruparPorAno(dadosFiltradosVG));
+    criarGraficoAno(agruparPorAno(dadosCompletos));
     paginacaoVG.paginaAtual = 1;
     paginacaoVG.totalPaginas = Math.ceil(window.vgAgrupados.length / paginacaoVG.itensPorPagina);
     atualizarTabelaVG();
@@ -1208,6 +1228,7 @@ window.buscarVG = function(termo) {
         <tr>
             <td>${item.codigo_orgao||'-'}</td>
             <td><a href="#" class="orgao-link" onclick="irParaConsultaSigla('${(item.sigla||'').replace(/'/g,"\\'")}');return false;">${item.sigla||'-'}</a></td>
+            <td title="${item.orgao||''}">${(item.orgao||'-').substring(0,40)}${(item.orgao||'').length>40?'...':''}</td>
             <td class="text-center">${item.total_convenios}</td>
             <td class="text-right">${formatarMoeda(item.valor_total)}</td>
             <td class="text-right">${formatarMoeda(item.valor_pago)}</td>
@@ -1313,6 +1334,11 @@ function renderizarConsulta() {
                 <input type="text" class="form-control" id="filtroOrgaoCI" list="listOrgaoCI" placeholder="Digite ou selecione...">
                 <datalist id="listOrgaoCI">${opcoes.siglas.map(s=>`<option value="${s}">`).join('')}</datalist>
             </div>
+            <div class="filter-group" style="flex:2;min-width:200px;">
+                <label class="filter-label">Órgão</label>
+                <input type="text" class="form-control" id="filtroNomeOrgaoCI" list="listNomeOrgaoCI" placeholder="Digite ou selecione...">
+                <datalist id="listNomeOrgaoCI">${opcoes.orgaos.map(o=>`<option value="${o}">`).join('')}</datalist>
+            </div>
             <div class="filter-group">
                 <label class="filter-label">Município</label>
                 <input type="text" class="form-control" id="filtroMunicipioCI" list="listMunicipioCI" placeholder="Digite ou selecione...">
@@ -1337,6 +1363,10 @@ function renderizarConsulta() {
                 <input type="text" class="form-control" id="filtroSiafiCI" list="listSiafi" placeholder="Digite...">
                 <datalist id="listSiafi">${opcoes.siafis.map(s=>`<option value="${s}">`).join('')}</datalist>
             </div>
+            <div class="filter-group">
+                <label class="filter-label">CNPJ Proponente</label>
+                <input type="text" class="form-control" id="filtroCnpjCI" placeholder="Digite o CNPJ...">
+            </div>
             <div class="filter-group" style="flex:2;min-width:200px;">
                 <label class="filter-label">Razão Social Proponente</label>
                 <input type="text" class="form-control" id="filtroRazaoCI" list="listRazao" placeholder="Digite ou selecione...">
@@ -1344,7 +1374,7 @@ function renderizarConsulta() {
             </div>
         </div>
         <div class="botoes-abaixo">
-            <button class="btn-pesquisa" onclick="aplicarFiltrosCI()"><i class="material-icons">search</i> Pesquisar</button>
+            <button class="btn-pesquisa" onclick="aplicarFiltrosCI()"><i class="material-icons">filter_alt</i> Atualizar Filtros</button>
             <button class="btn-secondary-custom" onclick="limparFiltrosCI()"><i class="material-icons">clear</i> Limpar Filtros</button>
         </div>
     </div>
@@ -1429,18 +1459,22 @@ window.aplicarFiltrosCI = function() {
     const ano = document.getElementById('filtroAnoCI')?.value;
     const cod = (document.getElementById('filtroCodOrgaoCI')?.value||'').toLowerCase().trim();
     const orgao = (document.getElementById('filtroOrgaoCI')?.value||'').toLowerCase().trim();
+    const nomeOrgao = (document.getElementById('filtroNomeOrgaoCI')?.value||'').toLowerCase().trim();
     const status = document.getElementById('filtroStatusCI')?.value;
     const situacao = document.getElementById('filtroSituacaoCI')?.value;
     const siafi = (document.getElementById('filtroSiafiCI')?.value||'').toLowerCase().trim();
+    const cnpj = (document.getElementById('filtroCnpjCI')?.value||'').replace(/\D/g,'').toLowerCase().trim();
     const razao = (document.getElementById('filtroRazaoCI')?.value||'').toLowerCase().trim();
     const municipio = (document.getElementById('filtroMunicipioCI')?.value||'').toLowerCase().trim();
     dadosFiltradosCI = dadosCompletos.filter(d => {
         if (ano && d.ano !== ano) return false;
         if (cod && !(d.codigo_orgao||'').toLowerCase().includes(cod)) return false;
         if (orgao && !(d.sigla||'').toLowerCase().includes(orgao)) return false;
+        if (nomeOrgao && !(d.orgao||'').toLowerCase().includes(nomeOrgao)) return false;
         if (status && d.status !== status) return false;
         if (situacao && d.situacao !== situacao) return false;
         if (siafi && !(d.numero_siafi||'').toLowerCase().includes(siafi)) return false;
+        if (cnpj && !(d.cnpj_proponente||'').replace(/\D/g,'').includes(cnpj)) return false;
         if (razao && !(d.razao_social||'').toLowerCase().includes(razao)) return false;
         if (municipio && !(d.municipio||'').toLowerCase().includes(municipio)) return false;
         return true;
@@ -1450,10 +1484,9 @@ window.aplicarFiltrosCI = function() {
     paginacaoCI.totalPaginas = Math.ceil(window.cifiltrados.length / paginacaoCI.itensPorPagina);
     atualizarTabelaCI();
 };
-
 window.limparFiltrosCI = function() {
     ['filtroAnoCI','filtroStatusCI','filtroSituacaoCI'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
-    ['filtroCodOrgaoCI','filtroOrgaoCI','filtroSiafiCI','filtroRazaoCI','filtroMunicipioCI'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+    ['filtroCodOrgaoCI','filtroOrgaoCI','filtroNomeOrgaoCI','filtroSiafiCI','filtroCnpjCI','filtroRazaoCI','filtroMunicipioCI'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
     dadosFiltradosCI = [...dadosCompletos];
     window.cifiltrados = ordenarDados(dadosFiltradosCI, sortConfigCI.coluna, sortConfigCI.direcao);
     paginacaoCI.paginaAtual = 1;
@@ -1486,6 +1519,7 @@ function renderizarSeletorColunas() {
             <div class="column-selector-item"><input type="checkbox" id="colAno" ${colunasVisiveis.ano?'checked':''} onchange="atualizarColunasCI('ano',this.checked)"><label for="colAno">Ano</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colCodOrgao" ${colunasVisiveis.codigo_orgao?'checked':''} onchange="atualizarColunasCI('codigo_orgao',this.checked)"><label for="colCodOrgao">Código Órgão</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colSigla" ${colunasVisiveis.sigla?'checked':''} onchange="atualizarColunasCI('sigla',this.checked)"><label for="colSigla">Sigla</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colOrgao" ${colunasVisiveis.orgao?'checked':''} onchange="atualizarColunasCI('orgao',this.checked)"><label for="colOrgao">Órgão</label></div>
 
             <div class="column-selector-item"><span class="fixed-column-badge">Fixa</span><label>Nº SIAFI</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colSituacao" ${colunasVisiveis.situacao?'checked':''} onchange="atualizarColunasCI('situacao',this.checked)"><label for="colSituacao">Situação</label></div>
@@ -1904,10 +1938,17 @@ function renderizarDownloads() {
                 <i class="material-icons">print</i> PDF — Todos os Convênios
             </button>
         </div>
-    </div>
+    </div>`;
+    setTimeout(iframeUpdateHeight, 300);
+}
 
+function renderizarDicionario() {
+    const container = document.getElementById('dicionario-content');
+    if (!container) return;
+    container.innerHTML = `
     <div class="filter-container">
-        <h5 style="font-size:14px;font-weight:700;color:#20445d;margin-bottom:12px;"><i class="material-icons" style="vertical-align:middle;margin-right:4px;">info</i> Metadados — Dicionário de Variáveis</h5>
+        <h5 style="font-size:14px;font-weight:700;color:#20445d;margin-bottom:12px;"><i class="material-icons" style="vertical-align:middle;margin-right:4px;">menu_book</i> Dicionário de Dados — Convênios de Saída</h5>
+        <p style="font-size:13px;color:#6c757d;margin-bottom:16px;">Descrição de cada campo disponível no conjunto de dados de Convênios de Saída do Estado de Minas Gerais.</p>
         <div class="metadata-container">
             <div class="metadata-header"><i class="material-icons me-2" style="vertical-align:middle">handshake</i> Convênios de Saída</div>
             <div class="table-responsive">
@@ -2048,7 +2089,7 @@ function renderizarPagamentos() {
             </div>
         </div>
         <div class="botoes-abaixo">
-            <button class="btn-pesquisa" onclick="aplicarFiltrosPG()"><i class="material-icons">search</i> Pesquisar</button>
+            <button class="btn-pesquisa" onclick="aplicarFiltrosPG()"><i class="material-icons">filter_alt</i> Atualizar Filtros</button>
             <button class="btn-secondary-custom" onclick="limparFiltrosPG()"><i class="material-icons">clear</i> Limpar Filtros</button>
         </div>
     </div>
