@@ -5,6 +5,9 @@ import os
 
 REPO = Path(__file__).parent
 UPLOAD = REPO / "upload"
+DATA = REPO / "data"
+
+DATA.mkdir(exist_ok=True)
 
 ARQUIVO = UPLOAD / "CONVENIOSAIDA.xlsx"
 
@@ -24,9 +27,9 @@ print(list(abas.keys()))
 
 arquivos_gerados = 0
 
-for aba in abas:
+for nome_aba, df in abas.items():
 
-    df = abas[aba]
+    print(f"Processando aba: {nome_aba}")
 
     # remove primeira coluna
     df = df.iloc[:, 1:]
@@ -37,14 +40,23 @@ for aba in abas:
     # remove colunas vazias
     df = df.dropna(axis=1, how="all")
 
-    nome_saida = aba.strip().lower() + ".xlsx"
+    # tenta encontrar o ano no nome da aba
+    ano = "".join(filter(str.isdigit, str(nome_aba)))
+
+    if ano not in ["2022", "2023", "2024", "2025", "2026"]:
+        print(f"Aba ignorada (ano não identificado): {nome_aba}")
+        continue
+
+    nome_saida = f"empenho{ano}.xlsx"
+
+    caminho_saida = DATA / nome_saida
 
     df.to_excel(
-        UPLOAD / nome_saida,
+        caminho_saida,
         index=False
     )
 
-    print(f"Gerado: {nome_saida}")
+    print(f"Gerado: {caminho_saida}")
 
     arquivos_gerados += 1
 
@@ -64,7 +76,7 @@ if arquivos_gerados > 0:
     if resultado.stdout.strip():
 
         subprocess.run(
-            ["git", "add", "upload"],
+            ["git", "add", "data"],
             cwd=REPO,
             check=True
         )
@@ -74,7 +86,7 @@ if arquivos_gerados > 0:
                 "git",
                 "commit",
                 "-m",
-                "Atualização automática portal convenios saida"
+                "Atualização automática portal empenho"
             ],
             cwd=REPO,
             check=True
