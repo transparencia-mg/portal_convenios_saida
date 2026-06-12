@@ -527,13 +527,13 @@
                     </button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" id="downloads-tab" data-bs-toggle="tab" data-bs-target="#downloads">
-                        <i class="material-icons">download</i>Downloads
+                    <button class="nav-link" id="dicionario-tab" data-bs-toggle="tab" data-bs-target="#dicionario">
+                        <i class="material-icons">menu_book</i>Dicionário de Dados
                     </button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" id="dicionario-tab" data-bs-toggle="tab" data-bs-target="#dicionario">
-                        <i class="material-icons">menu_book</i>Dicionário de Dados
+                    <button class="nav-link" id="downloads-tab" data-bs-toggle="tab" data-bs-target="#downloads">
+                        <i class="material-icons">download</i>Downloads
                     </button>
                 </li>
             </ul>
@@ -640,16 +640,20 @@
 // 1. CONFIGURAÇÕES E VARIÁVEIS GLOBAIS
 // ============================================================
 const CSV_URL = 'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/convenios_saida.csv';
-const EMPENHOS_CSV_URLS = [
-    'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/empenho2022.csv',
-    'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/empenho2023.csv',
-    'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/empenho2024.csv',
-    'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/empenho2025.csv',
-    'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/empenho2026.csv',
-];
+const BASE_DADOS_URL = 'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/';
+const ANOS_PAGAMENTOS = [2022, 2023, 2024, 2025, 2026];
+// pagamentoAAAA.csv  → execução do exercício (V. Empenhado, V. Liquidado, V. Pago Financeiro)
+const PAGAMENTOS_CSV_URLS    = ANOS_PAGAMENTOS.map(a => `${BASE_DADOS_URL}pagamento${a}.csv`);
+// pagamentorpAAAA.csv → Restos a Pagar: despesas de exercícios anteriores pagas no ano AAAA
+//                       (V. Liquidado RP, V. Pago Processado, V. Pago Não Processado)
+const PAGAMENTOS_RP_CSV_URLS = ANOS_PAGAMENTOS.map(a => `${BASE_DADOS_URL}pagamentorp${a}.csv`);
 const PORTAL_DADOS_ABERTOS_URL = 'https://dados.mg.gov.br/dataset/convenios-saida';
 
-let dadosEmpenhos = null;     // cache global dos empenhos normalizados (todos os anos; inclui valores pagos)
+// Somente convênios nestes status serão exibidos no dashboard (demais ficam ocultos)
+const STATUS_EXIBIDOS = ['vigente', 'encerrado'];
+
+let dadosEmpenhos = null;     // cache global: 1 linha consolidada por empenho (orçamento + RP somados)
+let dadosPagamentosDetalhe = null; // cache global: registros individualizados (origem orçamento ou RP)
 
 let dadosCompletos = [];
 let dadosFiltradosVG = [];
@@ -784,7 +788,7 @@ function ordenarDados(dados, coluna, direcao) {
     return [...dados].sort((a, b) => {
         let va = a[coluna] !== undefined && a[coluna] !== null ? a[coluna] : '';
         let vb = b[coluna] !== undefined && b[coluna] !== null ? b[coluna] : '';
-        const numericos = ['valor_concedente','valor_parlamentar','valor_empenhado','valor_pago','valor_total','total_convenios','emp_qtd','emp_valor_pago','emp_vp_financeiro','emp_vp_rp','vp_financeiro','vp_rp','vp_total'];
+        const numericos = ['valor_concedente','valor_parlamentar','valor_empenhado','valor_liquidado','valor_pago','valor_total','total_convenios','emp_qtd','emp_valor_empenhado','emp_valor_liquidado','emp_valor_pago','emp_vp_financeiro','emp_vp_rp','vp_financeiro','vp_processado','vp_nao_processado','vp_rp','vp_total'];
         if (numericos.includes(coluna)) { va = parsearValor(va); vb = parsearValor(vb); }
         else { va = va.toString().toLowerCase(); vb = vb.toString().toLowerCase(); }
         return direcao === 'asc' ? (va < vb ? -1 : va > vb ? 1 : 0) : (va > vb ? -1 : va < vb ? 1 : 0);
@@ -844,13 +848,18 @@ async function carregarDados() {
                         municipio:              row['municipio'] || row['MUNICIPIO'] || '',
                         _raw: row
                     };
-                }).filter(d => d.numero_siafi || d.orgao);
+                }).filter(d => d.numero_siafi || d.orgao)
+                  // Exibir somente convênios com status parametrizado (Vigente e Encerrado)
+                  .filter(d => {
+                      const s = (d.status || '').toLowerCase().trim();
+                      return STATUS_EXIBIDOS.some(t => s.includes(t));
+                  });
 
                 dadosFiltradosVG = [...dadosCompletos];
                 dadosFiltradosCI = [...dadosCompletos];
 
-                // Carregar empenhos e enriquecer dadosCompletos
-                mostrarLoading(true, 'Carregando empenhos...');
+                // Carregar pagamentos (orçamento + RP) e enriquecer dadosCompletos
+                mostrarLoading(true, 'Carregando pagamentos...');
                 carregarEEnriquecerEmpenhos().then(() => {
                     renderizarVisaoGeral();
                     renderizarConsulta();
@@ -882,76 +891,169 @@ async function _fetchCSV(url) {
 }
 
 // ------------------------------------------------------------
-// Leitor dos novos arquivos empenhoAAAA.csv
-// Layout: separador ';', 1ª linha "unnamed_*" (descartada),
-// 2ª linha = cabeçalho real (com nomes duplicados → leitura POSICIONAL).
-// Colunas: 0 índice vazio | 1 Ano de Exercício | 2 ContratoConvênio Saída (= nº SIAFI)
-//          3-5 UO Código/Sigla/Nome | 6 Nº Empenho | 7 Ano Empenho | 8 Data Registro
-//          9-10 Credor Razão/CNPJ | 11-12 Elemento Cód/Desc | 13-14 Item Cód/Desc
-//          15-16 Fonte Cód/Desc | 17-18 Credor (duplicado) | 19 V. Empenhado
-//          20 V. Liquidado | 21 V. Pago Financeiro | 22 V. Liquidado RP | 23 V. Pago RP
+// Leitores dos arquivos pagamentoAAAA.csv e pagamentorpAAAA.csv
+// Separador ';', com cabeçalho. Leitura POR NOME DE COLUNA
+// (robusta à ordem das colunas, que difere entre os dois layouts).
+//
+// pagamentoAAAA  (tipo 'orc' — execução do exercício AAAA):
+//   contratoconvenio_saida; numero_empenho; data_registro_doc_empenho;
+//   razao_social_credor; cnpj_cpf_credor_formatado;
+//   unidade_orcamentaria_codigo/sigla/nome; elemento/item/fonte (cód+desc);
+//   valor_despesa_empenhada; valor_despesa_liquidada; valor_pago_financeiro
+//
+// pagamentorpAAAA (tipo 'rp' — Restos a Pagar: despesas de exercícios
+//   anteriores pagas no exercício AAAA):
+//   mesmas colunas cadastrais (sigla/código em ordem trocada) e
+//   valor_despesa_liquidada; valor_pago_processado; valor_pago_nao_processado
 // ------------------------------------------------------------
-async function _fetchEmpenhoCSV(url) {
-    try {
-        const resp = await fetch(url);
-        if (!resp.ok) return [];
-        const text = await resp.text();
-        return await new Promise(resolve => {
-            Papa.parse(text, { header: false, skipEmptyLines: true, delimiter: ';', complete: r => {
-                const linhas = r.data;
-                // Localiza a linha de cabeçalho real (contém "Empenho") e começa após ela
-                let inicio = 1;
-                for (let i = 0; i < Math.min(linhas.length, 5); i++) {
-                    if ((linhas[i] || []).some(c => (c || '').toString().includes('Empenho'))) { inicio = i + 1; break; }
-                }
-                const num = v => parseFloat((v ?? '').toString().replace(',', '.')) || 0;
-                const txt = v => (v ?? '').toString().trim();
-                const out = [];
-                for (let i = inicio; i < linhas.length; i++) {
-                    const c = linhas[i];
-                    if (!c || c.length < 24) continue;
-                    const siafi = txt(c[2]).replace(/[,\.]\d+$/, '');
-                    if (!siafi) continue;
-                    const vpFin = num(c[21]);
-                    const vpRP  = num(c[23]);
-                    out.push({
-                        ano_exercicio:      txt(c[1]),
-                        numero_siafi:       siafi,
-                        uo_codigo:          txt(c[3]),
-                        uo_sigla:           txt(c[4]),
-                        uo_nome:            txt(c[5]),
-                        numero_empenho:     txt(c[6]),
-                        ano_empenho:        txt(c[7]),
-                        data_empenho:       txt(c[8]),
-                        credor_razao:       txt(c[9])  || txt(c[17]),
-                        credor_cnpj:        txt(c[10]) || txt(c[18]),
-                        elemento_cod:       txt(c[11]),
-                        elemento_desc:      txt(c[12]),
-                        item_cod:           txt(c[13]),
-                        item_desc:          txt(c[14]),
-                        fonte_cod:          txt(c[15]),
-                        fonte_desc:         txt(c[16]),
-                        valor_empenhado:    num(c[19]),
-                        valor_liquidado:    num(c[20]),
-                        vp_financeiro:      vpFin,
-                        valor_liquidado_rp: num(c[22]),
-                        vp_rp:              vpRP,
-                        vp_total:           vpFin + vpRP,
-                    });
-                }
-                resolve(out);
-            }});
+function _anoDaUrl(url) {
+    const m = (url || '').toString().match(/(\d{4})\.csv/i);
+    return m ? m[1] : '';
+}
+
+// Lê o CSV em STREAMING (Papa download+chunk): os arquivos somam ~250 MB no total,
+// então as linhas são filtradas durante o parse — só ficam em memória as que
+// pertencem a um SIAFI válido (convênios Vigente/Encerrado do conveniossaida).
+function _fetchPagamentoCSV(url, tipo, siafisValidos) {
+    return new Promise(resolve => {
+        const anoExercicio = _anoDaUrl(url);
+        const num = v => parseFloat((v ?? '').toString().replace(',', '.')) || 0;
+        const txt = v => (v ?? '').toString().trim();
+        const out = [];
+        Papa.parse(url, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            delimiter: ';',
+            transformHeader: h => (h ?? '').toString().replace(/^\ufeff/, '').trim().toLowerCase(),
+            chunk: results => {
+                (results.data || []).forEach(row => {
+                    const siafi = txt(row['contratoconvenio_saida']).replace(/[,\.]\d+$/, '');
+                    if (!siafi) return;
+                    // Os arquivos contêm contratos E convênios; mantém só convênios exibidos
+                    if (siafisValidos && !siafisValidos.has(siafi)) return;
+                    const reg = {
+                        tipo:           tipo, // 'orc' = orçamento do exercício | 'rp' = restos a pagar
+                        ano_exercicio:  anoExercicio,
+                        numero_siafi:   siafi,
+                        numero_empenho: txt(row['numero_empenho']),
+                        data_empenho:   txt(row['data_registro_doc_empenho']),
+                        credor_razao:   txt(row['razao_social_credor']),
+                        credor_cnpj:    txt(row['cnpj_cpf_credor_formatado']),
+                        uo_codigo:      txt(row['unidade_orcamentaria_codigo']),
+                        uo_sigla:       txt(row['unidade_orcamentaria_sigla']),
+                        uo_nome:        txt(row['unidade_orcamentaria_nome']),
+                        elemento_cod:   txt(row['elemento_despesa_codigo']),
+                        elemento_desc:  txt(row['elemento_despesa_descricao']),
+                        item_cod:       txt(row['item_despesa_codigo']),
+                        item_desc:      txt(row['item_despesa_descricao']),
+                        fonte_cod:      txt(row['fonte_recurso_codigo']),
+                        fonte_desc:     txt(row['fonte_recurso_descricao']),
+                        valor_liquidado: num(row['valor_despesa_liquidada']),
+                    };
+                    if (tipo === 'orc') {
+                        reg.valor_empenhado   = num(row['valor_despesa_empenhada']);
+                        reg.vp_financeiro     = num(row['valor_pago_financeiro']);
+                        reg.vp_processado     = 0;
+                        reg.vp_nao_processado = 0;
+                    } else {
+                        reg.valor_empenhado   = 0;
+                        reg.vp_financeiro     = 0;
+                        reg.vp_processado     = num(row['valor_pago_processado']);
+                        reg.vp_nao_processado = num(row['valor_pago_nao_processado']);
+                    }
+                    reg.valor_pago = reg.vp_financeiro + reg.vp_processado + reg.vp_nao_processado;
+                    out.push(reg);
+                });
+            },
+            complete: () => resolve(out),
+            error: e => { console.warn('CSV de pagamento não carregado:', url, e); resolve(out); }
         });
-    } catch(e) { console.warn('CSV de empenho não carregado:', url, e); return []; }
+    });
+}
+
+// Consolida os registros individualizados em UMA LINHA ÚNICA por empenho
+// (chave: SIAFI + nº empenho), somando orçamento do exercício + Restos a Pagar:
+//   valor_empenhado = V. Empenhado (pagamentoAAAA)
+//   valor_liquidado = V. Liquidado (pagamentoAAAA) + V. Liquidado (pagamentorpAAAA)
+//   valor_pago      = V. Pago Financeiro + V. Pago Processado + V. Pago Não Processado
+function consolidarPagamentos(detalhes) {
+    const mapa = new Map();
+    detalhes.forEach(p => {
+        // A data de registro integra a chave: o nº de empenho pode se repetir entre
+        // exercícios (ex.: empenho nº 33 de 2022 e nº 33 de 2024 do mesmo convênio),
+        // mas a linha de RP preserva a data de registro do empenho original.
+        const chave = `${p.numero_siafi}|${p.numero_empenho}|${p.data_empenho}`;
+        if (!mapa.has(chave)) mapa.set(chave, {
+            numero_siafi: p.numero_siafi, numero_empenho: p.numero_empenho,
+            data_empenho: '', credor_razao: '', credor_cnpj: '',
+            uo_codigo: '', uo_sigla: '', uo_nome: '',
+            elemento_cod: '', elemento_desc: '', item_cod: '', item_desc: '',
+            fonte_cod: '', fonte_desc: '',
+            _exercicios: new Set(), _temOrc: false,
+            valor_empenhado: 0, valor_liquidado: 0,
+            vp_financeiro: 0, vp_processado: 0, vp_nao_processado: 0,
+            valor_pago: 0,
+            detalhes: []
+        });
+        const reg = mapa.get(chave);
+        // Dados cadastrais: prioriza a linha do orçamento (pagamentoAAAA); RP preenche faltantes
+        const priorizar = p.tipo === 'orc' || !reg._temOrc;
+        if (priorizar) {
+            if (p.data_empenho)  reg.data_empenho  = p.data_empenho;
+            if (p.credor_razao)  reg.credor_razao  = p.credor_razao;
+            if (p.credor_cnpj)   reg.credor_cnpj   = p.credor_cnpj;
+            if (p.uo_codigo)     reg.uo_codigo     = p.uo_codigo;
+            if (p.uo_sigla)      reg.uo_sigla      = p.uo_sigla;
+            if (p.uo_nome)       reg.uo_nome       = p.uo_nome;
+            if (p.elemento_cod)  reg.elemento_cod  = p.elemento_cod;
+            if (p.elemento_desc) reg.elemento_desc = p.elemento_desc;
+            if (p.item_cod)      reg.item_cod      = p.item_cod;
+            if (p.item_desc)     reg.item_desc     = p.item_desc;
+            if (p.fonte_cod)     reg.fonte_cod     = p.fonte_cod;
+            if (p.fonte_desc)    reg.fonte_desc    = p.fonte_desc;
+        }
+        if (p.tipo === 'orc') reg._temOrc = true;
+        if (p.ano_exercicio) reg._exercicios.add(p.ano_exercicio);
+        reg.valor_empenhado   += p.valor_empenhado;
+        reg.valor_liquidado   += p.valor_liquidado;
+        reg.vp_financeiro     += p.vp_financeiro;
+        reg.vp_processado     += p.vp_processado;
+        reg.vp_nao_processado += p.vp_nao_processado;
+        reg.valor_pago        += p.valor_pago;
+        reg.detalhes.push(p);
+    });
+    return Array.from(mapa.values()).map(r => ({
+        ...r,
+        exercicios:    [...r._exercicios].sort(),
+        ano_exercicio: [...r._exercicios].sort().join(', '),
+        vp_rp:         r.vp_processado + r.vp_nao_processado,
+        vp_total:      r.valor_pago,
+    }));
 }
 
 async function carregarEEnriquecerEmpenhos() {
     try {
-        mostrarLoading(true, 'Carregando empenhos de todos os anos...');
+        // Conjunto de SIAFIs exibidos (dadosCompletos já vem filtrado p/ Vigente/Encerrado):
+        // usado para descartar, ainda durante o parse, as linhas de contratos e de
+        // convênios fora do escopo (os arquivos somam ~250 MB).
+        const siafiSet = new Set(dadosCompletos.map(d => d.numero_siafi).filter(Boolean));
 
-        // Carregar todos os arquivos empenhoAAAA.csv em paralelo
-        const arrays = await Promise.all(EMPENHOS_CSV_URLS.map(_fetchEmpenhoCSV));
-        dadosEmpenhos = arrays.flat();
+        const tarefas = [
+            ...PAGAMENTOS_CSV_URLS.map(u => ({ url: u, tipo: 'orc' })),
+            ...PAGAMENTOS_RP_CSV_URLS.map(u => ({ url: u, tipo: 'rp' })),
+        ];
+        let concluidos = 0;
+        mostrarLoading(true, `Carregando pagamentos... 0/${tarefas.length} arquivos`);
+        const arrays = await Promise.all(tarefas.map(t =>
+            _fetchPagamentoCSV(t.url, t.tipo, siafiSet).then(r => {
+                concluidos++;
+                mostrarLoading(true, `Carregando pagamentos... ${concluidos}/${tarefas.length} arquivos`);
+                return r;
+            })
+        ));
+        dadosPagamentosDetalhe = arrays.flat();          // registros individualizados (modal)
+        dadosEmpenhos = consolidarPagamentos(dadosPagamentosDetalhe); // 1 linha por empenho
 
         // ----- Mapa código UO → nome do órgão -----
         const mapaOrgaoNome = new Map();
@@ -959,22 +1061,23 @@ async function carregarEEnriquecerEmpenhos() {
             if (e.uo_codigo && e.uo_nome && !mapaOrgaoNome.has(e.uo_codigo)) mapaOrgaoNome.set(e.uo_codigo, e.uo_nome);
         });
 
-        // ----- Mapa SIAFI → agregados de empenhos/pagamentos -----
+        // ----- Mapa SIAFI → agregados consolidados (orçamento + RP) -----
         const mapaEmp = new Map();
         dadosEmpenhos.forEach(e => {
             if (!mapaEmp.has(e.numero_siafi)) mapaEmp.set(e.numero_siafi, {
                 qtd: 0, numeros: [], datas: [], anos: new Set(),
                 valor_empenhado: 0, valor_liquidado: 0,
-                vp_financeiro: 0, vp_rp: 0, vp_total: 0
+                vp_financeiro: 0, vp_processado: 0, vp_nao_processado: 0, valor_pago: 0
             });
             const reg = mapaEmp.get(e.numero_siafi);
             reg.qtd++;
-            reg.valor_empenhado += e.valor_empenhado;
-            reg.valor_liquidado += e.valor_liquidado;
-            reg.vp_financeiro   += e.vp_financeiro;
-            reg.vp_rp           += e.vp_rp;
-            reg.vp_total        += e.vp_total;
-            if (e.ano_exercicio) reg.anos.add(e.ano_exercicio);
+            reg.valor_empenhado   += e.valor_empenhado;
+            reg.valor_liquidado   += e.valor_liquidado;
+            reg.vp_financeiro     += e.vp_financeiro;
+            reg.vp_processado     += e.vp_processado;
+            reg.vp_nao_processado += e.vp_nao_processado;
+            reg.valor_pago        += e.valor_pago;
+            e.exercicios.forEach(a => reg.anos.add(a));
             if (e.numero_empenho && !reg.numeros.includes(e.numero_empenho)) reg.numeros.push(e.numero_empenho);
             if (e.data_empenho) reg.datas.push(e.data_empenho);
         });
@@ -987,27 +1090,35 @@ async function carregarEEnriquecerEmpenhos() {
 
             const info = mapaEmp.get(d.numero_siafi);
             if (info) {
-                d.emp_qtd           = info.qtd;
-                d.emp_numeros       = info.numeros.slice(-3).join(', ');
-                d.emp_data          = info.datas.slice().sort().pop() || '';
-                d.emp_anos          = [...info.anos].sort().join(', ');
-                d.emp_vp_financeiro = info.vp_financeiro;
-                d.emp_vp_rp         = info.vp_rp;
-                d.emp_valor_pago    = info.vp_total;
+                d.emp_qtd               = info.qtd;
+                d.emp_numeros           = info.numeros.slice(-3).join(', ');
+                d.emp_data              = info.datas.slice().sort().pop() || '';
+                d.emp_anos              = [...info.anos].sort().join(', ');
+                d.emp_valor_empenhado   = info.valor_empenhado;
+                d.emp_valor_liquidado   = info.valor_liquidado;
+                d.emp_vp_financeiro     = info.vp_financeiro;
+                d.emp_vp_processado     = info.vp_processado;
+                d.emp_vp_nao_processado = info.vp_nao_processado;
+                d.emp_vp_rp             = info.vp_processado + info.vp_nao_processado;
+                d.emp_valor_pago        = info.valor_pago;
             } else {
-                d.emp_qtd           = 0;
-                d.emp_numeros       = '';
-                d.emp_data          = '';
-                d.emp_anos          = '';
-                d.emp_vp_financeiro = null;
-                d.emp_vp_rp         = null;
-                d.emp_valor_pago    = null;
+                d.emp_qtd               = 0;
+                d.emp_numeros           = '';
+                d.emp_data              = '';
+                d.emp_anos              = '';
+                d.emp_valor_empenhado   = null;
+                d.emp_valor_liquidado   = null;
+                d.emp_vp_financeiro     = null;
+                d.emp_vp_processado     = null;
+                d.emp_vp_nao_processado = null;
+                d.emp_vp_rp             = null;
+                d.emp_valor_pago        = null;
             }
         });
 
         window._mapaOrgaoNome = mapaOrgaoNome;
     } catch(e) {
-        console.warn('Erro ao carregar empenhos:', e);
+        console.warn('Erro ao carregar pagamentos:', e);
     }
 }
 
@@ -1683,20 +1794,21 @@ window.verDetalhes = function(siafi) {
         <div class="row mt-2">
             <div class="col-md-4 col-6">
                 <div class="info-card">
-                    <div class="info-label">V. Pago Financeiro (Empenhos)</div>
-                    <div class="info-value highlight" style="font-size:14px">${formatarMoeda(d.emp_vp_financeiro)}</div>
+                    <div class="info-label">V. Empenhado (Pagamentos)</div>
+                    <div class="info-value highlight" style="font-size:14px">${formatarMoeda(d.emp_valor_empenhado)}</div>
                 </div>
             </div>
             <div class="col-md-4 col-6">
                 <div class="info-card">
-                    <div class="info-label">V. Pago Restos a Pagar (RP)</div>
-                    <div class="info-value highlight" style="font-size:14px">${formatarMoeda(d.emp_vp_rp)}</div>
+                    <div class="info-label">V. Liquidado (Exercício + RP)</div>
+                    <div class="info-value highlight" style="font-size:14px">${formatarMoeda(d.emp_valor_liquidado)}</div>
                 </div>
             </div>
             <div class="col-md-4 col-6">
                 <div class="info-card" style="border-left-color:#28a745">
-                    <div class="info-label">V. Pago Total (Empenhos ${d.emp_anos ? '· ' + d.emp_anos : ''})</div>
+                    <div class="info-label">V. Pago Total (Pagamentos ${d.emp_anos ? '· ' + d.emp_anos : ''})</div>
                     <div class="info-value highlight" style="font-size:14px;color:#28a745">${formatarMoeda(d.emp_valor_pago)}</div>
+                    ${d.emp_valor_pago !== null ? `<div style="font-size:10px;color:#6c757d;margin-top:4px;">Financeiro: ${formatarMoeda(d.emp_vp_financeiro)} · RP Processado: ${formatarMoeda(d.emp_vp_processado)} · RP Não Processado: ${formatarMoeda(d.emp_vp_nao_processado)}</div>` : ''}
                 </div>
             </div>
         </div>
@@ -1741,16 +1853,21 @@ async function carregarEmpenhoModal() {
     if (!modalConvenioAtual) return;
 
     const container = document.getElementById('modalEmpenhos');
-    container.innerHTML = `<div class="text-center py-4"><div class="spinner-border" style="color:#20445d;width:1.8rem;height:1.8rem;" role="status"></div><div style="margin-top:10px;font-size:13px;color:#6c757d;">Carregando empenhos...</div></div>`;
+    container.innerHTML = `<div class="text-center py-4"><div class="spinner-border" style="color:#20445d;width:1.8rem;height:1.8rem;" role="status"></div><div style="margin-top:10px;font-size:13px;color:#6c757d;">Carregando pagamentos...</div></div>`;
 
     try {
-        // Carregar empenhos (todos os anos) se ainda não carregados
+        // Carregar pagamentos (todos os anos, orçamento + RP) se ainda não carregados
         if (!dadosEmpenhos) {
-            const arrays = await Promise.all(EMPENHOS_CSV_URLS.map(_fetchEmpenhoCSV));
-            dadosEmpenhos = arrays.flat();
+            const siafiSet = new Set(dadosCompletos.map(d => d.numero_siafi).filter(Boolean));
+            const arrays = await Promise.all([
+                ...PAGAMENTOS_CSV_URLS.map(u => _fetchPagamentoCSV(u, 'orc', siafiSet)),
+                ...PAGAMENTOS_RP_CSV_URLS.map(u => _fetchPagamentoCSV(u, 'rp', siafiSet)),
+            ]);
+            dadosPagamentosDetalhe = arrays.flat();
+            dadosEmpenhos = consolidarPagamentos(dadosPagamentosDetalhe);
         }
 
-        // Filtrar empenhos pelo SIAFI (coluna ContratoConvênio Saída)
+        // Filtrar pelo SIAFI (coluna contratoconvenio_saida)
         const siafi = (modalConvenioAtual.numero_siafi || '').toString().trim();
         const empenhos = dadosEmpenhos
             .filter(e => e.numero_siafi === siafi)
@@ -1762,7 +1879,7 @@ async function carregarEmpenhoModal() {
         if (empenhos.length === 0) {
             container.innerHTML = `<div class="text-center py-4" style="color:#6c757d;font-size:13px;">
                 <i class="material-icons" style="font-size:36px;display:block;margin-bottom:8px;color:#ffc107;">info</i>
-                Nenhum empenho encontrado para o convênio SIAFI <strong>${siafi}</strong> nos exercícios de 2022 a 2026.
+                Nenhum empenho/pagamento encontrado para o convênio SIAFI <strong>${siafi}</strong> nos exercícios de ${ANOS_PAGAMENTOS[0]} a ${ANOS_PAGAMENTOS[ANOS_PAGAMENTOS.length-1]}.
             </div>`;
             return;
         }
@@ -1771,46 +1888,46 @@ async function carregarEmpenhoModal() {
         window._empenhosModal = empenhos;
         document.getElementById('btnExportEmpenhoCSV').style.display = '';
 
-        // Totais
-        const totFin   = empenhos.reduce((a, e) => a + e.vp_financeiro, 0);
-        const totRP    = empenhos.reduce((a, e) => a + e.vp_rp, 0);
-        const totPago  = empenhos.reduce((a, e) => a + e.vp_total, 0);
-        const totEmpd  = empenhos.reduce((a, e) => a + e.valor_empenhado, 0);
-        const totLiq   = empenhos.reduce((a, e) => a + e.valor_liquidado, 0);
-        const temOrcamentario = totEmpd !== 0 || totLiq !== 0 || totFin !== 0;
+        // Totais consolidados
+        const totEmpd = empenhos.reduce((a, e) => a + e.valor_empenhado, 0);
+        const totLiq  = empenhos.reduce((a, e) => a + e.valor_liquidado, 0);
+        const totFin  = empenhos.reduce((a, e) => a + e.vp_financeiro, 0);
+        const totProc = empenhos.reduce((a, e) => a + e.vp_processado, 0);
+        const totNPro = empenhos.reduce((a, e) => a + e.vp_nao_processado, 0);
+        const totPago = empenhos.reduce((a, e) => a + e.valor_pago, 0);
 
-        const exercicios = [...new Set(empenhos.map(e => e.ano_exercicio).filter(Boolean))].sort().join(', ') || '-';
+        const exercicios = [...new Set(empenhos.flatMap(e => e.exercicios))].sort().join(', ') || '-';
         const credores   = [...new Set(empenhos.map(e => e.credor_razao).filter(Boolean))];
-        const fmt = v => v.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+        const fmt = v => (v || 0).toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
 
-        // Cartão-resumo
+        // Cartão-resumo consolidado
         let html = `
         <div style="background:#e8f4fd;border-left:4px solid #1a3a5c;border-radius:6px;padding:10px 16px;margin-bottom:14px;display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
             <div><span style="font-size:11px;color:#6c757d;font-weight:600;text-transform:uppercase;">Total de Empenhos</span><br><strong style="font-size:18px;color:#1a3a5c;">${empenhos.length}</strong></div>
-            <div><span style="font-size:11px;color:#6c757d;font-weight:600;text-transform:uppercase;">V. Pago Financeiro</span><br><strong style="font-size:15px;color:#1a3a5c;">${fmt(totFin)}</strong></div>
-            <div><span style="font-size:11px;color:#856404;font-weight:600;text-transform:uppercase;">V. Pago Restos a Pagar</span><br><strong style="font-size:15px;color:#856404;">${fmt(totRP)}</strong></div>
-            <div><span style="font-size:11px;color:#28a745;font-weight:600;text-transform:uppercase;">V. Pago Total</span><br><strong style="font-size:15px;color:#28a745;">${fmt(totPago)}</strong></div>
+            <div><span style="font-size:11px;color:#6c757d;font-weight:600;text-transform:uppercase;">V. Empenhado</span><br><strong style="font-size:15px;color:#1a3a5c;">${fmt(totEmpd)}</strong></div>
+            <div><span style="font-size:11px;color:#6c757d;font-weight:600;text-transform:uppercase;">V. Liquidado</span><br><strong style="font-size:15px;color:#1a3a5c;">${fmt(totLiq)}</strong></div>
+            <div><span style="font-size:11px;color:#28a745;font-weight:600;text-transform:uppercase;">V. Pago</span><br><strong style="font-size:15px;color:#28a745;">${fmt(totPago)}</strong></div>
             <div style="margin-left:auto;font-size:11px;color:#6c757d;text-align:right;">SIAFI: <strong>${siafi}</strong> | Exercícios: <strong>${exercicios}</strong>${credores.length ? `<br>Credor: <strong>${credores[0].substring(0,40)}${credores[0].length>40?'…':''}</strong>${credores.length>1?` (+${credores.length-1})`:''}` : ''}</div>
         </div>`;
 
-        // Tabela completa de empenhos
+        // ---------- Tabela CONSOLIDADA: 1 linha por empenho ----------
         html += `
+        <h6 style="font-size:13px;font-weight:700;color:#1a3a5c;margin:4px 0 8px;"><i class="material-icons" style="font-size:15px;vertical-align:middle;">summarize</i> Visão consolidada (linha única por empenho)</h6>
         <div style="overflow-x:auto;">
-        <table class="table" id="tabelaEmpenhosModal" style="font-size:12px;min-width:${temOrcamentario ? 1500 : 1300}px;">
+        <table class="table" style="font-size:12px;min-width:1300px;">
             <thead>
                 <tr>
-                    <th>Exercício</th>
+                    <th>Exercício(s)</th>
                     <th>Data Empenho</th>
                     <th>Nº Empenho</th>
-                    <th>Ano Emp.</th>
                     <th>Credor</th>
                     <th>CNPJ/CPF Credor</th>
                     <th>Elemento Despesa</th>
                     <th>Item Despesa</th>
                     <th>Fonte de Recurso</th>
-                    ${temOrcamentario ? `<th class="text-right">V. Empenhado</th><th class="text-right">V. Liquidado</th><th class="text-right">V. Pago Financeiro</th>` : ''}
-                    <th class="text-right">V. Pago RP</th>
-                    <th class="text-right">V. Pago Total</th>
+                    <th class="text-right">V. Empenhado</th>
+                    <th class="text-right">V. Liquidado</th>
+                    <th class="text-right">V. Pago</th>
                 </tr>
             </thead>
             <tbody>`;
@@ -1820,38 +1937,94 @@ async function carregarEmpenhoModal() {
                 <td style="white-space:nowrap">${e.ano_exercicio || '-'}</td>
                 <td style="white-space:nowrap">${formatarData(e.data_empenho)}</td>
                 <td style="white-space:nowrap;font-weight:600;color:#1a3a5c">${e.numero_empenho || '-'}</td>
-                <td style="white-space:nowrap">${e.ano_empenho || '-'}</td>
                 <td style="max-width:180px;word-wrap:break-word" title="${e.credor_razao || ''}">${(e.credor_razao || '-').substring(0,35)}${(e.credor_razao || '').length > 35 ? '…' : ''}</td>
                 <td style="white-space:nowrap">${e.credor_cnpj || '-'}</td>
                 <td style="max-width:170px;word-wrap:break-word" title="${e.elemento_desc || ''}">${e.elemento_cod ? e.elemento_cod + ' — ' : ''}${(e.elemento_desc || '-').substring(0,40)}${(e.elemento_desc || '').length > 40 ? '…' : ''}</td>
                 <td style="max-width:170px;word-wrap:break-word" title="${e.item_desc || ''}">${e.item_cod ? e.item_cod + ' — ' : ''}${(e.item_desc || '-').substring(0,40)}${(e.item_desc || '').length > 40 ? '…' : ''}</td>
                 <td style="max-width:170px;word-wrap:break-word" title="${e.fonte_desc || ''}">${e.fonte_cod ? e.fonte_cod + ' — ' : ''}${(e.fonte_desc || '-').substring(0,40)}${(e.fonte_desc || '').length > 40 ? '…' : ''}</td>
-                ${temOrcamentario ? `
                 <td class="text-right" style="white-space:nowrap">${e.valor_empenhado ? fmt(e.valor_empenhado) : '<span class="nao-aplica">—</span>'}</td>
                 <td class="text-right" style="white-space:nowrap">${e.valor_liquidado ? fmt(e.valor_liquidado) : '<span class="nao-aplica">—</span>'}</td>
-                <td class="text-right" style="white-space:nowrap">${e.vp_financeiro ? fmt(e.vp_financeiro) : '<span class="nao-aplica">—</span>'}</td>` : ''}
-                <td class="text-right" style="white-space:nowrap;color:#856404;font-weight:600">${e.vp_rp ? fmt(e.vp_rp) : '<span class="nao-aplica">—</span>'}</td>
-                <td class="text-right" style="white-space:nowrap;font-weight:700;color:#28a745">${fmt(e.vp_total)}</td>
+                <td class="text-right" style="white-space:nowrap;font-weight:700;color:#28a745">${fmt(e.valor_pago)}</td>
             </tr>`;
         });
 
-        const colSpanTotal = temOrcamentario ? 9 : 9;
         html += `</tbody>
             <tfoot>
                 <tr>
-                    <td colspan="${colSpanTotal}" style="font-weight:700;text-align:right;padding-right:12px;">TOTAIS</td>
-                    ${temOrcamentario ? `
+                    <td colspan="8" style="font-weight:700;text-align:right;padding-right:12px;">TOTAIS</td>
                     <td class="text-right" style="font-weight:700;white-space:nowrap">${fmt(totEmpd)}</td>
                     <td class="text-right" style="font-weight:700;white-space:nowrap">${fmt(totLiq)}</td>
-                    <td class="text-right" style="font-weight:700;white-space:nowrap">${fmt(totFin)}</td>` : ''}
-                    <td class="text-right" style="font-weight:700;white-space:nowrap;color:#856404">${fmt(totRP)}</td>
                     <td class="text-right" style="font-weight:700;white-space:nowrap;color:#28a745">${fmt(totPago)}</td>
                 </tr>
             </tfoot>
-        </table></div>
+        </table></div>`;
+
+        // ---------- Tabela INDIVIDUALIZADA: detalhamento por origem ----------
+        const detalhes = (dadosPagamentosDetalhe || [])
+            .filter(p => p.numero_siafi === siafi)
+            .slice()
+            .sort((a, b) => (b.ano_exercicio || '').localeCompare(a.ano_exercicio || '') || (b.data_empenho || '').localeCompare(a.data_empenho || ''));
+
+        if (detalhes.length) {
+            html += `
+            <h6 style="font-size:13px;font-weight:700;color:#1a3a5c;margin:18px 0 8px;"><i class="material-icons" style="font-size:15px;vertical-align:middle;">call_split</i> Detalhamento individualizado por origem</h6>
+            <div style="overflow-x:auto;">
+            <table class="table" id="tabelaEmpenhosModal" style="font-size:12px;min-width:1300px;">
+                <thead>
+                    <tr>
+                        <th>Origem</th>
+                        <th>Exercício</th>
+                        <th>Nº Empenho</th>
+                        <th>Data Empenho</th>
+                        <th>Credor</th>
+                        <th class="text-right">V. Empenhado</th>
+                        <th class="text-right">V. Liquidado</th>
+                        <th class="text-right">V. Pago Financeiro</th>
+                        <th class="text-right">V. Pago Processado</th>
+                        <th class="text-right">V. Pago Não Processado</th>
+                        <th class="text-right">V. Pago</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+            detalhes.forEach(p => {
+                const isRP = p.tipo === 'rp';
+                html += `<tr>
+                    <td style="white-space:nowrap"><span class="badge-status ${isRP ? 'badge-prestacao' : 'badge-vigente'}" title="${isRP ? 'Restos a Pagar: despesa de exercício anterior paga no exercício ' + p.ano_exercicio : 'Execução do orçamento do exercício ' + p.ano_exercicio}">${isRP ? 'Restos a Pagar' : 'Orçamento'}</span></td>
+                    <td style="white-space:nowrap">${p.ano_exercicio || '-'}</td>
+                    <td style="white-space:nowrap;font-weight:600;color:#1a3a5c">${p.numero_empenho || '-'}</td>
+                    <td style="white-space:nowrap">${formatarData(p.data_empenho)}</td>
+                    <td style="max-width:180px;word-wrap:break-word" title="${p.credor_razao || ''}">${(p.credor_razao || '-').substring(0,35)}${(p.credor_razao || '').length > 35 ? '…' : ''}</td>
+                    <td class="text-right" style="white-space:nowrap">${!isRP && p.valor_empenhado ? fmt(p.valor_empenhado) : '<span class="nao-aplica">—</span>'}</td>
+                    <td class="text-right" style="white-space:nowrap">${p.valor_liquidado ? fmt(p.valor_liquidado) : '<span class="nao-aplica">—</span>'}</td>
+                    <td class="text-right" style="white-space:nowrap">${p.vp_financeiro ? fmt(p.vp_financeiro) : '<span class="nao-aplica">—</span>'}</td>
+                    <td class="text-right" style="white-space:nowrap;color:#856404">${p.vp_processado ? fmt(p.vp_processado) : '<span class="nao-aplica">—</span>'}</td>
+                    <td class="text-right" style="white-space:nowrap;color:#856404">${p.vp_nao_processado ? fmt(p.vp_nao_processado) : '<span class="nao-aplica">—</span>'}</td>
+                    <td class="text-right" style="white-space:nowrap;font-weight:700;color:#28a745">${fmt(p.valor_pago)}</td>
+                </tr>`;
+            });
+
+            html += `</tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" style="font-weight:700;text-align:right;padding-right:12px;">TOTAIS</td>
+                        <td class="text-right" style="font-weight:700;white-space:nowrap">${fmt(totEmpd)}</td>
+                        <td class="text-right" style="font-weight:700;white-space:nowrap">${fmt(totLiq)}</td>
+                        <td class="text-right" style="font-weight:700;white-space:nowrap">${fmt(totFin)}</td>
+                        <td class="text-right" style="font-weight:700;white-space:nowrap;color:#856404">${fmt(totProc)}</td>
+                        <td class="text-right" style="font-weight:700;white-space:nowrap;color:#856404">${fmt(totNPro)}</td>
+                        <td class="text-right" style="font-weight:700;white-space:nowrap;color:#28a745">${fmt(totPago)}</td>
+                    </tr>
+                </tfoot>
+            </table></div>`;
+        }
+
+        html += `
         <div style="font-size:11px;color:#6c757d;margin-top:6px;">
             <i class="material-icons" style="font-size:13px;vertical-align:middle;">info</i>
-            V. Pago RP = pagamentos de Restos a Pagar (empenhos de exercícios anteriores). Fonte: arquivos empenho2022–2026.
+            <strong>Orçamento</strong> = execução do exercício (pagamento${ANOS_PAGAMENTOS[0]}–${ANOS_PAGAMENTOS[ANOS_PAGAMENTOS.length-1]}): V. Empenhado, V. Liquidado e V. Pago Financeiro.
+            <strong>Restos a Pagar</strong> = despesas de exercícios anteriores pagas no exercício indicado (pagamentorp${ANOS_PAGAMENTOS[0]}–${ANOS_PAGAMENTOS[ANOS_PAGAMENTOS.length-1]}): V. Liquidado, V. Pago Processado e V. Pago Não Processado.
+            Na visão consolidada, V. Liquidado soma as duas origens e V. Pago = Financeiro + Processado + Não Processado.
         </div>`;
 
         container.innerHTML = html;
@@ -1859,7 +2032,7 @@ async function carregarEmpenhoModal() {
     } catch (err) {
         container.innerHTML = `<div class="text-center py-4" style="color:#b93c42;font-size:13px;">
             <i class="material-icons" style="font-size:36px;display:block;margin-bottom:8px;">error</i>
-            Erro ao carregar empenhos: ${err.message}
+            Erro ao carregar pagamentos: ${err.message}
         </div>`;
     }
 }
@@ -1867,17 +2040,17 @@ async function carregarEmpenhoModal() {
 window.exportarEmpenhoCSV = function() {
     const empenhos = window._empenhosModal || [];
     if (!empenhos.length) return;
-    const cols = ['ano_exercicio','data_empenho','numero_empenho','ano_empenho','credor_razao','credor_cnpj',
+    const cols = ['ano_exercicio','data_empenho','numero_empenho','credor_razao','credor_cnpj',
                   'elemento_cod','elemento_desc','item_cod','item_desc','fonte_cod','fonte_desc',
-                  'valor_empenhado','valor_liquidado','vp_financeiro','vp_rp','vp_total'];
-    const labels = ['Ano Exercício','Data Empenho','Nº Empenho','Ano Empenho','Razão Social Credor','CNPJ/CPF Credor',
+                  'valor_empenhado','valor_liquidado','vp_financeiro','vp_processado','vp_nao_processado','valor_pago'];
+    const labels = ['Exercício(s)','Data Empenho','Nº Empenho','Razão Social Credor','CNPJ/CPF Credor',
                     'Elemento Despesa Cód','Elemento Despesa Desc','Item Despesa Cód','Item Despesa Desc','Fonte Recurso Cód','Fonte Recurso Desc',
-                    'Valor Empenhado','Valor Liquidado','Valor Pago Financeiro','Valor Pago RP','Valor Pago Total'];
+                    'Valor Empenhado','Valor Liquidado','Valor Pago Financeiro','Valor Pago Processado','Valor Pago Não Processado','Valor Pago'];
     const rows = [labels.join(';'), ...empenhos.map(e => cols.map(c => `"${(e[c] ?? '').toString().replace(/"/g,'""')}"`).join(';'))];
     const csv = rows.join('\n');
     const blob = new Blob(['\uFEFF'+csv], {type:'text/csv'});
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = `empenhos_${(modalConvenioAtual?.numero_siafi||'convenio')}.csv`; a.click();
+    a.download = `pagamentos_${(modalConvenioAtual?.numero_siafi||'convenio')}.csv`; a.click();
 };
 
 // ============================================================
@@ -2007,26 +2180,39 @@ function renderizarDicionario() {
         </div>
 
         <div class="metadata-container" style="margin-top:16px;">
-            <div class="metadata-header"><i class="material-icons me-2" style="vertical-align:middle">receipt_long</i> Empenhos da Despesa (empenho2022–2026)</div>
+            <div class="metadata-header"><i class="material-icons me-2" style="vertical-align:middle">receipt_long</i> Pagamentos do Exercício (pagamento2022–2026)</div>
             <div class="table-responsive">
                 <table class="metadata-table">
                     <thead><tr><th>Campo</th><th>Descrição</th><th>Tipo</th></tr></thead>
                     <tbody>
-                        <tr><td><code>ano_exercicio</code></td><td>Ano de exercício em que o pagamento foi registrado</td><td>Número</td></tr>
-                        <tr><td><code>contrato_convenio_saida</code></td><td>Número do Contrato/Convênio de Saída (corresponde ao Nº SIAFI)</td><td>Texto</td></tr>
-                        <tr><td><code>unidade_orcamentaria</code></td><td>Código, sigla e nome da unidade orçamentária responsável</td><td>Texto</td></tr>
+                        <tr><td><code>contratoconvenio_saida</code></td><td>Número do Contrato/Convênio de Saída (corresponde ao Nº SIAFI)</td><td>Texto</td></tr>
                         <tr><td><code>numero_empenho</code></td><td>Número do empenho da despesa</td><td>Texto</td></tr>
-                        <tr><td><code>ano_empenho</code></td><td>Ano em que o empenho foi emitido</td><td>Número</td></tr>
                         <tr><td><code>data_registro_doc_empenho</code></td><td>Data de registro do documento de empenho</td><td>Data</td></tr>
                         <tr><td><code>razao_social_credor</code></td><td>Razão social do credor do empenho</td><td>Texto</td></tr>
-                        <tr><td><code>cnpj_cpf_credor</code></td><td>CNPJ ou CPF do credor (formatado)</td><td>Texto</td></tr>
-                        <tr><td><code>elemento_despesa</code></td><td>Código e descrição do elemento de despesa</td><td>Texto</td></tr>
-                        <tr><td><code>item_despesa</code></td><td>Código e descrição do item de despesa</td><td>Texto</td></tr>
-                        <tr><td><code>fonte_recurso</code></td><td>Código e descrição da fonte de recurso</td><td>Texto</td></tr>
+                        <tr><td><code>cnpj_cpf_credor_formatado</code></td><td>CNPJ ou CPF do credor (formatado)</td><td>Texto</td></tr>
+                        <tr><td><code>unidade_orcamentaria_codigo/sigla/nome</code></td><td>Código, sigla e nome da unidade orçamentária responsável</td><td>Texto</td></tr>
+                        <tr><td><code>elemento_despesa_codigo/descricao</code></td><td>Código e descrição do elemento de despesa</td><td>Texto</td></tr>
+                        <tr><td><code>item_despesa_codigo/descricao</code></td><td>Código e descrição do item de despesa</td><td>Texto</td></tr>
+                        <tr><td><code>fonte_recurso_codigo/descricao</code></td><td>Código e descrição da fonte de recurso</td><td>Texto</td></tr>
                         <tr><td><code>valor_despesa_empenhada</code></td><td>Valor empenhado no exercício</td><td>Moeda</td></tr>
                         <tr><td><code>valor_despesa_liquidada</code></td><td>Valor liquidado no exercício</td><td>Moeda</td></tr>
                         <tr><td><code>valor_pago_financeiro</code></td><td>Valor pago no exercício (execução financeira)</td><td>Moeda</td></tr>
-                        <tr><td><code>valor_pago_rp</code></td><td>Valor pago de Restos a Pagar (empenhos de exercícios anteriores)</td><td>Moeda</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="metadata-container" style="margin-top:16px;">
+            <div class="metadata-header"><i class="material-icons me-2" style="vertical-align:middle">history</i> Restos a Pagar (pagamentorp2022–2026)</div>
+            <div class="table-responsive">
+                <table class="metadata-table">
+                    <thead><tr><th>Campo</th><th>Descrição</th><th>Tipo</th></tr></thead>
+                    <tbody>
+                        <tr><td colspan="3" style="background:#fffbe8;color:#856404;">Despesas de exercícios <strong>anteriores</strong> pagas no exercício do arquivo (ex.: despesa de 2025 paga no exercício de 2026 consta em pagamentorp2026). Os campos cadastrais são idênticos aos de pagamentoAAAA; diferem apenas as colunas de valores abaixo.</td></tr>
+                        <tr><td><code>valor_despesa_liquidada</code></td><td>Valor liquidado de Restos a Pagar no exercício</td><td>Moeda</td></tr>
+                        <tr><td><code>valor_pago_processado</code></td><td>Valor pago de Restos a Pagar Processados</td><td>Moeda</td></tr>
+                        <tr><td><code>valor_pago_nao_processado</code></td><td>Valor pago de Restos a Pagar Não Processados</td><td>Moeda</td></tr>
+                        <tr><td colspan="3" style="background:#e8f4fd;color:#1a3a5c;">No dashboard, cada empenho é exibido em <strong>linha única consolidada</strong>: V. Empenhado (pagamentoAAAA), V. Liquidado (soma das duas origens) e V. Pago (V. Pago Financeiro + V. Pago Processado + V. Pago Não Processado). O detalhamento individualizado por origem está disponível no modal do convênio.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -2048,10 +2234,11 @@ function construirDadosPagamentos() {
     const mapa = new Map();
     dadosCompletos.forEach(d => { if (d.numero_siafi) mapa.set(d.numero_siafi, d); });
     // Conjunto de SIAFIs presentes no conveniossaida — somente esses serão exibidos
+    // (e dadosCompletos já vem filtrado para status Vigente/Encerrado)
     const siafiValidos = new Set(mapa.keys());
     // Mapa código UO → nome do órgão (preenchido em carregarEEnriquecerEmpenhos)
     const mapaOrgaoNome = window._mapaOrgaoNome || new Map();
-    // Uma linha por registro de empenho/pagamento (dados já normalizados)
+    // Uma linha ÚNICA por empenho (orçamento + RP já consolidados)
     return dadosEmpenhos.map(e => {
         const siafi = e.numero_siafi;
         // Ignorar empenhos cujo SIAFI não existe no conveniossaida
@@ -2060,25 +2247,28 @@ function construirDadosPagamentos() {
         // Nome do órgão: unidade orçamentária do empenho, ou mapa por código, ou fallback do convênio
         const nomeOrgao = e.uo_nome || mapaOrgaoNome.get(e.uo_codigo) || conv.orgao || '';
         return {
-            ano:              conv.ano || '',
-            ano_exercicio:    e.ano_exercicio || '',
-            numero_convenio:  conv.numero_convenio || '',
-            orgao:            nomeOrgao,
-            sigla_orgao:      e.uo_sigla || conv.sigla || '',
-            numero_siafi:     siafi,
-            numero_empenho:   e.numero_empenho || '',
-            ano_empenho:      e.ano_empenho || '',
-            emp_data:         e.data_empenho || '',
+            ano:               conv.ano || '',
+            ano_exercicio:     e.ano_exercicio || '',   // ex.: "2025" ou "2025, 2026"
+            exercicios:        e.exercicios || [],
+            numero_convenio:   conv.numero_convenio || '',
+            orgao:             nomeOrgao,
+            sigla_orgao:       e.uo_sigla || conv.sigla || '',
+            numero_siafi:      siafi,
+            numero_empenho:    e.numero_empenho || '',
+            emp_data:          e.data_empenho || '',
             // Razão social/CNPJ: prioritariamente do convênio (conveniossaida), fallback do credor do empenho
-            razao_social:     conv.razao_social || e.credor_razao || '',
-            cnpj_proponente:  conv.cnpj_proponente || e.credor_cnpj || '',
+            razao_social:      conv.razao_social || e.credor_razao || '',
+            cnpj_proponente:   conv.cnpj_proponente || e.credor_cnpj || '',
             // Status: sempre do convênio (conveniossaida)
-            status:           conv.status || '',
-            elemento:         e.elemento_desc || '',
-            fonte:            e.fonte_desc || '',
-            vp_financeiro:    e.vp_financeiro,
-            vp_rp:            e.vp_rp,
-            vp_total:         e.vp_total,
+            status:            conv.status || '',
+            elemento:          e.elemento_desc || '',
+            fonte:             e.fonte_desc || '',
+            valor_empenhado:   e.valor_empenhado,
+            valor_liquidado:   e.valor_liquidado,
+            vp_financeiro:     e.vp_financeiro,
+            vp_processado:     e.vp_processado,
+            vp_nao_processado: e.vp_nao_processado,
+            valor_pago:        e.valor_pago,
         };
     }).filter(r => r !== null && r.numero_siafi);
 }
@@ -2088,7 +2278,7 @@ function renderizarPagamentos() {
     if (!container) return;
 
     const opcoes = {
-        anos: [...new Set((dadosEmpenhos||[]).map(e=>e.ano_exercicio).filter(Boolean))].sort((a,b)=>b-a),
+        anos: [...new Set((dadosEmpenhos||[]).flatMap(e=>e.exercicios||[]).filter(Boolean))].sort((a,b)=>b-a),
         orgaos: [...new Set((dadosEmpenhos||[]).map(e=>e.uo_nome).filter(Boolean))].sort(),
         status: [...new Set(dadosCompletos.map(d=>d.status).filter(Boolean))].sort(),
         siafis: [...new Set(dadosCompletos.map(d=>d.numero_siafi).filter(Boolean))].sort(),
@@ -2161,19 +2351,18 @@ function renderizarPagamentos() {
             <table class="table" id="tabelaPG">
                 <thead>
                     <tr>
-                        <th class="sortable-header" onclick="toggleSortPG('ano_exercicio')">Exercício <i class="material-icons">unfold_more</i></th>
+                        <th class="sortable-header" onclick="toggleSortPG('ano_exercicio')">Exercício(s) <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header" onclick="toggleSortPG('orgao')">Nome do Órgão <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header" onclick="toggleSortPG('numero_siafi')">Nº SIAFI <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header" onclick="toggleSortPG('numero_convenio')">Nº Convênio (Inteiro Teor) <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header" onclick="toggleSortPG('numero_empenho')">Nº Empenho <i class="material-icons">unfold_more</i></th>
-                        <th class="sortable-header" onclick="toggleSortPG('ano_empenho')">Ano Emp. <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header" onclick="toggleSortPG('emp_data')">Data Empenho <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header" onclick="toggleSortPG('razao_social')">Razão Social Proponente <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header" onclick="toggleSortPG('cnpj_proponente')">CNPJ/CPF Proponente <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header" onclick="toggleSortPG('status')">Status <i class="material-icons">unfold_more</i></th>
-                        <th class="sortable-header text-right" onclick="toggleSortPG('vp_financeiro')">V. Pago Financeiro <i class="material-icons">unfold_more</i></th>
-                        <th class="sortable-header text-right" onclick="toggleSortPG('vp_rp')">V. Pago RP <i class="material-icons">unfold_more</i></th>
-                        <th class="sortable-header text-right" onclick="toggleSortPG('vp_total')">V. Pago Total <i class="material-icons">unfold_more</i></th>
+                        <th class="sortable-header text-right" onclick="toggleSortPG('valor_empenhado')">V. Empenhado <i class="material-icons">unfold_more</i></th>
+                        <th class="sortable-header text-right" onclick="toggleSortPG('valor_liquidado')">V. Liquidado <i class="material-icons">unfold_more</i></th>
+                        <th class="sortable-header text-right" onclick="toggleSortPG('valor_pago')">V. Pago <i class="material-icons">unfold_more</i></th>
                     </tr>
                 </thead>
                 <tbody id="tbodyPG"></tbody>
@@ -2191,21 +2380,20 @@ function renderizarPagamentos() {
 }
 
 function gerarLinhasPG(dados) {
-    if (!dados || dados.length === 0) return '<tr><td colspan="13" class="text-center py-4">Nenhum registro encontrado</td></tr>';
+    if (!dados || dados.length === 0) return '<tr><td colspan="12" class="text-center py-4">Nenhum registro encontrado</td></tr>';
     return dados.map(d => `<tr>
         <td style="white-space:nowrap">${d.ano_exercicio||'-'}</td>
         <td title="${d.orgao||''}">${(d.orgao||'-').substring(0,30)}${(d.orgao||'').length>30?'...':''}</td>
         <td><a href="#" class="processo-link" onclick="verDetalhes('${(d.numero_siafi||'').replace(/'/g,"\\'")}');return false;">${d.numero_siafi||'-'}</a></td>
         <td>${linkInteiroTeor(d.numero_convenio)}</td>
         <td style="white-space:nowrap;font-weight:600;color:#1a3a5c">${d.numero_empenho||'-'}</td>
-        <td style="white-space:nowrap">${d.ano_empenho||'-'}</td>
         <td style="white-space:nowrap">${d.emp_data ? formatarData(d.emp_data) : '-'}</td>
         <td title="${d.razao_social||''}">${(d.razao_social||'-').substring(0,35)}${(d.razao_social||'').length>35?'...':''}</td>
         <td>${d.cnpj_proponente||'-'}</td>
         <td><span class="badge-status ${getBadgeStatus(d.status)}">${d.status||'-'}</span></td>
-        <td class="text-right">${d.vp_financeiro ? formatarMoeda(d.vp_financeiro) : '<span class="nao-aplica">—</span>'}</td>
-        <td class="text-right" style="color:#856404">${d.vp_rp ? formatarMoeda(d.vp_rp) : '<span class="nao-aplica">—</span>'}</td>
-        <td class="text-right" style="font-weight:700;color:#28a745">${formatarMoeda(d.vp_total)}</td>
+        <td class="text-right">${d.valor_empenhado ? formatarMoeda(d.valor_empenhado) : '<span class="nao-aplica">—</span>'}</td>
+        <td class="text-right">${d.valor_liquidado ? formatarMoeda(d.valor_liquidado) : '<span class="nao-aplica">—</span>'}</td>
+        <td class="text-right" style="font-weight:700;color:#28a745" title="Financeiro: ${formatarMoeda(d.vp_financeiro)} | RP Processado: ${formatarMoeda(d.vp_processado)} | RP Não Processado: ${formatarMoeda(d.vp_nao_processado)}">${formatarMoeda(d.valor_pago)}</td>
     </tr>`).join('');
 }
 
@@ -2272,7 +2460,7 @@ window.aplicarFiltrosPG = function() {
     const razao   = (document.getElementById('filtroRazaoPG')?.value||'').toLowerCase().trim();
     const base    = construirDadosPagamentos();
     dadosPagamentosFiltrados = base.filter(d => {
-        if (ano     && d.ano_exercicio !== ano) return false;
+        if (ano     && !(d.exercicios||[]).includes(ano)) return false;
         if (orgao   && !(d.orgao||'').toLowerCase().includes(orgao)) return false;
         if (siafi   && !(d.numero_siafi||'').toLowerCase().includes(siafi)) return false;
         if (empenho && !(d.numero_empenho||'').toLowerCase().includes(empenho)) return false;
@@ -2314,8 +2502,8 @@ window.buscarPG = function(termo) {
 
 window.exportarPGCSV = function() {
     const dados = window.pgfiltrados || [];
-    const csv = [['Ano Exercício','Nome do Órgão','Nº SIAFI','Nº Convênio','Link Inteiro Teor','Nº Empenho','Ano Empenho','Data Empenho','Razão Social Proponente','CNPJ/CPF Proponente','Status','V. Pago Financeiro','V. Pago RP','V. Pago Total'].join(';'),
-        ...dados.map(d=>[d.ano_exercicio,d.orgao,d.numero_siafi,d.numero_convenio,urlInteiroTeor(d.numero_convenio)||'',d.numero_empenho,d.ano_empenho,formatarData(d.emp_data),d.razao_social,d.cnpj_proponente,d.status,d.vp_financeiro,d.vp_rp,d.vp_total].map(c=>`"${(c??'').toString().replace(/"/g,'""')}"`).join(';'))
+    const csv = [['Exercício(s)','Nome do Órgão','Nº SIAFI','Nº Convênio','Link Inteiro Teor','Nº Empenho','Data Empenho','Razão Social Proponente','CNPJ/CPF Proponente','Status','V. Empenhado','V. Liquidado','V. Pago Financeiro','V. Pago Processado','V. Pago Não Processado','V. Pago'].join(';'),
+        ...dados.map(d=>[d.ano_exercicio,d.orgao,d.numero_siafi,d.numero_convenio,urlInteiroTeor(d.numero_convenio)||'',d.numero_empenho,formatarData(d.emp_data),d.razao_social,d.cnpj_proponente,d.status,d.valor_empenhado,d.valor_liquidado,d.vp_financeiro,d.vp_processado,d.vp_nao_processado,d.valor_pago].map(c=>`"${(c??'').toString().replace(/"/g,'""')}"`).join(';'))
     ].join('\n');
     const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='pagamentos_convenios.csv'; a.click();
 };
@@ -2325,11 +2513,11 @@ window.exportarPGPDF = function() {
     doc.setFontSize(12); doc.setTextColor(32,68,93); doc.text('Pagamentos — Convênios de Saída', 14, 12);
     doc.setFontSize(9); doc.setTextColor(100,100,100); doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 18);
     doc.autoTable({
-        head:[['Exerc.','Órgão','SIAFI','Empenho','Razão Social','Status','V. Pago Fin.','V. Pago RP','V. Pago Total']],
+        head:[['Exerc.','Órgão','SIAFI','Empenho','Razão Social','Status','V. Empenhado','V. Liquidado','V. Pago']],
         body:(window.pgfiltrados||[]).slice(0,100).map(d=>[
             d.ano_exercicio||'-',(d.orgao||'-').substring(0,20),d.numero_siafi||'-',d.numero_empenho||'-',
             (d.razao_social||'-').substring(0,20),d.status||'-',
-            formatarMoeda(d.vp_financeiro),formatarMoeda(d.vp_rp),formatarMoeda(d.vp_total)
+            formatarMoeda(d.valor_empenhado),formatarMoeda(d.valor_liquidado),formatarMoeda(d.valor_pago)
         ]),
         startY:22, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:7}
     });
@@ -2386,14 +2574,14 @@ window.exportarModalPDF = function() {
     const d = modalConvenioAtual;
     doc.setFontSize(14); doc.setTextColor(32,68,93); doc.text('Detalhes do Convênio', 14, 15);
     doc.setFontSize(10); doc.setTextColor(100,100,100); doc.text(`SIAFI: ${d.numero_siafi||'-'} | Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 22);
-    doc.autoTable({ head:[['Campo','Valor']], body:[['Nº SIAFI',d.numero_siafi||'-'],['Status',d.status||'-'],['Situação',d.situacao||'-'],['Código Órgão',d.codigo_orgao||'-'],['Sigla',d.sigla||'-'],['Órgão',d.orgao||'-'],['CNPJ Proponente',d.cnpj_proponente||'-'],['Razão Social',d.razao_social||'-'],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',formatarMoeda(d.valor_concedente)],['V. Parlamentar',formatarMoeda(d.valor_parlamentar)],['V. Despesa Paga (Convênio)',formatarMoeda(d.valor_pago)],['V. Pago Financeiro (Empenhos)',formatarMoeda(d.emp_vp_financeiro)],['V. Pago Restos a Pagar (RP)',formatarMoeda(d.emp_vp_rp)],['V. Pago Total (Empenhos)',formatarMoeda(d.emp_valor_pago)],['Objeto',(d.objeto||'-').substring(0,80)]], startY:28, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:9}, columnStyles:{0:{fontStyle:'bold',cellWidth:55}} });
+    doc.autoTable({ head:[['Campo','Valor']], body:[['Nº SIAFI',d.numero_siafi||'-'],['Status',d.status||'-'],['Situação',d.situacao||'-'],['Código Órgão',d.codigo_orgao||'-'],['Sigla',d.sigla||'-'],['Órgão',d.orgao||'-'],['CNPJ Proponente',d.cnpj_proponente||'-'],['Razão Social',d.razao_social||'-'],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',formatarMoeda(d.valor_concedente)],['V. Parlamentar',formatarMoeda(d.valor_parlamentar)],['V. Despesa Paga (Convênio)',formatarMoeda(d.valor_pago)],['V. Empenhado (Pagamentos)',formatarMoeda(d.emp_valor_empenhado)],['V. Liquidado (Exercício + RP)',formatarMoeda(d.emp_valor_liquidado)],['V. Pago Financeiro',formatarMoeda(d.emp_vp_financeiro)],['V. Pago RP Processado',formatarMoeda(d.emp_vp_processado)],['V. Pago RP Não Processado',formatarMoeda(d.emp_vp_nao_processado)],['V. Pago Total (Pagamentos)',formatarMoeda(d.emp_valor_pago)],['Objeto',(d.objeto||'-').substring(0,80)]], startY:28, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:9}, columnStyles:{0:{fontStyle:'bold',cellWidth:55}} });
     doc.save(`convenio_${d.numero_siafi||'detalhes'}.pdf`);
 };
 
 window.exportarModalCSV = function() {
     if (!modalConvenioAtual) return;
     const d = modalConvenioAtual;
-    const rows = [['Campo','Valor'],['Nº SIAFI',d.numero_siafi],['Nº Convênio',d.numero_convenio||''],['Inteiro Teor',urlInteiroTeor(d.numero_convenio)||''],['Status',d.status],['Situação',d.situacao],['Código Órgão',d.codigo_orgao],['Sigla',d.sigla],['Órgão',d.orgao],['CNPJ Proponente',d.cnpj_proponente],['Razão Social',d.razao_social],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',d.valor_concedente],['V. Parlamentar',d.valor_parlamentar],['V. Despesa Paga (Convênio)',d.valor_pago],['V. Pago Financeiro (Empenhos)',d.emp_vp_financeiro],['V. Pago Restos a Pagar (RP)',d.emp_vp_rp],['V. Pago Total (Empenhos)',d.emp_valor_pago],['Objeto',d.objeto||'']];
+    const rows = [['Campo','Valor'],['Nº SIAFI',d.numero_siafi],['Nº Convênio',d.numero_convenio||''],['Inteiro Teor',urlInteiroTeor(d.numero_convenio)||''],['Status',d.status],['Situação',d.situacao],['Código Órgão',d.codigo_orgao],['Sigla',d.sigla],['Órgão',d.orgao],['CNPJ Proponente',d.cnpj_proponente],['Razão Social',d.razao_social],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',d.valor_concedente],['V. Parlamentar',d.valor_parlamentar],['V. Despesa Paga (Convênio)',d.valor_pago],['V. Empenhado (Pagamentos)',d.emp_valor_empenhado],['V. Liquidado (Exercício + RP)',d.emp_valor_liquidado],['V. Pago Financeiro',d.emp_vp_financeiro],['V. Pago RP Processado',d.emp_vp_processado],['V. Pago RP Não Processado',d.emp_vp_nao_processado],['V. Pago Total (Pagamentos)',d.emp_valor_pago],['Objeto',d.objeto||'']];
     const csv = rows.map(r=>r.map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(';')).join('\n');
     const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`convenio_${d.numero_siafi||'detalhes'}.csv`; a.click();
 };
