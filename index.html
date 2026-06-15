@@ -366,10 +366,11 @@
         .info-value { font-size: 13px; font-weight: 500; color: #1e293b; word-break: break-word; }
         .info-value.highlight { font-size: 16px; color: var(--accent-red); font-weight: 700; }
         /* Fix modal inside iframe - prevent body scroll shifting */
-        body.modal-open { overflow: auto !important; padding-right: 0 !important; }
-        .modal { overflow-y: auto !important; }
-        .modal-backdrop { position: fixed !important; }
+        body.modal-open { overflow: auto !important; padding-right: 0 !important; position: static !important; }
+        .modal { overflow-y: auto !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; }
+        .modal-backdrop { position: fixed !important; top: 0 !important; left: 0 !important; }
         .modal-dialog-scrollable .modal-body { overflow-y: auto; max-height: 70vh; }
+        .modal-dialog { margin: 1.75rem auto !important; }
 
         /* ============================================================
            12. PAGINAÇÃO
@@ -1755,12 +1756,16 @@ window.verDetalhes = function(siafi) {
     modalConvenioAtual = d;
     const raw = d._raw || {};
 
-    // Montar todos os campos disponíveis
-    const camposExtras = Object.entries(raw).filter(([k]) =>
-        !['ano','codigo_orgao','sigla','orgao','numero_siafi','numero_convenio','situacao','cnpj_proponente','razao_social',
+    // Montar todos os campos disponíveis (excluindo campos de tempo de análise)
+    const camposExtras = Object.entries(raw).filter(([k]) => {
+        const kl = k.toLowerCase();
+        if (['ano','codigo_orgao','sigla','orgao','numero_siafi','numero_convenio','situacao','cnpj_proponente','razao_social',
           'data_publicacao','data_inicio','data_termino','status','valor_concedente','valor_parlamentar',
-          'valor_despesa_empenhada','valor_empenhado','valor_despesa_paga','valor_pago','valor_global','objeto','municipio'].includes(k.toLowerCase())
-    ).filter(([k,v]) => v && v !== '');
+          'valor_despesa_empenhada','valor_empenhado','valor_despesa_paga','valor_pago','valor_global','objeto','municipio'].includes(kl)) return false;
+        // Remover campos de tempo de análise/encaminhamento
+        if (kl.includes('tempo') || kl.includes('analise') || kl.includes('análise') || kl.includes('encaminhad')) return false;
+        return true;
+    }).filter(([k,v]) => v && v !== '');
 
     document.getElementById('modalContent').innerHTML = `
         <div class="row">
@@ -2315,6 +2320,15 @@ function renderizarPagamentos() {
     const container = document.getElementById('pagamentos-content');
     if (!container) return;
 
+    // Se os dados de empenho ainda não foram carregados, mostrar mensagem de espera
+    if (!dadosEmpenhos || dadosEmpenhos.length === 0) {
+        container.innerHTML = `<div class="filter-container text-center py-5" style="color:#6c757d;font-size:13px;">
+            <div class="spinner-border mb-3" style="color:#20445d;width:2rem;height:2rem;" role="status"></div>
+            <div>Carregando dados de pagamentos...<br><small>Os arquivos de pagamento são grandes; aguarde alguns instantes.</small></div>
+        </div>`;
+        return;
+    }
+
     const opcoes = {
         anos: (() => {
             const fromData = [...new Set((dadosEmpenhos||[]).flatMap(e=>e.exercicios||[]).filter(Boolean))].map(String);
@@ -2651,17 +2665,36 @@ document.addEventListener('DOMContentLoaded', () => {
             // Prevent Bootstrap from adding padding-right to body (scrollbar compensation)
             document.body.style.paddingRight = '0px';
             document.body.style.overflow = 'auto';
+            document.body.style.position = 'static';
+            // Restore scroll position if Bootstrap moved it
+            window.scrollTo(0, savedScrollY);
         });
         detailModal.addEventListener('hidden.bs.modal', () => {
             document.body.style.paddingRight = '';
             document.body.style.overflow = '';
+            document.body.style.position = '';
             window.scrollTo(0, savedScrollY);
             setTimeout(iframeUpdateHeight, 200);
         });
+        // Block Bootstrap from setting body paddingRight at all
+        const observer = new MutationObserver(() => {
+            if (document.body.style.paddingRight && document.body.style.paddingRight !== '0px') {
+                document.body.style.paddingRight = '0px';
+            }
+            if (document.body.style.overflow === 'hidden') {
+                document.body.style.overflow = 'auto';
+            }
+        });
+        observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
     }
 
     document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
         tab.addEventListener('shown.bs.tab', (e) => {
+            // Se a aba de pagamentos for clicada e ainda estiver em estado de carregamento, tentar re-renderizar
+            if (e.target.id === 'pagamentos-tab' && dadosEmpenhos && dadosEmpenhos.length > 0) {
+                const pg = document.getElementById('pagamentos-content');
+                if (pg && pg.querySelector('.spinner-border')) renderizarPagamentos();
+            }
             setTimeout(iframeUpdateHeight, 300);
         });
     });
