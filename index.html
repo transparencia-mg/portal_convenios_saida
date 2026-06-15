@@ -365,6 +365,11 @@
         .info-label { font-size: 10px; text-transform: uppercase; color: #64748b; font-weight: 600; margin-bottom: 4px; }
         .info-value { font-size: 13px; font-weight: 500; color: #1e293b; word-break: break-word; }
         .info-value.highlight { font-size: 16px; color: var(--accent-red); font-weight: 700; }
+        /* Fix modal inside iframe - prevent body scroll shifting */
+        body.modal-open { overflow: auto !important; padding-right: 0 !important; }
+        .modal { overflow-y: auto !important; }
+        .modal-backdrop { position: fixed !important; }
+        .modal-dialog-scrollable .modal-body { overflow-y: auto; max-height: 70vh; }
 
         /* ============================================================
            12. PAGINAÇÃO
@@ -483,9 +488,11 @@
             .container-fluid, .dashboard-container { padding: 0 15px !important; }
         }
         @media (max-width: 768px) {
-            .container-fluid, .dashboard-container { padding: 0 10px !important; }
-            .nav-tabs { flex-direction: column; gap: 6px; }
-            .nav-tabs .nav-link { width: 100%; justify-content: flex-start; font-size: 13px; padding: 10px 14px !important; border-radius: 8px !important; }
+            .container-fluid, .dashboard-container { padding: 0 8px !important; max-width: 100% !important; }
+            /* Nav tabs: scroll horizontal em vez de empilhar */
+            .nav-tabs-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .nav-tabs { flex-wrap: nowrap !important; gap: 6px; min-width: max-content; }
+            .nav-tabs .nav-link { width: auto; justify-content: flex-start; font-size: 12px; padding: 8px 12px !important; border-radius: 8px !important; white-space: nowrap; }
             .filters-row { flex-direction: column; }
             .filter-group { min-width: 100%; width: 100%; }
             .botoes-abaixo { flex-direction: column; }
@@ -493,13 +500,25 @@
             .metric-value { font-size: 16px; }
             .toolbar { flex-direction: column; align-items: flex-start; }
             .toolbar-left, .toolbar-right { flex-wrap: wrap; width: 100%; }
+            .toolbar-right input { width: 100% !important; }
             .pagination-container { flex-direction: column; align-items: flex-start; gap: 8px; }
             .page-input { display: none; }
             .table-fixed-header-container { max-height: 400px; }
             .table { font-size: 11px; }
-            .table thead th, .table tbody td { padding: 8px 6px; font-size: 11px; }
-            .modal-dialog { max-width: 98% !important; width: 98% !important; margin: 4px auto; }
+            .table thead th, .table tbody td { padding: 6px 5px; font-size: 11px; }
+            .modal-dialog { max-width: 100% !important; width: 100% !important; margin: 0 !important; min-height: 100vh; }
+            .modal-content { border-radius: 0 !important; }
+            .modal-dialog-scrollable .modal-body { max-height: 65vh; }
             .chart-wrapper { height: 200px; }
+            /* Cards métricas em grid 2 colunas no mobile */
+            .row.g-3 > .col-md-3 { flex: 0 0 50%; max-width: 50%; }
+            .metric-card { margin-bottom: 8px; }
+            /* Esconder colunas menos importantes em mobile nas tabelas */
+            .table .col-hide-mobile { display: none; }
+        }
+        @media (max-width: 480px) {
+            .row.g-3 > .col-md-3 { flex: 0 0 100%; max-width: 100%; }
+            .pagination-controls button { min-width: 28px; height: 28px; font-size: 11px; }
         }
     </style>
 </head>
@@ -675,6 +694,7 @@ let colunasVisiveis = {
     codigo_orgao: true,
     sigla: true,
     orgao: true,
+    descricao_orgao: false, // disponível mas oculta por padrão (duplica 'orgao' quando preenchida)
     numero_siafi: true,
     numero_convenio: true,
     situacao: true,
@@ -690,7 +710,7 @@ let colunasVisiveis = {
 // Fixas: numero_siafi, acoes
 
 const ordemColunasCI = [
-    'ano','codigo_orgao','sigla','orgao','numero_siafi','numero_convenio',
+    'ano','codigo_orgao','sigla','orgao','descricao_orgao','numero_siafi','numero_convenio',
     'situacao','cnpj_proponente','razao_social',
     'data_publicacao','data_inicio','data_termino','status',
     'valor_concedente','valor_parlamentar',
@@ -720,8 +740,10 @@ function mostrarToast(mensagem, tipo) {
 }
 
 function iframeUpdateHeight() {
-    const h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) + 10;
-    try { if (window.parent && window.parent !== window) window.parent.postMessage({ iframeHeight: h, height: h, type: 'resize' }, '*'); } catch(e) {}
+    setTimeout(function() {
+        const h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) + 20;
+        try { if (window.parent && window.parent !== window) window.parent.postMessage({ iframeHeight: h, height: h, type: 'resize' }, '*'); } catch(e) {}
+    }, 200);
 }
 
 function voltarAoTopo() {
@@ -829,7 +851,8 @@ async function carregarDados() {
                         ano:                    ano || '',
                         codigo_orgao:           row['codigo_orgao'] || row['CODIGO_ORGAO'] || row['cod_orgao'] || '',
                         sigla:                  row['sigla'] || row['SIGLA'] || row['orgao_sigla'] || '',
-                        orgao:                  row['orgao'] || row['ORGAO'] || row['nome_orgao'] || row['unidade_orcamentaria_nome'] || row['UNIDADE_ORCAMENTARIA_NOME'] || '',
+                        orgao:                  row['orgao'] || row['ORGAO'] || row['nome_orgao'] || row['descricao_orgao'] || row['DESCRICAO_ORGAO'] || row['unidade_orcamentaria_nome'] || row['UNIDADE_ORCAMENTARIA_NOME'] || '',
+                        descricao_orgao:        row['descricao_orgao'] || row['DESCRICAO_ORGAO'] || '',
                         numero_siafi:           limparSiafi(row['numero_siafi'] || row['NUMERO_SIAFI'] || row['numero'] || row['NUMERO'] || ''),
                         numero_convenio:        (row['numero_convenio'] || row['NUMERO_CONVENIO'] || '').toString().trim(),
                         situacao:               row['situacao'] || row['SITUACAO'] || '',
@@ -1468,6 +1491,7 @@ function gerarCabecalhosCI() {
         else if (col==='codigo_orgao' && colunasVisiveis.codigo_orgao) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('codigo_orgao')">Cód. Órgão <i class="material-icons">unfold_more</i></th>`);
         else if (col==='sigla' && colunasVisiveis.sigla) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('sigla')">Sigla <i class="material-icons">unfold_more</i></th>`);
         else if (col==='orgao' && colunasVisiveis.orgao) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('orgao')">Órgão <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='descricao_orgao' && colunasVisiveis.descricao_orgao) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('descricao_orgao')">Descrição Órgão <i class="material-icons">unfold_more</i></th>`);
         else if (col==='situacao' && colunasVisiveis.situacao) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('situacao')">Situação <i class="material-icons">unfold_more</i></th>`);
         else if (col==='cnpj_proponente' && colunasVisiveis.cnpj_proponente) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('cnpj_proponente')">CNPJ Proponente <i class="material-icons">unfold_more</i></th>`);
         else if (col==='razao_social' && colunasVisiveis.razao_social) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('razao_social')">Razão Social <i class="material-icons">unfold_more</i></th>`);
@@ -1595,7 +1619,8 @@ function gerarLinhasCI(dados) {
             else if (col==='ano' && colunasVisiveis.ano) linha += `<td>${d.ano||'-'}</td>`;
             else if (col==='codigo_orgao' && colunasVisiveis.codigo_orgao) linha += `<td>${d.codigo_orgao||'-'}</td>`;
             else if (col==='sigla' && colunasVisiveis.sigla) linha += `<td>${d.sigla||'-'}</td>`;
-            else if (col==='orgao' && colunasVisiveis.orgao) linha += `<td>${d.orgao||'-'}</td>`;
+            else if (col==='orgao' && colunasVisiveis.orgao) linha += `<td title="${d.orgao||''}">${(d.orgao||'-').substring(0,40)}${(d.orgao||'').length>40?'...':''}</td>`;
+            else if (col==='descricao_orgao' && colunasVisiveis.descricao_orgao) linha += `<td title="${d.descricao_orgao||''}">${(d.descricao_orgao||'-').substring(0,40)}${(d.descricao_orgao||'').length>40?'...':''}</td>`;
             else if (col==='situacao' && colunasVisiveis.situacao) linha += `<td>${d.situacao||'-'}</td>`;
             else if (col==='cnpj_proponente' && colunasVisiveis.cnpj_proponente) linha += `<td>${d.cnpj_proponente||'-'}</td>`;
             else if (col==='razao_social' && colunasVisiveis.razao_social) linha += `<td title="${d.razao_social||''}">${(d.razao_social||'-').substring(0,35)}${(d.razao_social||'').length>35?'...':''}</td>`;
@@ -1694,6 +1719,7 @@ function renderizarSeletorColunas() {
             <div class="column-selector-item"><input type="checkbox" id="colCodOrgao" ${colunasVisiveis.codigo_orgao?'checked':''} onchange="atualizarColunasCI('codigo_orgao',this.checked)"><label for="colCodOrgao">Código Órgão</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colSigla" ${colunasVisiveis.sigla?'checked':''} onchange="atualizarColunasCI('sigla',this.checked)"><label for="colSigla">Sigla</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colOrgao" ${colunasVisiveis.orgao?'checked':''} onchange="atualizarColunasCI('orgao',this.checked)"><label for="colOrgao">Órgão</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colDescricaoOrgao" ${colunasVisiveis.descricao_orgao?'checked':''} onchange="atualizarColunasCI('descricao_orgao',this.checked)"><label for="colDescricaoOrgao">Descrição Órgão</label></div>
 
             <div class="column-selector-item"><span class="fixed-column-badge">Fixa</span><label>Nº SIAFI</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colNumConv" ${colunasVisiveis.numero_convenio?'checked':''} onchange="atualizarColunasCI('numero_convenio',this.checked)"><label for="colNumConv">Nº Convênio (Inteiro Teor)</label></div>
@@ -1824,7 +1850,11 @@ window.verDetalhes = function(siafi) {
                 </div>
             </div>`).join('')}
         </div>` : ''}`;
-    new bootstrap.Modal(document.getElementById('detailModal')).show();
+    new bootstrap.Modal(document.getElementById('detailModal'), {
+        backdrop: true,
+        keyboard: true,
+        focus: false
+    }).show();
 };
 
 // ============================================================
@@ -2238,20 +2268,27 @@ function construirDadosPagamentos() {
     const siafiValidos = new Set(mapa.keys());
     // Mapa código UO → nome do órgão (preenchido em carregarEEnriquecerEmpenhos)
     const mapaOrgaoNome = window._mapaOrgaoNome || new Map();
-    // Uma linha ÚNICA por empenho (orçamento + RP já consolidados)
-    return dadosEmpenhos.map(e => {
+
+    // Gerar UMA LINHA POR EMPENHO mas incluindo todos os exercícios no campo ano_exercicio
+    // Isso garante que ao filtrar por qualquer ano de 2022-2026, o registro apareça
+    const resultado = [];
+    dadosEmpenhos.forEach(e => {
         const siafi = e.numero_siafi;
         // Ignorar empenhos cujo SIAFI não existe no conveniossaida
-        if (!siafi || !siafiValidos.has(siafi)) return null;
+        if (!siafi || !siafiValidos.has(siafi)) return;
         const conv = mapa.get(siafi) || {};
         // Nome do órgão: unidade orçamentária do empenho, ou mapa por código, ou fallback do convênio
-        const nomeOrgao = e.uo_nome || mapaOrgaoNome.get(e.uo_codigo) || conv.orgao || '';
-        return {
+        const nomeOrgao = e.uo_nome || mapaOrgaoNome.get(e.uo_codigo) || conv.orgao || conv.descricao_orgao || '';
+        // Exercícios ordenados (ex: ["2022","2023","2025"])
+        const exercicios = (e.exercicios || []).slice().sort();
+        resultado.push({
             ano:               conv.ano || '',
-            ano_exercicio:     e.ano_exercicio || '',   // ex.: "2025" ou "2025, 2026"
-            exercicios:        e.exercicios || [],
+            // Para filtro e exibição: todos os exercícios em que houve movimento
+            ano_exercicio:     exercicios.join(', ') || e.ano_exercicio || '',
+            exercicios:        exercicios,
             numero_convenio:   conv.numero_convenio || '',
             orgao:             nomeOrgao,
+            descricao_orgao:   conv.descricao_orgao || nomeOrgao,
             sigla_orgao:       e.uo_sigla || conv.sigla || '',
             numero_siafi:      siafi,
             numero_empenho:    e.numero_empenho || '',
@@ -2269,8 +2306,9 @@ function construirDadosPagamentos() {
             vp_processado:     e.vp_processado,
             vp_nao_processado: e.vp_nao_processado,
             valor_pago:        e.valor_pago,
-        };
-    }).filter(r => r !== null && r.numero_siafi);
+        });
+    });
+    return resultado.filter(r => r.numero_siafi);
 }
 
 function renderizarPagamentos() {
@@ -2278,7 +2316,12 @@ function renderizarPagamentos() {
     if (!container) return;
 
     const opcoes = {
-        anos: [...new Set((dadosEmpenhos||[]).flatMap(e=>e.exercicios||[]).filter(Boolean))].sort((a,b)=>b-a),
+        anos: (() => {
+            const fromData = [...new Set((dadosEmpenhos||[]).flatMap(e=>e.exercicios||[]).filter(Boolean))].map(String);
+            // Garantir que todos os anos configurados apareçam no filtro
+            const todosAnos = [...new Set([...ANOS_PAGAMENTOS.map(String), ...fromData])].sort((a,b)=>b-a);
+            return todosAnos;
+        })(),
         orgaos: [...new Set((dadosEmpenhos||[]).map(e=>e.uo_nome).filter(Boolean))].sort(),
         status: [...new Set(dadosCompletos.map(d=>d.status).filter(Boolean))].sort(),
         siafis: [...new Set(dadosCompletos.map(d=>d.numero_siafi).filter(Boolean))].sort(),
@@ -2460,7 +2503,7 @@ window.aplicarFiltrosPG = function() {
     const razao   = (document.getElementById('filtroRazaoPG')?.value||'').toLowerCase().trim();
     const base    = construirDadosPagamentos();
     dadosPagamentosFiltrados = base.filter(d => {
-        if (ano     && !(d.exercicios||[]).includes(ano)) return false;
+        if (ano     && !(d.exercicios||[]).map(String).includes(String(ano))) return false;
         if (orgao   && !(d.orgao||'').toLowerCase().includes(orgao)) return false;
         if (siafi   && !(d.numero_siafi||'').toLowerCase().includes(siafi)) return false;
         if (empenho && !(d.numero_empenho||'').toLowerCase().includes(empenho)) return false;
@@ -2596,26 +2639,64 @@ document.addEventListener('click', e => {
 document.addEventListener('DOMContentLoaded', () => {
     setupAtualizacaoData();
     carregarDados();
+
+    // Fix modal inside iframe: preserve scroll position and prevent layout shift
+    const detailModal = document.getElementById('detailModal');
+    if (detailModal) {
+        let savedScrollY = 0;
+        detailModal.addEventListener('show.bs.modal', () => {
+            savedScrollY = window.scrollY;
+        });
+        detailModal.addEventListener('shown.bs.modal', () => {
+            // Prevent Bootstrap from adding padding-right to body (scrollbar compensation)
+            document.body.style.paddingRight = '0px';
+            document.body.style.overflow = 'auto';
+        });
+        detailModal.addEventListener('hidden.bs.modal', () => {
+            document.body.style.paddingRight = '';
+            document.body.style.overflow = '';
+            window.scrollTo(0, savedScrollY);
+            setTimeout(iframeUpdateHeight, 200);
+        });
+    }
+
     document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
         tab.addEventListener('shown.bs.tab', (e) => {
             setTimeout(iframeUpdateHeight, 300);
-            if (e.target.id === 'pagamentos-tab' && dadosEmpenhos) {
-                // rerender if needed
-            }
         });
     });
     window.addEventListener('resize', () => { clearTimeout(window.resizeTimer); window.resizeTimer = setTimeout(iframeUpdateHeight, 250); });
 });
 
-// Iframe resize observer
+// Iframe resize observer - debounced to prevent infinite resize loop
 (function() {
+    let lastHeight = 0;
+    let sendTimer = null;
     function sendHeight() {
-        const h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) + 10;
-        try { if(window.parent&&window.parent!==window) window.parent.postMessage({iframeHeight:h,iframeResize:true,type:'resize'},'*'); } catch(e) {}
+        clearTimeout(sendTimer);
+        sendTimer = setTimeout(function() {
+            const h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) + 20;
+            if (h !== lastHeight) {
+                lastHeight = h;
+                try {
+                    if (window.parent && window.parent !== window) {
+                        window.parent.postMessage({ iframeHeight: h, height: h, type: 'resize' }, '*');
+                    }
+                } catch(e) {}
+            }
+        }, 100);
     }
-    if (window.ResizeObserver) new ResizeObserver(sendHeight).observe(document.body);
-    else { window.addEventListener('resize', sendHeight); setInterval(sendHeight, 2000); }
-    sendHeight();
+    if (window.ResizeObserver) {
+        let roTimer = null;
+        const ro = new ResizeObserver(function() {
+            clearTimeout(roTimer);
+            roTimer = setTimeout(sendHeight, 150);
+        });
+        ro.observe(document.body);
+    } else {
+        window.addEventListener('resize', sendHeight);
+    }
+    setTimeout(sendHeight, 500);
 })();
 </script>
 </body>
