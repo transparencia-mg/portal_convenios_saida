@@ -36,6 +36,7 @@ depara = depara[
 
 depara["CODIGO_ORGAO"] = (
     depara["CODIGO_ORGAO"]
+    .fillna("")
     .astype(str)
     .str.strip()
 )
@@ -94,6 +95,7 @@ if arquivo_convenios.exists():
         ]
 
     # Atualiza descrição órgão
+    # Atualiza descrição órgão
     if "DESCRICAO_ORGAO" in df.columns:
         df = df.drop(columns=["DESCRICAO_ORGAO"])
 
@@ -115,6 +117,54 @@ if arquivo_convenios.exists():
             on="CODIGO_ORGAO",
             how="left"
         )
+
+        # Exclui registros marcados como EXCLUIR no de_para
+        if "DESCRICAO_ORGAO" in df.columns:
+
+            df = df[
+                df["DESCRICAO_ORGAO"]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+                .str.upper()
+                != "EXCLUIR"
+            ]
+
+        # Exclui órgãos específicos
+        orgaos_excluir = [
+            "2231",  # ADEMG
+            "1011",  # ALMG
+            "5401",  # CEMIG DISTRIBUIDORA
+            "2081",  # CETEC
+            "5031",  # CODEMGE
+            "5011",  # CODEMIG
+            "5071",  # COHAB
+            "5511",  # COPANOR
+            "5081",  # COPASA
+            "1441",  # DEF PUB
+            "2141",  # DEOP
+            "2381",  # DETEL
+            "1601",  # EPE
+            "4641",  # FGP - MG
+            "4731",  # FDMP
+            "4441",  # FUNEMP
+            "2361",  # IPLEMG
+            "5191",  # MGI
+            "1091",  # PGJ
+            "1461",  # SEDE
+            "1021",  # TCEMG
+            "1031",  # TJMG
+            "1051"   # TJMMG
+        ]
+
+        df = df[
+            ~df["CODIGO_ORGAO"]
+            .astype(str)
+            .str.strip()
+            .isin(orgaos_excluir)
+        ]
+
+
 
     if (
         "ORGAO_SIGLA" in df.columns
