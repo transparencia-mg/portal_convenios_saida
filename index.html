@@ -741,7 +741,9 @@ function mostrarToast(mensagem, tipo) {
 }
 
 function iframeUpdateHeight() {
+    if (window.__modalAberto) return; // não redimensiona o iframe com o modal aberto
     setTimeout(function() {
+        if (window.__modalAberto) return;
         const h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) + 20;
         try { if (window.parent && window.parent !== window) window.parent.postMessage({ iframeHeight: h, height: h, type: 'resize' }, '*'); } catch(e) {}
     }, 200);
@@ -1867,6 +1869,17 @@ window.verDetalhes = function(siafi) {
 // ============================================================
 let empenhoModalCarregado = false;
 
+// Flag global: enquanto um modal estiver aberto, paramos de mandar
+// mensagens de "resize" para a página pai (iframe), pois isso é o que
+// causava o loop de realimentação que fazia o modal "descer" e sumir.
+window.__modalAberto = false;
+document.addEventListener('show.bs.modal', function() { window.__modalAberto = true; });
+document.addEventListener('hidden.bs.modal', function() {
+    window.__modalAberto = false;
+    // Ressincroniza a altura do iframe uma única vez, já com o modal fechado
+    setTimeout(iframeUpdateHeight, 250);
+});
+
 // Reset aba ao abrir modal
 document.addEventListener('show.bs.modal', function(e) {
     if (e.target.id === 'detailModal') {
@@ -2708,6 +2721,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function sendHeight() {
         clearTimeout(sendTimer);
         sendTimer = setTimeout(function() {
+            if (window.__modalAberto) return; // não redimensiona o iframe com o modal aberto
             const h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) + 20;
             if (h !== lastHeight) {
                 lastHeight = h;
