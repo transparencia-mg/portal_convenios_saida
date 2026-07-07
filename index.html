@@ -543,7 +543,7 @@
                 </li>
                 <li class="nav-item">
                     <button class="nav-link" id="pagamentos-tab" data-bs-toggle="tab" data-bs-target="#pagamentos">
-                        <i class="material-icons">payments</i>Pagamentos
+                        <i class="material-icons">payments</i>Repasses
                     </button>
                 </li>
                 <li class="nav-item">
@@ -940,7 +940,16 @@ function _anoDaUrl(url) {
 // Lê o CSV em STREAMING (Papa download+chunk): os arquivos somam ~250 MB no total,
 // então as linhas são filtradas durante o parse — só ficam em memória as que
 // pertencem a um SIAFI válido (convênios Vigente/Encerrado do conveniossaida).
-function _fetchPagamentoCSV(url, tipo, siafisValidos) {
+//
+// chunkSize ativa o download real por partes via HTTP Range: em vez de baixar
+// o arquivo inteiro (até 37 MB) de uma vez para a memória, o navegador busca
+// e processa poucos MB por vez, soltando cada pedaço depois de filtrado. Isso
+// reduz muito o pico de memória e a chance de timeout, especialmente quando
+// vários anos são baixados ao mesmo tempo.
+window.__pagamentosFalhas = []; // anos/arquivos que falharam mesmo após tentativas
+
+function _fetchPagamentoCSV(url, tipo, siafisValidos, tentativa) {
+    tentativa = tentativa || 1;
     return new Promise(resolve => {
         const anoExercicio = _anoDaUrl(url);
         const num = v => parseFloat((v ?? '').toString().replace(',', '.')) || 0;
@@ -948,6 +957,7 @@ function _fetchPagamentoCSV(url, tipo, siafisValidos) {
         const out = [];
         Papa.parse(url, {
             download: true,
+            chunkSize: 4 * 1024 * 1024, // 4 MB por requisição (streaming real via Range)
             header: true,
             skipEmptyLines: true,
             delimiter: ';',
@@ -993,7 +1003,18 @@ function _fetchPagamentoCSV(url, tipo, siafisValidos) {
                 });
             },
             complete: () => resolve(out),
-            error: e => { console.warn('CSV de pagamento não carregado:', url, e); resolve(out); }
+            error: e => {
+                console.warn(`CSV de pagamento não carregado (tentativa ${tentativa}):`, url, e);
+                if (tentativa < 3) {
+                    // Tenta novamente (até 3x) antes de desistir deste arquivo
+                    setTimeout(() => {
+                        _fetchPagamentoCSV(url, tipo, siafisValidos, tentativa + 1).then(resolve);
+                    }, 800 * tentativa);
+                } else {
+                    window.__pagamentosFalhas.push(url);
+                    resolve(out);
+                }
+            }
         });
     });
 }
@@ -1058,6 +1079,23 @@ function consolidarPagamentos(detalhes) {
     }));
 }
 
+// Executa promessas com concorrência limitada (evita disparar todos os
+// downloads grandes ao mesmo tempo, o que aumenta risco de timeout/estouro
+// de memória no navegador). Retorna os resultados na mesma ordem de `itens`.
+async function _executarEmLotes(itens, limite, fn) {
+    const resultados = new Array(itens.length);
+    let proximo = 0;
+    async function worker() {
+        while (proximo < itens.length) {
+            const i = proximo++;
+            resultados[i] = await fn(itens[i], i);
+        }
+    }
+    const workers = Array.from({ length: Math.min(limite, itens.length) }, worker);
+    await Promise.all(workers);
+    return resultados;
+}
+
 async function carregarEEnriquecerEmpenhos() {
     try {
         // Conjunto de SIAFIs exibidos (dadosCompletos já vem filtrado p/ Vigente/Encerrado):
@@ -1070,16 +1108,22 @@ async function carregarEEnriquecerEmpenhos() {
             ...PAGAMENTOS_RP_CSV_URLS.map(u => ({ url: u, tipo: 'rp' })),
         ];
         let concluidos = 0;
+        window.__pagamentosFalhas = [];
         mostrarLoading(true, `Carregando pagamentos... 0/${tarefas.length} arquivos`);
-        const arrays = await Promise.all(tarefas.map(t =>
-            _fetchPagamentoCSV(t.url, t.tipo, siafiSet).then(r => {
-                concluidos++;
-                mostrarLoading(true, `Carregando pagamentos... ${concluidos}/${tarefas.length} arquivos`);
-                return r;
-            })
-        ));
+        // Concorrência limitada a 3 arquivos por vez (em vez de todos os 10 ao mesmo
+        // tempo), para reduzir pico de memória/conexões e falhas silenciosas de rede.
+        const arrays = await _executarEmLotes(tarefas, 3, async t => {
+            const r = await _fetchPagamentoCSV(t.url, t.tipo, siafiSet);
+            concluidos++;
+            mostrarLoading(true, `Carregando pagamentos... ${concluidos}/${tarefas.length} arquivos`);
+            return r;
+        });
         dadosPagamentosDetalhe = arrays.flat();          // registros individualizados (modal)
         dadosEmpenhos = consolidarPagamentos(dadosPagamentosDetalhe); // 1 linha por empenho
+
+        if (window.__pagamentosFalhas.length) {
+            mostrarToast(`Atenção: ${window.__pagamentosFalhas.length} arquivo(s) de pagamento não carregaram (rede lenta/instável). Recarregue a página para tentar novamente.`, 'error');
+        }
 
         // ----- Mapa código UO → nome do órgão -----
         const mapaOrgaoNome = new Map();
@@ -1827,7 +1871,7 @@ window.verDetalhes = function(siafi) {
         <div class="row mt-2">
             <div class="col-md-4 col-6">
                 <div class="info-card">
-                    <div class="info-label">V. Empenhado (Pagamentos)</div>
+                    <div class="info-label">V. Empenhado (Repasses)</div>
                     <div class="info-value highlight" style="font-size:14px">${formatarMoeda(d.emp_valor_empenhado)}</div>
                 </div>
             </div>
@@ -1839,7 +1883,7 @@ window.verDetalhes = function(siafi) {
             </div>
             <div class="col-md-4 col-6">
                 <div class="info-card" style="border-left-color:#28a745">
-                    <div class="info-label">V. Pago Total (Pagamentos ${d.emp_anos ? '· ' + d.emp_anos : ''})</div>
+                    <div class="info-label">V. Pago Total (Repasses ${d.emp_anos ? '· ' + d.emp_anos : ''})</div>
                     <div class="info-value highlight" style="font-size:14px;color:#28a745">${formatarMoeda(d.emp_valor_pago)}</div>
                     ${d.emp_valor_pago !== null ? `<div style="font-size:10px;color:#6c757d;margin-top:4px;">Financeiro: ${formatarMoeda(d.emp_vp_financeiro)} · RP Processado: ${formatarMoeda(d.emp_vp_processado)} · RP Não Processado: ${formatarMoeda(d.emp_vp_nao_processado)}</div>` : ''}
                 </div>
@@ -1857,12 +1901,77 @@ window.verDetalhes = function(siafi) {
                 </div>
             </div>`).join('')}
         </div>` : ''}`;
-    new bootstrap.Modal(document.getElementById('detailModal'), {
-        backdrop: true,
-        keyboard: true,
-        focus: false
-    }).show();
+    abrirModalComPosicaoCorrigida('detailModal');
 };
+
+// ------------------------------------------------------------
+// Correção de posicionamento do modal quando a página está embutida
+// em iframe (ex.: portal WordPress/transparência).
+//
+// Problema: como o iframe é redimensionado via postMessage para caber
+// todo o conteúdo (sem scroll interno), o "position: fixed" do Bootstrap
+// é calculado em relação à altura TOTAL do iframe (que pode ter milhares
+// de pixels), e não em relação à área atualmente visível na tela do
+// usuário. Resultado: se a página pai estiver rolada, o modal abre fora
+// da área visível e parece que "não abre nada".
+//
+// Solução: a página pai informa (via postMessage) sua posição atual de
+// scroll em relação ao topo do iframe; usamos esse valor para posicionar
+// o modal manualmente perto do topo da área visível. Se a página pai não
+// enviar essa informação (script ainda não integrado no embed), caímos
+// no comportamento padrão do Bootstrap (position: fixed).
+// ------------------------------------------------------------
+window.__parentScrollY = null; // última posição de scroll da página pai relativa ao topo do iframe
+
+window.addEventListener('message', function(e) {
+    const d = e.data || {};
+    if (d.type === 'parentScroll' && typeof d.scrollY === 'number') {
+        window.__parentScrollY = d.scrollY;
+    }
+});
+
+function abrirModalComPosicaoCorrigida(modalId) {
+    const el = document.getElementById(modalId);
+    if (!el) return;
+    const dentroDeIframe = window.parent && window.parent !== window;
+
+    // Pede à página pai a posição de scroll atual (ela deve responder
+    // com postMessage({type:'parentScroll', scrollY: <número>})).
+    if (dentroDeIframe) {
+        try { window.parent.postMessage({ type: 'requestParentScroll' }, '*'); } catch (err) {}
+    }
+
+    const modal = new bootstrap.Modal(el, { backdrop: true, keyboard: true, focus: false });
+
+    if (dentroDeIframe) {
+        // Aguarda um instante para a resposta do postMessage chegar
+        setTimeout(function() {
+            const wrapper = el; // .modal
+            if (window.__parentScrollY !== null) {
+                wrapper.style.position = 'absolute';
+                wrapper.style.top = Math.max(0, window.__parentScrollY) + 'px';
+                wrapper.style.left = '0';
+                wrapper.style.right = '0';
+                wrapper.style.bottom = 'auto';
+                wrapper.style.height = 'auto';
+            } else {
+                // Sem info do pai: garante ao menos que o modal comece
+                // perto do topo do documento do iframe (não centralizado
+                // no meio de um documento gigante).
+                wrapper.style.position = 'absolute';
+                wrapper.style.top = '20px';
+                wrapper.style.left = '0';
+                wrapper.style.right = '0';
+                wrapper.style.bottom = 'auto';
+                wrapper.style.height = 'auto';
+            }
+            const backdrop = document.querySelector('.modal-backdrop:last-of-type');
+            if (backdrop) { backdrop.style.position = 'absolute'; backdrop.style.height = document.documentElement.scrollHeight + 'px'; }
+        }, 60);
+    }
+
+    modal.show();
+}
 
 // ============================================================
 // 7b. EMPENHOS NO MODAL
@@ -1907,12 +2016,17 @@ async function carregarEmpenhoModal() {
         // Carregar pagamentos (todos os anos, orçamento + RP) se ainda não carregados
         if (!dadosEmpenhos) {
             const siafiSet = new Set(dadosCompletos.map(d => d.numero_siafi).filter(Boolean));
-            const arrays = await Promise.all([
-                ...PAGAMENTOS_CSV_URLS.map(u => _fetchPagamentoCSV(u, 'orc', siafiSet)),
-                ...PAGAMENTOS_RP_CSV_URLS.map(u => _fetchPagamentoCSV(u, 'rp', siafiSet)),
-            ]);
+            const tarefas = [
+                ...PAGAMENTOS_CSV_URLS.map(u => ({ url: u, tipo: 'orc' })),
+                ...PAGAMENTOS_RP_CSV_URLS.map(u => ({ url: u, tipo: 'rp' })),
+            ];
+            window.__pagamentosFalhas = [];
+            const arrays = await _executarEmLotes(tarefas, 3, t => _fetchPagamentoCSV(t.url, t.tipo, siafiSet));
             dadosPagamentosDetalhe = arrays.flat();
             dadosEmpenhos = consolidarPagamentos(dadosPagamentosDetalhe);
+            if (window.__pagamentosFalhas.length) {
+                mostrarToast(`Atenção: ${window.__pagamentosFalhas.length} arquivo(s) de pagamento não carregaram (rede lenta/instável). Recarregue a página para tentar novamente.`, 'error');
+            }
         }
 
         // Filtrar pelo SIAFI (coluna contratoconvenio_saida)
@@ -2228,7 +2342,7 @@ function renderizarDicionario() {
         </div>
 
         <div class="metadata-container" style="margin-top:16px;">
-            <div class="metadata-header"><i class="material-icons me-2" style="vertical-align:middle">receipt_long</i> Pagamentos do Exercício (pagamento2022–2026)</div>
+            <div class="metadata-header"><i class="material-icons me-2" style="vertical-align:middle">receipt_long</i> Repasses do Exercício (pagamento2022–2026)</div>
             <div class="table-responsive">
                 <table class="metadata-table">
                     <thead><tr><th>Campo</th><th>Descrição</th><th>Tipo</th></tr></thead>
@@ -2580,7 +2694,7 @@ window.exportarPGCSV = function() {
 
 window.exportarPGPDF = function() {
     const { jsPDF } = window.jspdf; const doc = new jsPDF({orientation:'landscape'});
-    doc.setFontSize(12); doc.setTextColor(32,68,93); doc.text('Pagamentos — Convênios de Saída', 14, 12);
+    doc.setFontSize(12); doc.setTextColor(32,68,93); doc.text('Repasses — Convênios de Saída', 14, 12);
     doc.setFontSize(9); doc.setTextColor(100,100,100); doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 18);
     doc.autoTable({
         head:[['Exerc.','Órgão','SIAFI','Empenho','Razão Social','Status','V. Empenhado','V. Liquidado','V. Pago']],
@@ -2644,14 +2758,14 @@ window.exportarModalPDF = function() {
     const d = modalConvenioAtual;
     doc.setFontSize(14); doc.setTextColor(32,68,93); doc.text('Detalhes do Convênio', 14, 15);
     doc.setFontSize(10); doc.setTextColor(100,100,100); doc.text(`SIAFI: ${d.numero_siafi||'-'} | Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 22);
-    doc.autoTable({ head:[['Campo','Valor']], body:[['Nº SIAFI',d.numero_siafi||'-'],['Status',d.status||'-'],['Situação',d.situacao||'-'],['Código Órgão',d.codigo_orgao||'-'],['Sigla',d.sigla||'-'],['Órgão',d.orgao||'-'],['CNPJ Proponente',d.cnpj_proponente||'-'],['Razão Social',d.razao_social||'-'],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',formatarMoeda(d.valor_concedente)],['V. Parlamentar',formatarMoeda(d.valor_parlamentar)],['V. Despesa Paga (Convênio)',formatarMoeda(d.valor_pago)],['V. Empenhado (Pagamentos)',formatarMoeda(d.emp_valor_empenhado)],['V. Liquidado (Exercício + RP)',formatarMoeda(d.emp_valor_liquidado)],['V. Pago Financeiro',formatarMoeda(d.emp_vp_financeiro)],['V. Pago RP Processado',formatarMoeda(d.emp_vp_processado)],['V. Pago RP Não Processado',formatarMoeda(d.emp_vp_nao_processado)],['V. Pago Total (Pagamentos)',formatarMoeda(d.emp_valor_pago)],['Objeto',(d.objeto||'-').substring(0,80)]], startY:28, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:9}, columnStyles:{0:{fontStyle:'bold',cellWidth:55}} });
+    doc.autoTable({ head:[['Campo','Valor']], body:[['Nº SIAFI',d.numero_siafi||'-'],['Status',d.status||'-'],['Situação',d.situacao||'-'],['Código Órgão',d.codigo_orgao||'-'],['Sigla',d.sigla||'-'],['Órgão',d.orgao||'-'],['CNPJ Proponente',d.cnpj_proponente||'-'],['Razão Social',d.razao_social||'-'],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',formatarMoeda(d.valor_concedente)],['V. Parlamentar',formatarMoeda(d.valor_parlamentar)],['V. Despesa Paga (Convênio)',formatarMoeda(d.valor_pago)],['V. Empenhado (Repasses)',formatarMoeda(d.emp_valor_empenhado)],['V. Liquidado (Exercício + RP)',formatarMoeda(d.emp_valor_liquidado)],['V. Pago Financeiro',formatarMoeda(d.emp_vp_financeiro)],['V. Pago RP Processado',formatarMoeda(d.emp_vp_processado)],['V. Pago RP Não Processado',formatarMoeda(d.emp_vp_nao_processado)],['V. Pago Total (Repasses)',formatarMoeda(d.emp_valor_pago)],['Objeto',(d.objeto||'-').substring(0,80)]], startY:28, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:9}, columnStyles:{0:{fontStyle:'bold',cellWidth:55}} });
     doc.save(`convenio_${d.numero_siafi||'detalhes'}.pdf`);
 };
 
 window.exportarModalCSV = function() {
     if (!modalConvenioAtual) return;
     const d = modalConvenioAtual;
-    const rows = [['Campo','Valor'],['Nº SIAFI',d.numero_siafi],['Nº Convênio',d.numero_convenio||''],['Inteiro Teor',urlInteiroTeor(d.numero_convenio)||''],['Status',d.status],['Situação',d.situacao],['Código Órgão',d.codigo_orgao],['Sigla',d.sigla],['Órgão',d.orgao],['CNPJ Proponente',d.cnpj_proponente],['Razão Social',d.razao_social],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',d.valor_concedente],['V. Parlamentar',d.valor_parlamentar],['V. Despesa Paga (Convênio)',d.valor_pago],['V. Empenhado (Pagamentos)',d.emp_valor_empenhado],['V. Liquidado (Exercício + RP)',d.emp_valor_liquidado],['V. Pago Financeiro',d.emp_vp_financeiro],['V. Pago RP Processado',d.emp_vp_processado],['V. Pago RP Não Processado',d.emp_vp_nao_processado],['V. Pago Total (Pagamentos)',d.emp_valor_pago],['Objeto',d.objeto||'']];
+    const rows = [['Campo','Valor'],['Nº SIAFI',d.numero_siafi],['Nº Convênio',d.numero_convenio||''],['Inteiro Teor',urlInteiroTeor(d.numero_convenio)||''],['Status',d.status],['Situação',d.situacao],['Código Órgão',d.codigo_orgao],['Sigla',d.sigla],['Órgão',d.orgao],['CNPJ Proponente',d.cnpj_proponente],['Razão Social',d.razao_social],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',d.valor_concedente],['V. Parlamentar',d.valor_parlamentar],['V. Despesa Paga (Convênio)',d.valor_pago],['V. Empenhado (Repasses)',d.emp_valor_empenhado],['V. Liquidado (Exercício + RP)',d.emp_valor_liquidado],['V. Pago Financeiro',d.emp_vp_financeiro],['V. Pago RP Processado',d.emp_vp_processado],['V. Pago RP Não Processado',d.emp_vp_nao_processado],['V. Pago Total (Repasses)',d.emp_valor_pago],['Objeto',d.objeto||'']];
     const csv = rows.map(r=>r.map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(';')).join('\n');
     const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`convenio_${d.numero_siafi||'detalhes'}.csv`; a.click();
 };
