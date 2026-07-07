@@ -1592,6 +1592,8 @@ function renderizarConsulta() {
                 <input type="text" class="form-control" id="filtroNomeOrgaoCI" list="listNomeOrgaoCI" placeholder="Digite ou selecione...">
                 <datalist id="listNomeOrgaoCI">${opcoes.orgaos.map(o=>`<option value="${o}">`).join('')}</datalist>
             </div>
+        </div>
+        <div class="filters-row">
             <div class="filter-group">
                 <label class="filter-label">Município</label>
                 <input type="text" class="form-control" id="filtroMunicipioCI" list="listMunicipioCI" placeholder="Digite ou selecione...">
@@ -1613,6 +1615,8 @@ function renderizarConsulta() {
                 <label class="filter-label">CNPJ Proponente</label>
                 <input type="text" class="form-control" id="filtroCnpjCI" placeholder="Digite o CNPJ...">
             </div>
+        </div>
+        <div class="filters-row">
             <div class="filter-group" style="flex:2;min-width:200px;">
                 <label class="filter-label">Razão Social Proponente</label>
                 <input type="text" class="form-control" id="filtroRazaoCI" list="listRazao" placeholder="Digite ou selecione...">
