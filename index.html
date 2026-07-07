@@ -189,6 +189,9 @@
             white-space: nowrap;
         }
         .table { width: 100%; font-size: 12px; border-collapse: collapse; table-layout: auto; }
+        .table-vg { table-layout: fixed; }
+        .table-fixed-header-container table.table-vg thead th { white-space: normal !important; line-height: 1.25; }
+        .table-vg td.col-orgao { white-space: normal; word-break: break-word; }
         .table th, .table td { border: 1px solid #d6dee6; }
         .table thead th {
             background-color: #54697b !important;
@@ -698,7 +701,7 @@ let colunasVisiveis = {
     descricao_orgao: false, // disponível mas oculta por padrão (duplica 'orgao' quando preenchida)
     numero_siafi: true,
     numero_convenio: true,
-    situacao: true,
+    municipio: true,
     cnpj_proponente: true,
     razao_social: true,
     data_publicacao: true,
@@ -712,7 +715,7 @@ let colunasVisiveis = {
 
 const ordemColunasCI = [
     'ano','codigo_orgao','sigla','orgao','descricao_orgao','numero_siafi','numero_convenio',
-    'situacao','cnpj_proponente','razao_social',
+    'municipio','cnpj_proponente','razao_social',
     'data_publicacao','data_inicio','data_termino','status',
     'valor_concedente','valor_parlamentar',
     'acoes'
@@ -1339,13 +1342,21 @@ function renderizarVisaoGeral() {
 
     <div class="table-container">
         <div class="table-fixed-header-container">
-            <table class="table" id="tabelaVG">
+            <table class="table table-vg" id="tabelaVG">
+                <colgroup>
+                    <col style="width:8%">
+                    <col style="width:10%">
+                    <col style="width:38%">
+                    <col style="width:12%">
+                    <col style="width:16%">
+                    <col style="width:16%">
+                </colgroup>
                 <thead>
                     <tr>
                         <th class="sortable-header" onclick="toggleSortVG('codigo_orgao')">Código <i class="material-icons">unfold_more</i></th>
-                        <th class="sortable-header" onclick="toggleSortVG('sigla')">Sigla Órgão <i class="material-icons">unfold_more</i></th>
+                        <th class="sortable-header" onclick="toggleSortVG('sigla')">Sigla <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header" onclick="toggleSortVG('orgao')">Órgão <i class="material-icons">unfold_more</i></th>
-                        <th class="sortable-header text-center" onclick="toggleSortVG('total_convenios')">Qtd. Convênios <i class="material-icons">unfold_more</i></th>
+                        <th class="sortable-header text-center" onclick="toggleSortVG('total_convenios')">Nº de Convênios <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header text-right" onclick="toggleSortVG('valor_total')">Valor Total <i class="material-icons">unfold_more</i></th>
                         <th class="sortable-header text-right" onclick="toggleSortVG('valor_pago')">Valor Pago <i class="material-icons">unfold_more</i></th>
                     </tr>
@@ -1373,7 +1384,7 @@ function atualizarTabelaVG() {
         <tr>
             <td>${item.codigo_orgao || '-'}</td>
             <td><a href="#" class="orgao-link" onclick="irParaConsultaSigla('${(item.sigla||'').replace(/'/g,"\\'")}');return false;">${item.sigla || '-'}</a></td>
-            <td title="${item.orgao||''}">${(item.orgao||'-').substring(0,40)}${(item.orgao||'').length>40?'...':''}</td>
+            <td class="col-orgao" title="${item.orgao||''}">${item.orgao || '-'}</td>
             <td class="text-center">${item.total_convenios}</td>
             <td class="text-right">${formatarMoeda(item.valor_total)}</td>
             <td class="text-right">${formatarMoeda(item.valor_pago)}</td>
@@ -1469,7 +1480,7 @@ window.buscarVG = function(termo) {
         <tr>
             <td>${item.codigo_orgao||'-'}</td>
             <td><a href="#" class="orgao-link" onclick="irParaConsultaSigla('${(item.sigla||'').replace(/'/g,"\\'")}');return false;">${item.sigla||'-'}</a></td>
-            <td title="${item.orgao||''}">${(item.orgao||'-').substring(0,40)}${(item.orgao||'').length>40?'...':''}</td>
+            <td class="col-orgao" title="${item.orgao||''}">${item.orgao || '-'}</td>
             <td class="text-center">${item.total_convenios}</td>
             <td class="text-right">${formatarMoeda(item.valor_total)}</td>
             <td class="text-right">${formatarMoeda(item.valor_pago)}</td>
@@ -1481,7 +1492,7 @@ window.irParaConsulta = function(orgao) {
     dadosFiltradosCI = [...dadosCompletos];
     document.getElementById('consulta-tab').click();
     setTimeout(() => {
-        ['filtroAnoCI','filtroStatusCI','filtroSituacaoCI'].forEach(id => {
+        ['filtroAnoCI','filtroStatusCI'].forEach(id => {
             const el = document.getElementById(id); if (el) el.value = '';
         });
         ['filtroCodOrgaoCI','filtroSiafiCI','filtroRazaoCI','filtroMunicipioCI'].forEach(id => {
@@ -1499,7 +1510,7 @@ window.irParaConsultaSigla = function(sigla) {
     document.getElementById('consulta-tab').click();
     setTimeout(() => {
         // Limpar todos os filtros de texto
-        ['filtroAnoCI','filtroStatusCI','filtroSituacaoCI'].forEach(id => {
+        ['filtroAnoCI','filtroStatusCI'].forEach(id => {
             const el = document.getElementById(id); if (el) el.value = '';
         });
         ['filtroCodOrgaoCI','filtroSiafiCI','filtroRazaoCI','filtroMunicipioCI'].forEach(id => {
@@ -1521,7 +1532,6 @@ function obterOpcoesCI() {
         codigos: [...new Set(dadosCompletos.map(d=>d.codigo_orgao).filter(Boolean))].sort(),
         orgaos: [...new Set(dadosCompletos.map(d=>d.orgao).filter(Boolean))].sort(),
         status: [...new Set(dadosCompletos.map(d=>d.status).filter(Boolean))].sort(),
-        situacoes: [...new Set(dadosCompletos.map(d=>d.situacao).filter(Boolean))].sort(),
         siafis: [...new Set(dadosCompletos.map(d=>d.numero_siafi).filter(Boolean))].sort(),
         razoes: [...new Set(dadosCompletos.map(d=>d.razao_social).filter(Boolean))].sort(),
         siglas: [...new Set(dadosCompletos.map(d=>d.sigla).filter(Boolean))].sort(),
@@ -1539,13 +1549,13 @@ function gerarCabecalhosCI() {
         else if (col==='sigla' && colunasVisiveis.sigla) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('sigla')">Sigla <i class="material-icons">unfold_more</i></th>`);
         else if (col==='orgao' && colunasVisiveis.orgao) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('orgao')">Órgão <i class="material-icons">unfold_more</i></th>`);
         else if (col==='descricao_orgao' && colunasVisiveis.descricao_orgao) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('descricao_orgao')">Descrição Órgão <i class="material-icons">unfold_more</i></th>`);
-        else if (col==='situacao' && colunasVisiveis.situacao) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('situacao')">Situação <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='municipio' && colunasVisiveis.municipio) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('municipio')">Município <i class="material-icons">unfold_more</i></th>`);
         else if (col==='cnpj_proponente' && colunasVisiveis.cnpj_proponente) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('cnpj_proponente')">CNPJ Proponente <i class="material-icons">unfold_more</i></th>`);
         else if (col==='razao_social' && colunasVisiveis.razao_social) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('razao_social')">Razão Social <i class="material-icons">unfold_more</i></th>`);
         else if (col==='data_publicacao' && colunasVisiveis.data_publicacao) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('data_publicacao')">Dt. Publicação <i class="material-icons">unfold_more</i></th>`);
         else if (col==='data_inicio' && colunasVisiveis.data_inicio) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('data_inicio')">Dt. Início <i class="material-icons">unfold_more</i></th>`);
         else if (col==='data_termino' && colunasVisiveis.data_termino) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('data_termino')">Dt. Término <i class="material-icons">unfold_more</i></th>`);
-        else if (col==='status' && colunasVisiveis.status) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('status')">Status <i class="material-icons">unfold_more</i></th>`);
+        else if (col==='status' && colunasVisiveis.status) cabs.push(`<th class="sortable-header" onclick="toggleSortCI('status')">Situação <i class="material-icons">unfold_more</i></th>`);
         else if (col==='valor_concedente' && colunasVisiveis.valor_concedente) cabs.push(`<th class="sortable-header text-right" onclick="toggleSortCI('valor_concedente')">V. Concedente <i class="material-icons">unfold_more</i></th>`);
         else if (col==='valor_parlamentar' && colunasVisiveis.valor_parlamentar) cabs.push(`<th class="sortable-header text-right" onclick="toggleSortCI('valor_parlamentar')">V. Parlamentar <i class="material-icons">unfold_more</i></th>`);
         else if (col==='acoes') cabs.push('<th class="text-center">Ações</th>');
@@ -1588,17 +1598,10 @@ function renderizarConsulta() {
                 <datalist id="listMunicipioCI">${opcoes.municipios.map(m=>`<option value="${m}">`).join('')}</datalist>
             </div>
             <div class="filter-group">
-                <label class="filter-label">Status</label>
-                <select class="form-select modern-select" id="filtroStatusCI">
-                    <option value="">Todos</option>
-                    ${opcoes.status.map(s=>`<option value="${s}">${s}</option>`).join('')}
-                </select>
-            </div>
-            <div class="filter-group">
                 <label class="filter-label">Situação</label>
-                <select class="form-select modern-select" id="filtroSituacaoCI">
+                <select class="form-select modern-select" id="filtroStatusCI">
                     <option value="">Todas</option>
-                    ${opcoes.situacoes.map(s=>`<option value="${s}">${s}</option>`).join('')}
+                    ${opcoes.status.map(s=>`<option value="${s}">${s}</option>`).join('')}
                 </select>
             </div>
             <div class="filter-group">
@@ -1668,7 +1671,7 @@ function gerarLinhasCI(dados) {
             else if (col==='sigla' && colunasVisiveis.sigla) linha += `<td>${d.sigla||'-'}</td>`;
             else if (col==='orgao' && colunasVisiveis.orgao) linha += `<td title="${d.orgao||''}">${(d.orgao||'-').substring(0,40)}${(d.orgao||'').length>40?'...':''}</td>`;
             else if (col==='descricao_orgao' && colunasVisiveis.descricao_orgao) linha += `<td title="${d.descricao_orgao||''}">${(d.descricao_orgao||'-').substring(0,40)}${(d.descricao_orgao||'').length>40?'...':''}</td>`;
-            else if (col==='situacao' && colunasVisiveis.situacao) linha += `<td>${d.situacao||'-'}</td>`;
+            else if (col==='municipio' && colunasVisiveis.municipio) linha += `<td>${d.municipio||'-'}</td>`;
             else if (col==='cnpj_proponente' && colunasVisiveis.cnpj_proponente) linha += `<td>${d.cnpj_proponente||'-'}</td>`;
             else if (col==='razao_social' && colunasVisiveis.razao_social) linha += `<td title="${d.razao_social||''}">${(d.razao_social||'-').substring(0,35)}${(d.razao_social||'').length>35?'...':''}</td>`;
             else if (col==='data_publicacao' && colunasVisiveis.data_publicacao) linha += `<td>${formatarData(d.data_publicacao)}</td>`;
@@ -1706,7 +1709,6 @@ window.aplicarFiltrosCI = function() {
     const orgao = (document.getElementById('filtroOrgaoCI')?.value||'').toLowerCase().trim();
     const nomeOrgao = (document.getElementById('filtroNomeOrgaoCI')?.value||'').toLowerCase().trim();
     const status = document.getElementById('filtroStatusCI')?.value;
-    const situacao = document.getElementById('filtroSituacaoCI')?.value;
     const siafi = (document.getElementById('filtroSiafiCI')?.value||'').toLowerCase().trim();
     const cnpj = (document.getElementById('filtroCnpjCI')?.value||'').replace(/\D/g,'').toLowerCase().trim();
     const razao = (document.getElementById('filtroRazaoCI')?.value||'').toLowerCase().trim();
@@ -1717,7 +1719,6 @@ window.aplicarFiltrosCI = function() {
         if (orgao && !(d.sigla||'').toLowerCase().includes(orgao)) return false;
         if (nomeOrgao && !(d.orgao||'').toLowerCase().includes(nomeOrgao)) return false;
         if (status && d.status !== status) return false;
-        if (situacao && d.situacao !== situacao) return false;
         if (siafi && !(d.numero_siafi||'').toLowerCase().includes(siafi)) return false;
         if (cnpj && !(d.cnpj_proponente||'').replace(/\D/g,'').includes(cnpj)) return false;
         if (razao && !(d.razao_social||'').toLowerCase().includes(razao)) return false;
@@ -1730,7 +1731,7 @@ window.aplicarFiltrosCI = function() {
     atualizarTabelaCI();
 };
 window.limparFiltrosCI = function() {
-    ['filtroAnoCI','filtroStatusCI','filtroSituacaoCI'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+    ['filtroAnoCI','filtroStatusCI'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
     ['filtroCodOrgaoCI','filtroOrgaoCI','filtroNomeOrgaoCI','filtroSiafiCI','filtroCnpjCI','filtroRazaoCI','filtroMunicipioCI'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
     dadosFiltradosCI = [...dadosCompletos];
     window.cifiltrados = ordenarDados(dadosFiltradosCI, sortConfigCI.coluna, sortConfigCI.direcao);
@@ -1770,13 +1771,13 @@ function renderizarSeletorColunas() {
 
             <div class="column-selector-item"><span class="fixed-column-badge">Fixa</span><label>Nº SIAFI</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colNumConv" ${colunasVisiveis.numero_convenio?'checked':''} onchange="atualizarColunasCI('numero_convenio',this.checked)"><label for="colNumConv">Nº Convênio (Inteiro Teor)</label></div>
-            <div class="column-selector-item"><input type="checkbox" id="colSituacao" ${colunasVisiveis.situacao?'checked':''} onchange="atualizarColunasCI('situacao',this.checked)"><label for="colSituacao">Situação</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colMunicipio" ${colunasVisiveis.municipio?'checked':''} onchange="atualizarColunasCI('municipio',this.checked)"><label for="colMunicipio">Município</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colCnpj" ${colunasVisiveis.cnpj_proponente?'checked':''} onchange="atualizarColunasCI('cnpj_proponente',this.checked)"><label for="colCnpj">CNPJ Proponente</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colRazao" ${colunasVisiveis.razao_social?'checked':''} onchange="atualizarColunasCI('razao_social',this.checked)"><label for="colRazao">Razão Social</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colDtPub" ${colunasVisiveis.data_publicacao?'checked':''} onchange="atualizarColunasCI('data_publicacao',this.checked)"><label for="colDtPub">Dt. Publicação</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colDtIni" ${colunasVisiveis.data_inicio?'checked':''} onchange="atualizarColunasCI('data_inicio',this.checked)"><label for="colDtIni">Dt. Início</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colDtTerm" ${colunasVisiveis.data_termino?'checked':''} onchange="atualizarColunasCI('data_termino',this.checked)"><label for="colDtTerm">Dt. Término</label></div>
-            <div class="column-selector-item"><input type="checkbox" id="colStatus" ${colunasVisiveis.status?'checked':''} onchange="atualizarColunasCI('status',this.checked)"><label for="colStatus">Status</label></div>
+            <div class="column-selector-item"><input type="checkbox" id="colStatus" ${colunasVisiveis.status?'checked':''} onchange="atualizarColunasCI('status',this.checked)"><label for="colStatus">Situação</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colVConc" ${colunasVisiveis.valor_concedente?'checked':''} onchange="atualizarColunasCI('valor_concedente',this.checked)"><label for="colVConc">V. Concedente</label></div>
             <div class="column-selector-item"><input type="checkbox" id="colVParl" ${colunasVisiveis.valor_parlamentar?'checked':''} onchange="atualizarColunasCI('valor_parlamentar',this.checked)"><label for="colVParl">V. Parlamentar</label></div>
             <div class="column-selector-item"><span class="fixed-column-badge">Fixa</span><label>Ações</label></div>
@@ -2482,7 +2483,7 @@ function renderizarPagamentos() {
                     ${opcoes.anos.map(a=>`<option value="${a}">${a}</option>`).join('')}
                 </select>
             </div>
-            <div class="filter-group" style="flex:2;min-width:180px;">
+            <div class="filter-group" style="flex:2;min-width:220px;">
                 <label class="filter-label">Órgão</label>
                 <input type="text" class="form-control" id="filtroOrgaoPG" list="listOrgaoPG" placeholder="Digite ou selecione...">
                 <datalist id="listOrgaoPG">${opcoes.orgaos.map(o=>`<option value="${o}">`).join('')}</datalist>
@@ -2496,9 +2497,15 @@ function renderizarPagamentos() {
                 <label class="filter-label">Nº Empenho</label>
                 <input type="text" class="form-control" id="filtroEmpenhoPG" placeholder="Digite...">
             </div>
-            <div class="filter-group" style="min-width:160px;">
+        </div>
+        <div class="filters-row">
+            <div class="filter-group" style="min-width:180px;">
                 <label class="filter-label">CNPJ/CPF Proponente</label>
                 <input type="text" class="form-control" id="filtroCnpjPG" placeholder="Digite...">
+            </div>
+            <div class="filter-group" style="flex:2;min-width:220px;">
+                <label class="filter-label">Razão Social Proponente</label>
+                <input type="text" class="form-control" id="filtroRazaoPG" placeholder="Digite...">
             </div>
             <div class="filter-group">
                 <label class="filter-label">Status</label>
@@ -2506,10 +2513,6 @@ function renderizarPagamentos() {
                     <option value="">Todos</option>
                     ${opcoes.status.map(s=>`<option value="${s}">${s}</option>`).join('')}
                 </select>
-            </div>
-            <div class="filter-group" style="flex:2;min-width:180px;">
-                <label class="filter-label">Razão Social Proponente</label>
-                <input type="text" class="form-control" id="filtroRazaoPG" placeholder="Digite...">
             </div>
         </div>
         <div class="botoes-abaixo">
@@ -2720,7 +2723,7 @@ window.copiarLink = copiarLinkDireto;
 
 window.exportarVGCSV = function() {
     const dados = (window.vgAgrupados||[]).map(d=>[d.codigo_orgao,d.orgao,d.sigla,d.total_convenios,d.valor_total,d.valor_pago]);
-    const csv = [['Código','Órgão','Sigla','Qtd. Convênios','Valor Total','Valor Pago'].join(';'), ...dados.map(l=>l.map(c=>`"${c||''}"`).join(';'))].join('\n');
+    const csv = [['Código','Órgão','Sigla','Nº de Convênios','Valor Total','Valor Pago'].join(';'), ...dados.map(l=>l.map(c=>`"${c||''}"`).join(';'))].join('\n');
     const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='visao_geral_convenios.csv'; a.click();
 };
 
@@ -2728,7 +2731,7 @@ window.exportarVGPDF = function() {
     const { jsPDF } = window.jspdf; const doc = new jsPDF({orientation:'landscape'});
     doc.setFontSize(12); doc.setTextColor(32,68,93); doc.text('Visão Geral — Convênios de Saída', 14, 12);
     doc.setFontSize(9); doc.setTextColor(100,100,100); doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 18);
-    doc.autoTable({ head:[['Código','Órgão','Sigla','Qtd.','Valor Total','Valor Pago']], body:(window.vgAgrupados||[]).slice(0,100).map(d=>[d.codigo_orgao||'-',d.orgao||'-',d.sigla||'-',d.total_convenios,formatarMoeda(d.valor_total),formatarMoeda(d.valor_pago)]), startY:22, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:8} });
+    doc.autoTable({ head:[['Código','Órgão','Sigla','Nº Convênios','Valor Total','Valor Pago']], body:(window.vgAgrupados||[]).slice(0,100).map(d=>[d.codigo_orgao||'-',d.orgao||'-',d.sigla||'-',d.total_convenios,formatarMoeda(d.valor_total),formatarMoeda(d.valor_pago)]), startY:22, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:8} });
     doc.save('visao_geral_convenios.pdf');
 };
 
