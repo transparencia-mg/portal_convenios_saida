@@ -2402,8 +2402,12 @@ function construirDadosPagamentos() {
     // Mapa código UO → nome do órgão (preenchido em carregarEEnriquecerEmpenhos)
     const mapaOrgaoNome = window._mapaOrgaoNome || new Map();
 
-    // Gerar UMA LINHA POR EMPENHO mas incluindo todos os exercícios no campo ano_exercicio
-    // Isso garante que ao filtrar por qualquer ano de 2022-2026, o registro apareça
+    // Gerar UMA LINHA POR EXERCÍCIO DE CADA EMPENHO (e não mais uma linha única
+    // consolidando todos os anos). Um mesmo empenho pode ter movimentação em
+    // vários exercícios (orçamento do ano + Restos a Pagar pagos em anos
+    // seguintes); cada um desses anos vira sua própria linha na tabela, com
+    // os valores (empenhado/liquidado/pago) referentes SOMENTE àquele ano —
+    // usando o detalhamento por ano que já vem em e.detalhes.
     const resultado = [];
     dadosEmpenhos.forEach(e => {
         const siafi = e.numero_siafi;
@@ -2412,33 +2416,64 @@ function construirDadosPagamentos() {
         const conv = mapa.get(siafi) || {};
         // Nome do órgão: unidade orçamentária do empenho, ou mapa por código, ou fallback do convênio
         const nomeOrgao = e.uo_nome || mapaOrgaoNome.get(e.uo_codigo) || conv.orgao || conv.descricao_orgao || '';
-        // Exercícios ordenados (ex: ["2022","2023","2025"])
-        const exercicios = (e.exercicios || []).slice().sort();
-        resultado.push({
-            ano:               conv.ano || '',
-            // Para filtro e exibição: todos os exercícios em que houve movimento
-            ano_exercicio:     exercicios.join(', ') || e.ano_exercicio || '',
-            exercicios:        exercicios,
-            numero_convenio:   conv.numero_convenio || '',
-            orgao:             nomeOrgao,
-            descricao_orgao:   conv.descricao_orgao || nomeOrgao,
-            sigla_orgao:       e.uo_sigla || conv.sigla || '',
-            numero_siafi:      siafi,
-            numero_empenho:    e.numero_empenho || '',
-            emp_data:          e.data_empenho || '',
-            // Razão social/CNPJ: prioritariamente do convênio (conveniossaida), fallback do credor do empenho
-            razao_social:      conv.razao_social || e.credor_razao || '',
-            cnpj_proponente:   conv.cnpj_proponente || e.credor_cnpj || '',
-            // Status: sempre do convênio (conveniossaida)
-            status:            conv.status || '',
-            elemento:          e.elemento_desc || '',
-            fonte:             e.fonte_desc || '',
-            valor_empenhado:   e.valor_empenhado,
-            valor_liquidado:   e.valor_liquidado,
-            vp_financeiro:     e.vp_financeiro,
-            vp_processado:     e.vp_processado,
-            vp_nao_processado: e.vp_nao_processado,
-            valor_pago:        e.valor_pago,
+
+        // Agrupar os detalhes (linhas originais por ano/tipo orc|rp) por exercício,
+        // somando os valores de cada ano separadamente.
+        const porAno = new Map();
+        (e.detalhes || []).forEach(p => {
+            const ano = p.ano_exercicio || '';
+            if (!porAno.has(ano)) porAno.set(ano, {
+                valor_empenhado: 0, valor_liquidado: 0,
+                vp_financeiro: 0, vp_processado: 0, vp_nao_processado: 0, valor_pago: 0,
+            });
+            const agr = porAno.get(ano);
+            agr.valor_empenhado   += p.valor_empenhado;
+            agr.valor_liquidado   += p.valor_liquidado;
+            agr.vp_financeiro     += p.vp_financeiro;
+            agr.vp_processado     += p.vp_processado;
+            agr.vp_nao_processado += p.vp_nao_processado;
+            agr.valor_pago        += p.valor_pago;
+        });
+
+        // Fallback: se por algum motivo não houver e.detalhes (não deveria ocorrer),
+        // mantém o comportamento anterior de uma única linha consolidada.
+        if (porAno.size === 0) {
+            const exercicios = (e.exercicios || []).slice().sort();
+            porAno.set(exercicios.join(', ') || e.ano_exercicio || '', {
+                valor_empenhado: e.valor_empenhado, valor_liquidado: e.valor_liquidado,
+                vp_financeiro: e.vp_financeiro, vp_processado: e.vp_processado,
+                vp_nao_processado: e.vp_nao_processado, valor_pago: e.valor_pago,
+            });
+        }
+
+        // Uma linha por exercício, ordenadas do mais recente para o mais antigo
+        [...porAno.keys()].sort((a, b) => b.localeCompare(a)).forEach(ano => {
+            const v = porAno.get(ano);
+            resultado.push({
+                ano:               conv.ano || '',
+                ano_exercicio:     ano,
+                exercicios:        [ano],
+                numero_convenio:   conv.numero_convenio || '',
+                orgao:             nomeOrgao,
+                descricao_orgao:   conv.descricao_orgao || nomeOrgao,
+                sigla_orgao:       e.uo_sigla || conv.sigla || '',
+                numero_siafi:      siafi,
+                numero_empenho:    e.numero_empenho || '',
+                emp_data:          e.data_empenho || '',
+                // Razão social/CNPJ: prioritariamente do convênio (conveniossaida), fallback do credor do empenho
+                razao_social:      conv.razao_social || e.credor_razao || '',
+                cnpj_proponente:   conv.cnpj_proponente || e.credor_cnpj || '',
+                // Status: sempre do convênio (conveniossaida)
+                status:            conv.status || '',
+                elemento:          e.elemento_desc || '',
+                fonte:             e.fonte_desc || '',
+                valor_empenhado:   v.valor_empenhado,
+                valor_liquidado:   v.valor_liquidado,
+                vp_financeiro:     v.vp_financeiro,
+                vp_processado:     v.vp_processado,
+                vp_nao_processado: v.vp_nao_processado,
+                valor_pago:        v.valor_pago,
+            });
         });
     });
     return resultado.filter(r => r.numero_siafi);
