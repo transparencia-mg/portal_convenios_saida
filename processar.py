@@ -312,55 +312,11 @@ for arquivo in arquivos_saida:
         pass
 
 # =====================================================
-# GIT
+# RESUMO (o git add/commit/push agora fica só em publicar.py,
+# executado por último no pipeline, depois de TODAS as etapas)
 # =====================================================
 
 if arquivos_gerados > 0:
-
-    resultado = subprocess.run(
-        ["git", "status", "--porcelain"],
-        cwd=REPO,
-        capture_output=True,
-        text=True
-    )
-
-    if resultado.stdout.strip():
-
-        subprocess.run(
-            ["git", "add", "."],
-            cwd=REPO,
-            check=True
-        )
-
-        subprocess.run(
-            [
-                "git",
-                "commit",
-                "-m",
-                "Atualização automática portal convênios"
-            ],
-            cwd=REPO,
-            check=True
-        )
-
-        subprocess.run(
-            ["git", "push"],
-            cwd=REPO,
-            check=True
-        )
-
-        print(
-            "\nGitHub atualizado com sucesso."
-        )
-
-    else:
-
-        print(
-            "\nNenhuma alteração encontrada."
-        )
-
+    print(f"\n{arquivos_gerados} arquivo(s) processado(s) com sucesso.")
 else:
-
-    print(
-        "\nNenhum arquivo foi processado."
-    )
+    print("\nNenhum arquivo foi processado.")
