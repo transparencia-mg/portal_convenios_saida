@@ -1,9 +1,8 @@
 name: portal_convenios_saida
-owner_org: ''
+owner_org: secretaria-estado-governo-segov
 profile: data-package
 resources:
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -68,9 +67,8 @@ resources:
         - name: tempo_a_encaminhador_continuo
           type: string
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Convênios de Saída
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -115,9 +113,8 @@ resources:
         - name: valor_pago_financeiro
           type: string
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Pagamentos 2022
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -162,9 +159,8 @@ resources:
         - name: valor_pago_financeiro
           type: string
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Pagamentos 2023
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -209,9 +205,8 @@ resources:
         - name: valor_pago_financeiro
           type: string
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Pagamentos 2024
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -256,9 +251,8 @@ resources:
         - name: valor_pago_financeiro
           type: string
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Pagamentos 2025
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -303,9 +297,8 @@ resources:
         - name: valor_pago_financeiro
           type: string
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Pagamentos 2026
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -350,9 +343,8 @@ resources:
         - name: valor_pago_nao_processado
           type: geopoint
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Restos a Pagar 2022
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -397,9 +389,8 @@ resources:
         - name: valor_pago_nao_processado
           type: string
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Restos a Pagar 2023
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -444,9 +435,8 @@ resources:
         - name: valor_pago_nao_processado
           type: string
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Restos a Pagar 2024
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -491,9 +481,8 @@ resources:
         - name: valor_pago_nao_processado
           type: string
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Restos a Pagar 2025
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -538,5 +527,5 @@ resources:
         - name: valor_pago_nao_processado
           type: geopoint
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-title: Portal_convenios_saida
+    title: Restos a Pagar 2026
+title: Portal Convênios de Saída
