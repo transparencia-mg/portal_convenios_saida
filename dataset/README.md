@@ -10,6 +10,6 @@ Periodicidade de Atualização: Semanal
 
 Fique a vontade para utilizar os canais oficiais de atendimento do Poder Executivo Estadual:
 
-- [Fale Conosco](https://www.transparencia.mg.gov.br/pagina/fale-conosco-portal-da-transparencia): Dúvidas
+- [Fale Conosco](https://sigconsaida.mg.gov.br/suporte/): Dúvidas
 - [Manifestações de Ouvidoria](http://www.ouvidoriageral.mg.gov.br/): Denúncia, Reclamação, Crítica, Elogio ou Sugestões
 - [Pedido de Acesso à Informação](http://www.acessoainformacao.mg.gov.br/sistema/site/index.html): Acesso às informações dos órgãos e entidades estaduais que não estejam publicamente disponíveis.
