@@ -1,11 +1,10 @@
 {
   "version": "4.16.6",
-  "time": 2.488,
+  "time": 2.173,
   "errors": [],
   "tasks": [
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -128,7 +127,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Convênios de Saída",
         "stats": {
           "hash": "49c19dcdb117f3b58e1ec2590ed6d057",
           "bytes": 7238162,
@@ -136,7 +135,7 @@
           "rows": 22147
         }
       },
-      "time": 1.621,
+      "time": 1.43,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -166,7 +165,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -249,7 +247,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Pagamentos 2022",
         "stats": {
           "hash": "",
           "bytes": 0,
@@ -257,7 +255,7 @@
           "rows": 0
         }
       },
-      "time": 0.099,
+      "time": 0.083,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -37288,7 +37286,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -37371,7 +37368,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Pagamentos 2023",
         "stats": {
           "hash": "",
           "bytes": 0,
@@ -37379,7 +37376,7 @@
           "rows": 0
         }
       },
-      "time": 0.098,
+      "time": 0.083,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -74410,7 +74407,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -74493,7 +74489,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Pagamentos 2024",
         "stats": {
           "hash": "",
           "bytes": 0,
@@ -74501,7 +74497,7 @@
           "rows": 0
         }
       },
-      "time": 0.096,
+      "time": 0.081,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -111532,7 +111528,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -111615,7 +111610,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Pagamentos 2025",
         "stats": {
           "hash": "",
           "bytes": 0,
@@ -111623,7 +111618,7 @@
           "rows": 0
         }
       },
-      "time": 0.099,
+      "time": 0.083,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -148654,7 +148649,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -148737,7 +148731,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Pagamentos 2026",
         "stats": {
           "hash": "7cc1358b3686ace2462bec63d5ace621",
           "bytes": 88502,
@@ -148745,7 +148739,7 @@
           "rows": 359
         }
       },
-      "time": 0.048,
+      "time": 0.041,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -162059,7 +162053,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -162142,7 +162135,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Restos a Pagar 2022",
         "stats": {
           "hash": "8db68444bccffbd0f6cdcefca7be92c7",
           "bytes": 118045,
@@ -162150,7 +162143,7 @@
           "rows": 577
         }
       },
-      "time": 0.074,
+      "time": 0.063,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -189265,7 +189258,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -189348,7 +189340,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Restos a Pagar 2023",
         "stats": {
           "hash": "6dc93711d08f41e49170750273ce4e76",
           "bytes": 112784,
@@ -189356,7 +189348,7 @@
           "rows": 530
         }
       },
-      "time": 0.061,
+      "time": 0.051,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -208997,7 +208989,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -209080,7 +209071,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Restos a Pagar 2024",
         "stats": {
           "hash": "5563d077947fcbe2816c0f443c7e652a",
           "bytes": 156278,
@@ -209088,7 +209079,7 @@
           "rows": 670
         }
       },
-      "time": 0.072,
+      "time": 0.062,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -233909,7 +233900,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -233992,7 +233982,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Restos a Pagar 2025",
         "stats": {
           "hash": "9be20b4a6d783cc4024b090b2f618853",
           "bytes": 37698,
@@ -234000,7 +233990,7 @@
           "rows": 173
         }
       },
-      "time": 0.032,
+      "time": 0.028,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -240432,7 +240422,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -240515,7 +240504,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Restos a Pagar 2026",
         "stats": {
           "hash": "c1ce00d8036c333b1adea9c5c2bf4bb4",
           "bytes": 35528,
@@ -240523,7 +240512,7 @@
           "rows": 160
         }
       },
-      "time": 0.035,
+      "time": 0.031,
       "scope": [
         "hash-count-error",
         "byte-count-error",
