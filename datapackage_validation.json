@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 2.552,
+  "time": 2.535,
   "errors": [],
   "tasks": [
     {
@@ -135,7 +135,7 @@
           "rows": 22147
         }
       },
-      "time": 1.658,
+      "time": 1.662,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -255,7 +255,7 @@
           "rows": 0
         }
       },
-      "time": 0.1,
+      "time": 0.101,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -37376,7 +37376,7 @@
           "rows": 0
         }
       },
-      "time": 0.1,
+      "time": 0.098,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -111618,7 +111618,7 @@
           "rows": 0
         }
       },
-      "time": 0.101,
+      "time": 0.099,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -148733,13 +148733,13 @@
         "scheme": "file",
         "title": "Pagamentos 2026",
         "stats": {
-          "hash": "7cc1358b3686ace2462bec63d5ace621",
-          "bytes": 88502,
+          "hash": "e0ef2a9c49ccc67580bf71e93f740f2e",
+          "bytes": 88517,
           "fields": 17,
           "rows": 359
         }
       },
-      "time": 0.049,
+      "time": 0.048,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -148967,8 +148967,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "89045,45",
-            "89045,45",
+            "178090,9",
+            "178090,9",
             "89045,45"
           ],
           "rowNumber": 6,
@@ -149078,8 +149078,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "63495,81",
-            "63495,81",
+            "126991,62",
+            "126991,62",
             "63495,81"
           ],
           "rowNumber": 9,
@@ -149892,8 +149892,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "84912,15",
-            "84912,15",
+            "169824,31",
+            "169824,31",
             "84912,15"
           ],
           "rowNumber": 31,
@@ -152001,8 +152001,8 @@
             "SUBVENCOES SOCIAIS",
             "60",
             "RECURSOS DIRETAMENTE ARRECADADOS",
-            "608660,04",
-            "608660,04",
+            "1217320,08",
+            "1217320,08",
             "608660,04"
           ],
           "rowNumber": 88,
@@ -152038,8 +152038,8 @@
             "SUBVENCOES SOCIAIS",
             "60",
             "RECURSOS DIRETAMENTE ARRECADADOS",
-            "566736,12",
-            "566736,12",
+            "1133472,24",
+            "1133472,24",
             "566736,12"
           ],
           "rowNumber": 89,
@@ -152075,8 +152075,8 @@
             "SUBVENCOES SOCIAIS",
             "60",
             "RECURSOS DIRETAMENTE ARRECADADOS",
-            "609610,92",
-            "609610,92",
+            "1219221,84",
+            "1219221,84",
             "609610,92"
           ],
           "rowNumber": 90,
@@ -153039,7 +153039,7 @@
             "EXPLORACAO DE RECURSOS MINERAIS",
             "270000,0",
             "270000,0",
-            "0,0"
+            "270000,0"
           ],
           "rowNumber": 116,
           "rowPosition": 117,
@@ -189348,7 +189348,7 @@
           "rows": 530
         }
       },
-      "time": 0.062,
+      "time": 0.06,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -209079,7 +209079,7 @@
           "rows": 670
         }
       },
-      "time": 0.075,
+      "time": 0.072,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -233990,7 +233990,7 @@
           "rows": 173
         }
       },
-      "time": 0.033,
+      "time": 0.032,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -240506,8 +240506,8 @@
         "scheme": "file",
         "title": "Restos a Pagar 2026",
         "stats": {
-          "hash": "c1ce00d8036c333b1adea9c5c2bf4bb4",
-          "bytes": 35528,
+          "hash": "daa4204c41284b7c80c1ab7e0c6f2dc5",
+          "bytes": 35532,
           "fields": 17,
           "rows": 160
         }
@@ -241926,7 +241926,7 @@
             "EXPLORACAO DE RECURSOS MINERAIS",
             "23850,0",
             "0,0",
-            "0,0"
+            "23850,0"
           ],
           "rowNumber": 34,
           "rowPosition": 35,
@@ -241963,7 +241963,7 @@
             "EXPLORACAO DE RECURSOS MINERAIS",
             "23850,0",
             "0,0",
-            "0,0"
+            "23850,0"
           ],
           "rowNumber": 34,
           "rowPosition": 35,
@@ -241976,6 +241976,43 @@
           ],
           "note": "type is \"geopoint/default\"",
           "message": "Type error in the cell \"23850,0\" in row \"35\" and field \"valor_despesa_liquidada\" at position \"15\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "23850,0",
+          "fieldName": "valor_pago_nao_processado",
+          "fieldNumber": 17,
+          "fieldPosition": 17,
+          "cells": [
+            "9408084",
+            "337",
+            "2023-12-28 00:00:00",
+            "PM CAETE",
+            "18.302.299/0001-02",
+            "SEDE",
+            "1221",
+            "SECRETARIA DE ESTADO DE DESENVOLVIMENTO ECONOMICO",
+            "41",
+            "CONTRIBUICOES",
+            "1",
+            "CONTRIBUICOES",
+            "32",
+            "EXPLORACAO DE RECURSOS MINERAIS",
+            "23850,0",
+            "0,0",
+            "23850,0"
+          ],
+          "rowNumber": 34,
+          "rowPosition": 35,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"23850,0\" in row \"35\" and field \"valor_pago_nao_processado\" at position \"17\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -247974,13 +248011,13 @@
         }
       ],
       "stats": {
-        "errors": 201
+        "errors": 202
       },
       "valid": false
     }
   ],
   "stats": {
-    "errors": 6665,
+    "errors": 6666,
     "tasks": 11
   },
   "valid": false
