@@ -2740,7 +2740,7 @@ window.exportarPGPDF = function() {
     doc.setFontSize(9); doc.setTextColor(100,100,100); doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 18);
     doc.autoTable({
         head:[['Exerc.','Órgão','SIAFI','Empenho','Razão Social','Status','V. Empenhado','V. Liquidado','V. Pago']],
-        body:(window.pgfiltrados||[]).slice(0,100).map(d=>[
+        body:(window.pgfiltrados||[]).map(d=>[
             d.ano_exercicio||'-',(d.orgao||'-').substring(0,20),d.numero_siafi||'-',d.numero_empenho||'-',
             (d.razao_social||'-').substring(0,20),d.status||'-',
             formatarMoeda(d.valor_empenhado),formatarMoeda(d.valor_liquidado),formatarMoeda(d.valor_pago)
@@ -2770,7 +2770,7 @@ window.exportarVGPDF = function() {
     const { jsPDF } = window.jspdf; const doc = new jsPDF({orientation:'landscape'});
     doc.setFontSize(12); doc.setTextColor(32,68,93); doc.text('Visão Geral — Convênios de Saída', 14, 12);
     doc.setFontSize(9); doc.setTextColor(100,100,100); doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 18);
-    doc.autoTable({ head:[['Código','Órgão','Sigla','Nº Convênios','Valor Total','Valor Pago']], body:(window.vgAgrupados||[]).slice(0,100).map(d=>[d.codigo_orgao||'-',d.orgao||'-',d.sigla||'-',d.total_convenios,formatarMoeda(d.valor_total),formatarMoeda(d.valor_pago)]), startY:22, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:8} });
+    doc.autoTable({ head:[['Código','Órgão','Sigla','Nº Convênios','Valor Total','Valor Pago']], body:(window.vgAgrupados||[]).map(d=>[d.codigo_orgao||'-',d.orgao||'-',d.sigla||'-',d.total_convenios,formatarMoeda(d.valor_total),formatarMoeda(d.valor_pago)]), startY:22, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:8} });
     doc.save('visao_geral_convenios.pdf');
 };
 
@@ -2790,7 +2790,7 @@ window.exportarCIPDF = function() {
     const { jsPDF } = window.jspdf; const doc = new jsPDF({orientation:'landscape'});
     doc.setFontSize(12); doc.setTextColor(32,68,93); doc.text('Consulta — Convênios de Saída', 14, 12);
     doc.setFontSize(9); doc.setTextColor(100,100,100); doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 18);
-    doc.autoTable({ head:[['Ano','Sigla','Órgão','Nº SIAFI','Status','Razão Social','V. Concedente','V. Parlamentar']], body:(window.cifiltrados||[]).slice(0,100).map(d=>[d.ano||'-',d.sigla||'-',d.orgao||'-',d.numero_siafi||'-',d.status||'-',(d.razao_social||'-').substring(0,30),formatarMoeda(d.valor_concedente),formatarMoeda(d.valor_parlamentar)]), startY:22, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:7} });
+    doc.autoTable({ head:[['Ano','Sigla','Órgão','Nº SIAFI','Status','Razão Social','V. Concedente','V. Parlamentar']], body:(window.cifiltrados||[]).map(d=>[d.ano||'-',d.sigla||'-',d.orgao||'-',d.numero_siafi||'-',d.status||'-',(d.razao_social||'-').substring(0,30),formatarMoeda(d.valor_concedente),formatarMoeda(d.valor_parlamentar)]), startY:22, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:7} });
     doc.save('convenios_saida.pdf');
 };
 
