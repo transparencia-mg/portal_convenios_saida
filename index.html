@@ -11,8 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -629,7 +627,6 @@
                 </div>
             </div>
             <div class="modal-footer" style="gap:8px;">
-                <button class="btn-export" onclick="exportarModalPDF()"><i class="material-icons">print</i> PDF</button>
                 <button class="btn-export" onclick="exportarModalCSV()"><i class="material-icons">description</i> CSV</button>
                 <button class="btn-export" id="btnExportEmpenhoCSV" style="display:none" onclick="exportarEmpenhoCSV()"><i class="material-icons">description</i> CSV Empenhos</button>
                 <button class="btn-export" onclick="copiarLinkDireto()"><i class="material-icons">link</i> Copiar Link</button>
@@ -855,6 +852,13 @@ async function carregarDados() {
 
                     return {
                         ano:                    ano || '',
+                        id_convenio:            row['id_convenio'] || row['ID_CONVENIO'] || '',
+                        cd_plano_trabalho:      row['cd_plano_trabalho'] || row['CD_PLANO_TRABALHO'] || '',
+                        id_situacao_convenio:   row['id_situacao_convenio'] || row['ID_SITUACAO_CONVENIO'] || '',
+                        numero_proposta:        row['numero_proposta'] || row['NUMERO_PROPOSTA'] || '',
+                        numero_plano:           row['numero_plano'] || row['NUMERO_PLANO'] || '',
+                        situacao_cagec:         row['situacao_cagec'] || row['SITUACAO_CAGEC'] || '',
+                        id_status_convenio:     row['id_status_convenio'] || row['ID_STATUS_CONVENIO'] || '',
                         codigo_orgao:           row['codigo_orgao'] || row['CODIGO_ORGAO'] || row['cod_orgao'] || '',
                         sigla:                  row['sigla'] || row['SIGLA'] || row['orgao_sigla'] || '',
                         orgao:                  row['orgao'] || row['ORGAO'] || row['nome_orgao'] || row['descricao_orgao'] || row['DESCRICAO_ORGAO'] || row['unidade_orcamentaria_nome'] || row['UNIDADE_ORCAMENTARIA_NOME'] || '',
@@ -1331,7 +1335,6 @@ function renderizarVisaoGeral() {
     <div class="toolbar">
         <div class="toolbar-left">
             <button class="btn-export" onclick="exportarVGCSV()"><i class="material-icons">description</i> CSV</button>
-            <button class="btn-export" onclick="exportarVGPDF()"><i class="material-icons">print</i> PDF</button>
             <button class="btn-export" onclick="copiarLinkDireto()"><i class="material-icons">link</i> Copiar Link</button>
         </div>
         <div class="toolbar-right" style="display:flex;align-items:center;gap:8px;">
@@ -1632,7 +1635,6 @@ function renderizarConsulta() {
     <div class="toolbar">
         <div class="toolbar-left">
             <button class="btn-export" onclick="exportarCICSV()"><i class="material-icons">description</i> CSV</button>
-            <button class="btn-export" onclick="exportarCIPDF()"><i class="material-icons">print</i> PDF</button>
             <button class="btn-export" onclick="copiarLinkDireto()"><i class="material-icons">link</i> Copiar Link</button>
             ${renderizarSeletorColunas()}
         </div>
@@ -1668,7 +1670,7 @@ function gerarLinhasCI(dados) {
     return dados.map(d => {
         let linha = '<tr>';
         for (const col of ordemColunasCI) {
-            if (col==='numero_siafi') linha += `<td><a href="#" class="processo-link" onclick="verDetalhes('${(d.numero_siafi||'').replace(/'/g,"\\'")}');return false;">${d.numero_siafi||'-'}</a></td>`;
+            if (col==='numero_siafi') linha += `<td><a href="#" class="processo-link" onclick="verDetalhes('${(d.numero_siafi||'').replace(/'/g,"\\'")}','${(d.id_convenio||'').toString().replace(/'/g,"\\'")}');return false;">${d.numero_siafi||'-'}</a></td>`;
             else if (col==='numero_convenio' && colunasVisiveis.numero_convenio) linha += `<td>${linkInteiroTeor(d.numero_convenio)}</td>`;
             else if (col==='ano' && colunasVisiveis.ano) linha += `<td>${d.ano||'-'}</td>`;
             else if (col==='codigo_orgao' && colunasVisiveis.codigo_orgao) linha += `<td>${d.codigo_orgao||'-'}</td>`;
@@ -1684,7 +1686,7 @@ function gerarLinhasCI(dados) {
             else if (col==='status' && colunasVisiveis.status) linha += `<td><span class="badge-status ${getBadgeStatus(d.status)}">${d.status||'-'}</span></td>`;
             else if (col==='valor_concedente' && colunasVisiveis.valor_concedente) linha += `<td class="text-right">${formatarMoeda(d.valor_concedente)}</td>`;
             else if (col==='valor_parlamentar' && colunasVisiveis.valor_parlamentar) linha += `<td class="text-right">${formatarMoeda(d.valor_parlamentar)}</td>`;
-            else if (col==='acoes') linha += `<td class="text-center"><button class="btn-action" onclick="verDetalhes('${(d.numero_siafi||'').replace(/'/g,"\\'")}')"><i class="material-icons" style="font-size:15px">visibility</i></button></td>`;
+            else if (col==='acoes') linha += `<td class="text-center"><button class="btn-action" onclick="verDetalhes('${(d.numero_siafi||'').replace(/'/g,"\\'")}','${(d.id_convenio||'').toString().replace(/'/g,"\\'")}')"><i class="material-icons" style="font-size:15px">visibility</i></button></td>`;
         }
         return linha + '</tr>';
     }).join('');
@@ -1801,8 +1803,8 @@ window.atualizarColunasCI = function(col, checked) {
 // ============================================================
 // 7. MODAL DETALHES
 // ============================================================
-window.verDetalhes = function(siafi) {
-    const d = dadosCompletos.find(x => x.numero_siafi === siafi);
+window.verDetalhes = function(siafi, idConvenio) {
+    const d = idConvenio ? dadosCompletos.find(x => x.id_convenio === idConvenio) : dadosCompletos.find(x => x.numero_siafi === siafi);
     if (!d) return;
     modalConvenioAtual = d;
     const raw = d._raw || {};
@@ -2301,9 +2303,6 @@ function renderizarDownloads() {
             <button class="btn-export" style="height:36px;" onclick="exportarCICSV()">
                 <i class="material-icons">description</i> CSV — Todos os Convênios
             </button>
-            <button class="btn-export" style="height:36px;" onclick="exportarCIPDF()">
-                <i class="material-icons">print</i> PDF — Todos os Convênios
-            </button>
         </div>
     </div>`;
     setTimeout(iframeUpdateHeight, 300);
@@ -2563,7 +2562,6 @@ function renderizarPagamentos() {
     <div class="toolbar">
         <div class="toolbar-left">
             <button class="btn-export" onclick="exportarPGCSV()"><i class="material-icons">description</i> CSV</button>
-            <button class="btn-export" onclick="exportarPGPDF()"><i class="material-icons">print</i> PDF</button>
             <button class="btn-export" onclick="copiarLinkDireto()"><i class="material-icons">link</i> Copiar Link</button>
         </div>
         <div class="toolbar-right" style="display:flex;align-items:center;gap:8px;">
@@ -2734,23 +2732,6 @@ window.exportarPGCSV = function() {
     const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='pagamentos_convenios.csv'; a.click();
 };
 
-window.exportarPGPDF = function() {
-    const { jsPDF } = window.jspdf; const doc = new jsPDF({orientation:'landscape'});
-    doc.setFontSize(12); doc.setTextColor(32,68,93); doc.text('Repasses — Convênios de Saída', 14, 12);
-    doc.setFontSize(9); doc.setTextColor(100,100,100); doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 18);
-    doc.autoTable({
-        head:[['Exerc.','Órgão','SIAFI','Empenho','Razão Social','Status','V. Empenhado','V. Liquidado','V. Pago']],
-        body:(window.pgfiltrados||[]).map(d=>[
-            d.ano_exercicio||'-',(d.orgao||'-').substring(0,20),d.numero_siafi||'-',d.numero_empenho||'-',
-            (d.razao_social||'-').substring(0,20),d.status||'-',
-            formatarMoeda(d.valor_empenhado),formatarMoeda(d.valor_liquidado),formatarMoeda(d.valor_pago)
-        ]),
-        startY:22, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:7}
-    });
-    doc.save('pagamentos_convenios.pdf');
-};
-
-
 function copiarLinkDireto() {
     navigator.clipboard.writeText(window.location.href).then(() => {
         const toast = document.getElementById('toastSucesso');
@@ -2766,42 +2747,18 @@ window.exportarVGCSV = function() {
     const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='visao_geral_convenios.csv'; a.click();
 };
 
-window.exportarVGPDF = function() {
-    const { jsPDF } = window.jspdf; const doc = new jsPDF({orientation:'landscape'});
-    doc.setFontSize(12); doc.setTextColor(32,68,93); doc.text('Visão Geral — Convênios de Saída', 14, 12);
-    doc.setFontSize(9); doc.setTextColor(100,100,100); doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 18);
-    doc.autoTable({ head:[['Código','Órgão','Sigla','Nº Convênios','Valor Total','Valor Pago']], body:(window.vgAgrupados||[]).map(d=>[d.codigo_orgao||'-',d.orgao||'-',d.sigla||'-',d.total_convenios,formatarMoeda(d.valor_total),formatarMoeda(d.valor_pago)]), startY:22, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:8} });
-    doc.save('visao_geral_convenios.pdf');
-};
-
 window.exportarCICSV = function() {
     const dados = (window.cifiltrados||dadosCompletos).map(d=>[
-        d.ano,d.codigo_orgao,d.sigla,d.orgao,d.numero_siafi,
-        d.numero_convenio,urlInteiroTeor(d.numero_convenio)||'',
-        d.situacao,d.cnpj_proponente,d.razao_social,
+        d.ano,d.id_convenio,d.cd_plano_trabalho,d.id_situacao_convenio,d.situacao,
+        d.numero_proposta,d.numero_plano,d.numero_convenio,urlInteiroTeor(d.numero_convenio)||'',
+        d.numero_siafi,d.codigo_orgao,d.sigla,d.descricao_orgao||d.orgao,d.municipio,
+        d.cnpj_proponente,d.razao_social,d.situacao_cagec,
         formatarData(d.data_publicacao),formatarData(d.data_inicio),formatarData(d.data_termino),
-        d.status,d.valor_concedente,d.valor_parlamentar
+        d.valor_concedente,d.valor_parlamentar,d.id_status_convenio,d.status,
+        d.valor_empenhado,d.valor_pago
     ]);
-    const csv = [['Ano','Cód. Órgão','Sigla','Órgão','Nº SIAFI','Nº Convênio','Link Inteiro Teor','Situação','CNPJ Proponente','Razão Social','Dt. Publicação','Dt. Início','Dt. Término','Status','V. Concedente','V. Parlamentar'].join(';'), ...dados.map(l=>l.map(c=>`"${c||''}"`).join(';'))].join('\n');
+    const csv = [['Ano','ID Convênio','Cód. Plano de Trabalho','ID Situação Convênio','Situação','Nº Proposta','Nº Plano','Nº Convênio','Link Inteiro Teor','Nº SIAFI','Cód. Órgão','Sigla','Órgão','Município','CNPJ Proponente','Razão Social Proponente','Situação CAGEC','Dt. Publicação','Dt. Início','Dt. Término','V. Concedente','V. Parlamentar','ID Status Convênio','Status Convênio','V. Despesa Empenhada','V. Despesa Paga'].join(';'), ...dados.map(l=>l.map(c=>`"${(c!==undefined&&c!==null?c:'')}"`).join(';'))].join('\n');
     const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='convenios_saida.csv'; a.click();
-};
-
-window.exportarCIPDF = function() {
-    const { jsPDF } = window.jspdf; const doc = new jsPDF({orientation:'landscape'});
-    doc.setFontSize(12); doc.setTextColor(32,68,93); doc.text('Consulta — Convênios de Saída', 14, 12);
-    doc.setFontSize(9); doc.setTextColor(100,100,100); doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 18);
-    doc.autoTable({ head:[['Ano','Sigla','Órgão','Nº SIAFI','Status','Razão Social','V. Concedente','V. Parlamentar']], body:(window.cifiltrados||[]).map(d=>[d.ano||'-',d.sigla||'-',d.orgao||'-',d.numero_siafi||'-',d.status||'-',(d.razao_social||'-').substring(0,30),formatarMoeda(d.valor_concedente),formatarMoeda(d.valor_parlamentar)]), startY:22, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:7} });
-    doc.save('convenios_saida.pdf');
-};
-
-window.exportarModalPDF = function() {
-    if (!modalConvenioAtual) return;
-    const { jsPDF } = window.jspdf; const doc = new jsPDF({orientation:'portrait'});
-    const d = modalConvenioAtual;
-    doc.setFontSize(14); doc.setTextColor(32,68,93); doc.text('Detalhes do Convênio', 14, 15);
-    doc.setFontSize(10); doc.setTextColor(100,100,100); doc.text(`SIAFI: ${d.numero_siafi||'-'} | Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, 22);
-    doc.autoTable({ head:[['Campo','Valor']], body:[['Nº SIAFI',d.numero_siafi||'-'],['Status',d.status||'-'],['Situação',d.situacao||'-'],['Código Órgão',d.codigo_orgao||'-'],['Sigla',d.sigla||'-'],['Órgão',d.orgao||'-'],['CNPJ Proponente',d.cnpj_proponente||'-'],['Razão Social',d.razao_social||'-'],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',formatarMoeda(d.valor_concedente)],['V. Parlamentar',formatarMoeda(d.valor_parlamentar)],['V. Despesa Paga (Convênio)',formatarMoeda(d.valor_pago)],['V. Empenhado (Repasses)',formatarMoeda(d.emp_valor_empenhado)],['V. Liquidado (Exercício + RP)',formatarMoeda(d.emp_valor_liquidado)],['V. Pago Financeiro',formatarMoeda(d.emp_vp_financeiro)],['V. Pago RP Processado',formatarMoeda(d.emp_vp_processado)],['V. Pago RP Não Processado',formatarMoeda(d.emp_vp_nao_processado)],['V. Pago Total (Repasses)',formatarMoeda(d.emp_valor_pago)],['Objeto',(d.objeto||'-').substring(0,80)]], startY:28, headStyles:{fillColor:[32,68,93]}, styles:{fontSize:9}, columnStyles:{0:{fontStyle:'bold',cellWidth:55}} });
-    doc.save(`convenio_${d.numero_siafi||'detalhes'}.pdf`);
 };
 
 window.exportarModalCSV = function() {
