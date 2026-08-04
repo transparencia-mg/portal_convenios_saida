@@ -785,20 +785,42 @@ function getBadgeStatus(status) {
     return 'badge-outros';
 }
 
-// Monta a URL do inteiro teor a partir do nº do convênio (formato NNNNNNNNNN/AAAA)
-// Ex.: 5191001281/2016 → https://transparencia.sigconsaida.mg.gov.br/#/instrumento/2016/5191001281/pdf
-function urlInteiroTeor(numeroConvenio) {
+// Monta as URLs do PDF do Plano e do PDF do Termo a partir do nº do convênio (formato NNNNNNNNNN/AAAA)
+// Ex.: 5191001281/2016 →
+//   Plano: https://www.convenios.mg.gov.br/sigconv2/ws/rest/mobile/instrumentos/2016/5191001281/pdf
+//   Termo: https://www.convenios.mg.gov.br/sigconv2/ws/rest/mobile/instrumentos/2016/5191001281/termo/pdf
+function urlPlanoPDF(numeroConvenio) {
     const m = (numeroConvenio || '').toString().trim().match(/^(\d+)\/(\d{4})$/);
     if (!m) return null;
-    return `https://transparencia.sigconsaida.mg.gov.br/#/instrumento/${m[2]}/${m[1]}/pdf`;
+    const numero = m[1], ultimos4Digitos = m[2];
+    return `https://www.convenios.mg.gov.br/sigconv2/ws/rest/mobile/instrumentos/${ultimos4Digitos}/${numero}/pdf`;
 }
 
-// Renderiza o nº do convênio como link para o inteiro teor (ou texto simples se sem padrão)
+function urlTermoPDF(numeroConvenio) {
+    const m = (numeroConvenio || '').toString().trim().match(/^(\d+)\/(\d{4})$/);
+    if (!m) return null;
+    const numero = m[1], ultimos4Digitos = m[2];
+    return `https://www.convenios.mg.gov.br/sigconv2/ws/rest/mobile/instrumentos/${ultimos4Digitos}/${numero}/termo/pdf`;
+}
+
+// Mantido por compatibilidade: retorna a URL do PDF do Plano
+function urlInteiroTeor(numeroConvenio) {
+    return urlPlanoPDF(numeroConvenio);
+}
+
+// Renderiza o nº do convênio com links para o PDF do Plano e o PDF do Termo (ou texto simples se sem padrão)
 function linkInteiroTeor(numeroConvenio) {
     if (!numeroConvenio) return '-';
-    const url = urlInteiroTeor(numeroConvenio);
-    if (!url) return numeroConvenio;
-    return `<a href="${url}" target="_blank" rel="noopener" class="processo-link" title="Abrir inteiro teor (PDF) no SIGCON-Saída" style="white-space:nowrap;">${numeroConvenio} <i class="material-icons" style="font-size:13px;vertical-align:middle;color:#b93c42;">picture_as_pdf</i></a>`;
+    const urlPlano = urlPlanoPDF(numeroConvenio);
+    const urlTermo = urlTermoPDF(numeroConvenio);
+    if (!urlPlano) return numeroConvenio;
+    return `${numeroConvenio}
+        <a href="${urlPlano}" target="_blank" rel="noopener" class="processo-link" title="Abrir PDF do Plano" style="white-space:nowrap;margin-left:4px;">
+            <i class="material-icons" style="font-size:13px;vertical-align:middle;color:#b93c42;">picture_as_pdf</i>Plano
+        </a>
+        <a href="${urlTermo}" target="_blank" rel="noopener" class="processo-link" title="Abrir PDF do Termo" style="white-space:nowrap;margin-left:4px;">
+            <i class="material-icons" style="font-size:13px;vertical-align:middle;color:#1a3a5c;">picture_as_pdf</i>Termo
+        </a>`;
 }
 
 function extrairAno(row) {
@@ -1825,7 +1847,7 @@ window.verDetalhes = function(siafi, idConvenio) {
             <div class="col-md-6">
                 <div class="info-card primary">
                     <div class="info-label">Nº SIAFI</div><div class="info-value highlight">${d.numero_siafi||'-'}</div>
-                    <div class="info-label mt-2">Nº Convênio</div><div class="info-value">${d.numero_convenio||'-'}${urlInteiroTeor(d.numero_convenio) ? ` &nbsp;<a href="${urlInteiroTeor(d.numero_convenio)}" target="_blank" rel="noopener" class="btn-export" style="display:inline-flex;align-items:center;gap:4px;padding:2px 10px;font-size:11px;text-decoration:none;vertical-align:middle;"><i class="material-icons" style="font-size:14px;color:#b93c42;">picture_as_pdf</i> Inteiro Teor</a>` : ''}</div>
+                    <div class="info-label mt-2">Nº Convênio</div><div class="info-value">${d.numero_convenio||'-'}${urlPlanoPDF(d.numero_convenio) ? ` &nbsp;<a href="${urlPlanoPDF(d.numero_convenio)}" target="_blank" rel="noopener" class="btn-export" style="display:inline-flex;align-items:center;gap:4px;padding:2px 10px;font-size:11px;text-decoration:none;vertical-align:middle;"><i class="material-icons" style="font-size:14px;color:#b93c42;">picture_as_pdf</i> PDF do Plano</a> &nbsp;<a href="${urlTermoPDF(d.numero_convenio)}" target="_blank" rel="noopener" class="btn-export" style="display:inline-flex;align-items:center;gap:4px;padding:2px 10px;font-size:11px;text-decoration:none;vertical-align:middle;"><i class="material-icons" style="font-size:14px;color:#1a3a5c;">picture_as_pdf</i> PDF do Termo</a>` : ''}</div>
                     <div class="info-label mt-2">Status</div><div class="info-value"><span class="badge-status ${getBadgeStatus(d.status)}">${d.status||'-'}</span></div>
                     <div class="info-label mt-2">Situação</div><div class="info-value">${d.situacao||'-'}</div>
                 </div>
@@ -2726,8 +2748,8 @@ window.buscarPG = function(termo) {
 
 window.exportarPGCSV = function() {
     const dados = window.pgfiltrados || [];
-    const csv = [['Exercício(s)','Nome do Órgão','Nº SIAFI','Nº Convênio','Link Inteiro Teor','Nº Empenho','Data Empenho','Razão Social Proponente','CNPJ/CPF Proponente','Status','V. Empenhado','V. Liquidado','V. Pago Financeiro','V. Pago Processado','V. Pago Não Processado','V. Pago'].join(';'),
-        ...dados.map(d=>[d.ano_exercicio,d.orgao,d.numero_siafi,d.numero_convenio,urlInteiroTeor(d.numero_convenio)||'',d.numero_empenho,formatarData(d.emp_data),d.razao_social,d.cnpj_proponente,d.status,d.valor_empenhado,d.valor_liquidado,d.vp_financeiro,d.vp_processado,d.vp_nao_processado,d.valor_pago].map(c=>`"${(c??'').toString().replace(/"/g,'""')}"`).join(';'))
+    const csv = [['Exercício(s)','Nome do Órgão','Nº SIAFI','Nº Convênio','Link PDF Plano','Link PDF Termo','Nº Empenho','Data Empenho','Razão Social Proponente','CNPJ/CPF Proponente','Status','V. Empenhado','V. Liquidado','V. Pago Financeiro','V. Pago Processado','V. Pago Não Processado','V. Pago'].join(';'),
+        ...dados.map(d=>[d.ano_exercicio,d.orgao,d.numero_siafi,d.numero_convenio,urlPlanoPDF(d.numero_convenio)||'',urlTermoPDF(d.numero_convenio)||'',d.numero_empenho,formatarData(d.emp_data),d.razao_social,d.cnpj_proponente,d.status,d.valor_empenhado,d.valor_liquidado,d.vp_financeiro,d.vp_processado,d.vp_nao_processado,d.valor_pago].map(c=>`"${(c??'').toString().replace(/"/g,'""')}"`).join(';'))
     ].join('\n');
     const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='pagamentos_convenios.csv'; a.click();
 };
@@ -2750,21 +2772,21 @@ window.exportarVGCSV = function() {
 window.exportarCICSV = function() {
     const dados = (window.cifiltrados||dadosCompletos).map(d=>[
         d.ano,d.id_convenio,d.cd_plano_trabalho,d.id_situacao_convenio,d.situacao,
-        d.numero_proposta,d.numero_plano,d.numero_convenio,urlInteiroTeor(d.numero_convenio)||'',
+        d.numero_proposta,d.numero_plano,d.numero_convenio,urlPlanoPDF(d.numero_convenio)||'',urlTermoPDF(d.numero_convenio)||'',
         d.numero_siafi,d.codigo_orgao,d.sigla,d.descricao_orgao||d.orgao,d.municipio,
         d.cnpj_proponente,d.razao_social,d.situacao_cagec,
         formatarData(d.data_publicacao),formatarData(d.data_inicio),formatarData(d.data_termino),
         d.valor_concedente,d.valor_parlamentar,d.id_status_convenio,d.status,
         d.valor_empenhado,d.valor_pago
     ]);
-    const csv = [['Ano','ID Convênio','Cód. Plano de Trabalho','ID Situação Convênio','Situação','Nº Proposta','Nº Plano','Nº Convênio','Link Inteiro Teor','Nº SIAFI','Cód. Órgão','Sigla','Órgão','Município','CNPJ Proponente','Razão Social Proponente','Situação CAGEC','Dt. Publicação','Dt. Início','Dt. Término','V. Concedente','V. Parlamentar','ID Status Convênio','Status Convênio','V. Despesa Empenhada','V. Despesa Paga'].join(';'), ...dados.map(l=>l.map(c=>`"${(c!==undefined&&c!==null?c:'')}"`).join(';'))].join('\n');
+    const csv = [['Ano','ID Convênio','Cód. Plano de Trabalho','ID Situação Convênio','Situação','Nº Proposta','Nº Plano','Nº Convênio','Link PDF Plano','Link PDF Termo','Nº SIAFI','Cód. Órgão','Sigla','Órgão','Município','CNPJ Proponente','Razão Social Proponente','Situação CAGEC','Dt. Publicação','Dt. Início','Dt. Término','V. Concedente','V. Parlamentar','ID Status Convênio','Status Convênio','V. Despesa Empenhada','V. Despesa Paga'].join(';'), ...dados.map(l=>l.map(c=>`"${(c!==undefined&&c!==null?c:'')}"`).join(';'))].join('\n');
     const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='convenios_saida.csv'; a.click();
 };
 
 window.exportarModalCSV = function() {
     if (!modalConvenioAtual) return;
     const d = modalConvenioAtual;
-    const rows = [['Campo','Valor'],['Nº SIAFI',d.numero_siafi],['Nº Convênio',d.numero_convenio||''],['Inteiro Teor',urlInteiroTeor(d.numero_convenio)||''],['Status',d.status],['Situação',d.situacao],['Código Órgão',d.codigo_orgao],['Sigla',d.sigla],['Órgão',d.orgao],['CNPJ Proponente',d.cnpj_proponente],['Razão Social',d.razao_social],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',d.valor_concedente],['V. Parlamentar',d.valor_parlamentar],['V. Despesa Paga (Convênio)',d.valor_pago],['V. Empenhado (Repasses)',d.emp_valor_empenhado],['V. Liquidado (Exercício + RP)',d.emp_valor_liquidado],['V. Pago Financeiro',d.emp_vp_financeiro],['V. Pago RP Processado',d.emp_vp_processado],['V. Pago RP Não Processado',d.emp_vp_nao_processado],['V. Pago Total (Repasses)',d.emp_valor_pago],['Objeto',d.objeto||'']];
+    const rows = [['Campo','Valor'],['Nº SIAFI',d.numero_siafi],['Nº Convênio',d.numero_convenio||''],['PDF do Plano',urlPlanoPDF(d.numero_convenio)||''],['PDF do Termo',urlTermoPDF(d.numero_convenio)||''],['Status',d.status],['Situação',d.situacao],['Código Órgão',d.codigo_orgao],['Sigla',d.sigla],['Órgão',d.orgao],['CNPJ Proponente',d.cnpj_proponente],['Razão Social',d.razao_social],['Dt. Publicação',formatarData(d.data_publicacao)],['Dt. Início',formatarData(d.data_inicio)],['Dt. Término',formatarData(d.data_termino)],['V. Concedente',d.valor_concedente],['V. Parlamentar',d.valor_parlamentar],['V. Despesa Paga (Convênio)',d.valor_pago],['V. Empenhado (Repasses)',d.emp_valor_empenhado],['V. Liquidado (Exercício + RP)',d.emp_valor_liquidado],['V. Pago Financeiro',d.emp_vp_financeiro],['V. Pago RP Processado',d.emp_vp_processado],['V. Pago RP Não Processado',d.emp_vp_nao_processado],['V. Pago Total (Repasses)',d.emp_valor_pago],['Objeto',d.objeto||'']];
     const csv = rows.map(r=>r.map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(';')).join('\n');
     const blob = new Blob(['\uFEFF'+csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`convenio_${d.numero_siafi||'detalhes'}.csv`; a.click();
 };
