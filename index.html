@@ -763,10 +763,15 @@ function formatarMoeda(valor) {
 
 function formatarData(dataStr) {
     if (!dataStr || dataStr === '' || dataStr === '-') return '-';
-    if (dataStr.includes('/')) return dataStr;
-    const p = dataStr.split(/[-T]/);
-    if (p.length >= 3) return `${p[2].substring(0,2)}/${p[1]}/${p[0]}`;
-    return dataStr;
+    const s = dataStr.toString().trim();
+    // Extrai o padrão AAAA-MM-DD de dentro da string, ignorando qualquer
+    // texto ao redor (ex.: "TIMESTAMP '2026-06-12 00:00:00.000000'", formato
+    // que o CSV passou a usar em alguns registros). Isso evita o bug em que
+    // dividir por /[-T]/ também fatiava as letras "T" da palavra TIMESTAMP.
+    const m = s.match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return `${m[3]}/${m[2]}/${m[1]}`;
+    if (s.includes('/')) return s;
+    return s;
 }
 
 function parsearValor(v) {
