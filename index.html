@@ -1834,6 +1834,21 @@ window.verDetalhes = function(siafi, idConvenio) {
     const d = idConvenio ? dadosCompletos.find(x => x.id_convenio === idConvenio) : dadosCompletos.find(x => x.numero_siafi === siafi);
     if (!d) return;
     modalConvenioAtual = d;
+
+    // Guarda a posição (topo da linha/botão clicado) para posicionar o modal
+    // exatamente ao lado do que o usuário clicou quando embedado em iframe.
+    // Como o iframe não tem rolagem própria (ele é redimensionado para caber
+    // todo o conteúdo), a posição do clique dentro do iframe é confiável
+    // independente da rolagem da página pai — e não depende de nenhuma
+    // integração extra no site que hospeda o iframe.
+    window.__verDetalhesClickY = null;
+    try {
+        if (typeof event !== 'undefined' && event && event.target) {
+            const origem = event.target.closest('tr') || event.target;
+            window.__verDetalhesClickY = origem.getBoundingClientRect().top;
+        }
+    } catch (e) {}
+
     const raw = d._raw || {};
 
     // Montar todos os campos disponíveis (excluindo campos de tempo de análise)
@@ -1980,27 +1995,47 @@ function abrirModalComPosicaoCorrigida(modalId) {
     if (dentroDeIframe) {
         // Aguarda um instante para a resposta do postMessage chegar
         setTimeout(function() {
+            // IMPORTANTE: .modal e .modal-backdrop têm "position: fixed !important"
+            // no CSS global. Uma atribuição direta (wrapper.style.top = ...) cria uma
+            // declaração inline de prioridade NORMAL, que nunca vence uma regra
+            // marcada com !important — então o reposicionamento abaixo era
+            // silenciosamente ignorado pelo navegador e o modal sempre abria com
+            // "position: fixed; top: 0" (relativo ao iframe, não à área visível da
+            // página pai). Por isso os cliques em "Ações"/Nº SIAFI pareciam "não
+            // fazer nada" quando embedado: o modal abria, só que fora da tela.
+            // Usamos setProperty(..., 'important') para garantir que o inline style
+            // realmente sobrescreva a regra do CSS.
             const wrapper = el; // .modal
-            if (window.__parentScrollY !== null) {
-                wrapper.style.position = 'absolute';
-                wrapper.style.top = Math.max(0, window.__parentScrollY) + 'px';
-                wrapper.style.left = '0';
-                wrapper.style.right = '0';
-                wrapper.style.bottom = 'auto';
-                wrapper.style.height = 'auto';
+            const definirPosicao = (top) => {
+                wrapper.style.setProperty('position', 'absolute', 'important');
+                wrapper.style.setProperty('top', top, 'important');
+                wrapper.style.setProperty('left', '0', 'important');
+                wrapper.style.setProperty('right', '0', 'important');
+                wrapper.style.setProperty('bottom', 'auto', 'important');
+                wrapper.style.setProperty('height', 'auto', 'important');
+            };
+            if (typeof window.__verDetalhesClickY === 'number' && !isNaN(window.__verDetalhesClickY)) {
+                // Prioridade 1: posiciona o modal ao lado da linha/botão que foi
+                // clicado. Não depende de nenhum script na página pai — funciona
+                // sempre, mesmo se o site que hospeda o iframe não tiver sido
+                // adaptado para responder a "requestParentScroll".
+                definirPosicao(Math.max(0, window.__verDetalhesClickY - 10) + 'px');
+            } else if (window.__parentScrollY !== null) {
+                // Prioridade 2 (legado): usa a posição de rolagem informada pela
+                // página pai, se ela implementar esse protocolo customizado.
+                definirPosicao(Math.max(0, window.__parentScrollY) + 'px');
             } else {
-                // Sem info do pai: garante ao menos que o modal comece
-                // perto do topo do documento do iframe (não centralizado
-                // no meio de um documento gigante).
-                wrapper.style.position = 'absolute';
-                wrapper.style.top = '20px';
-                wrapper.style.left = '0';
-                wrapper.style.right = '0';
-                wrapper.style.bottom = 'auto';
-                wrapper.style.height = 'auto';
+                // Sem info nenhuma: garante ao menos que o modal comece perto do
+                // topo do documento do iframe (não centralizado no meio de um
+                // documento gigante).
+                definirPosicao('20px');
             }
             const backdrop = document.querySelector('.modal-backdrop:last-of-type');
-            if (backdrop) { backdrop.style.position = 'absolute'; backdrop.style.height = document.documentElement.scrollHeight + 'px'; }
+            if (backdrop) {
+                backdrop.style.setProperty('position', 'absolute', 'important');
+                backdrop.style.setProperty('top', '0', 'important');
+                backdrop.style.setProperty('height', document.documentElement.scrollHeight + 'px', 'important');
+            }
         }, 60);
     }
 
