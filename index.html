@@ -659,14 +659,24 @@
 // ============================================================
 // 1. CONFIGURAÇÕES E VARIÁVEIS GLOBAIS
 // ============================================================
-const CSV_URL = 'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/convenios_saida.csv';
+const CSV_URL_BASE = 'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/convenios_saida.csv';
 const BASE_DADOS_URL = 'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/';
 const ANOS_PAGAMENTOS = [2022, 2023, 2024, 2025, 2026];
+
+// Cache-buster: raw.githubusercontent.com (CDN) e o próprio navegador podem
+// servir uma versão em cache dos CSVs por vários minutos. Anexar um parâmetro
+// variável (timestamp arredondado para a hora atual) força sempre a busca da
+// versão mais recente, sem gerar uma URL nova a cada requisição dentro da
+// mesma sessão (o que geraria downloads repetidos desnecessários).
+const _CACHE_BUST = Math.floor(Date.now() / (5 * 60 * 1000)); // muda a cada 5 min
+function _comCacheBuster(url) { return `${url}${url.includes('?') ? '&' : '?'}v=${_CACHE_BUST}`; }
+
+const CSV_URL = _comCacheBuster(CSV_URL_BASE);
 // pagamentoAAAA.csv  → execução do exercício (V. Empenhado, V. Liquidado, V. Pago Financeiro)
-const PAGAMENTOS_CSV_URLS    = ANOS_PAGAMENTOS.map(a => `${BASE_DADOS_URL}pagamento${a}.csv`);
+const PAGAMENTOS_CSV_URLS    = ANOS_PAGAMENTOS.map(a => _comCacheBuster(`${BASE_DADOS_URL}pagamento${a}.csv`));
 // pagamentorpAAAA.csv → Restos a Pagar: despesas de exercícios anteriores pagas no ano AAAA
 //                       (V. Liquidado RP, V. Pago Processado, V. Pago Não Processado)
-const PAGAMENTOS_RP_CSV_URLS = ANOS_PAGAMENTOS.map(a => `${BASE_DADOS_URL}pagamentorp${a}.csv`);
+const PAGAMENTOS_RP_CSV_URLS = ANOS_PAGAMENTOS.map(a => _comCacheBuster(`${BASE_DADOS_URL}pagamentorp${a}.csv`));
 const PORTAL_DADOS_ABERTOS_URL = 'https://dados.mg.gov.br/dataset/convenios-saida';
 
 // Somente convênios nestes status serão exibidos no dashboard (demais ficam ocultos)
@@ -853,7 +863,7 @@ function ordenarDados(dados, coluna, direcao) {
 async function carregarDados() {
     mostrarLoading(true, 'Carregando convênios...');
     try {
-        const resp = await fetch(CSV_URL);
+        const resp = await fetch(CSV_URL, { cache: 'no-store' });
         if (!resp.ok) throw new Error('Erro ao carregar CSV');
         const csvText = await resp.text();
         Papa.parse(csvText, {
@@ -941,7 +951,7 @@ async function carregarDados() {
 // Carrega um CSV de uma URL e retorna array de objetos (ou [] em caso de erro)
 async function _fetchCSV(url) {
     try {
-        const resp = await fetch(url);
+        const resp = await fetch(url, { cache: 'no-store' });
         if (!resp.ok) return [];
         const text = await resp.text();
         return await new Promise(resolve => {
@@ -1228,11 +1238,28 @@ async function carregarEEnriquecerEmpenhos() {
 
 async function setupAtualizacaoData() {
     const el = document.getElementById('data-atualizacao-header');
+    // Considera o commit mais recente entre TODOS os arquivos de dados que o
+    // painel efetivamente usa (convenios_saida.csv + pagamentoAAAA.csv +
+    // pagamentorpAAAA.csv de cada ano), não só o primeiro. Antes, uma alteração
+    // só em algum pagamentoAAAA.csv não atualizava a data mostrada no cabeçalho.
+    const caminhos = [
+        'dataset/data/convenios_saida.csv',
+        ...ANOS_PAGAMENTOS.map(a => `dataset/data/pagamento${a}.csv`),
+        ...ANOS_PAGAMENTOS.map(a => `dataset/data/pagamentorp${a}.csv`)
+    ];
     try {
-        const resp = await fetch(`https://api.github.com/repos/transparencia-mg/portal_convenios_saida/commits?path=dataset/data/convenios_saida.csv&per_page=1`);
-        if (resp.ok) {
-            const cs = await resp.json();
-            if (cs && cs.length > 0) { el.textContent = new Date(cs[0].commit.committer.date).toLocaleDateString('pt-BR'); return; }
+        const resultados = await Promise.all(caminhos.map(p =>
+            fetch(`https://api.github.com/repos/transparencia-mg/portal_convenios_saida/commits?path=${p}&per_page=1`)
+                .then(r => r.ok ? r.json() : [])
+                .catch(() => [])
+        ));
+        const datas = resultados
+            .filter(cs => cs && cs.length > 0)
+            .map(cs => new Date(cs[0].commit.committer.date));
+        if (datas.length > 0) {
+            const maisRecente = new Date(Math.max(...datas));
+            el.textContent = maisRecente.toLocaleDateString('pt-BR');
+            return;
         }
     } catch(e) {}
     el.textContent = new Date().toLocaleDateString('pt-BR');
