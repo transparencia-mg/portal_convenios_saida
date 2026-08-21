@@ -905,7 +905,26 @@ async function carregarDados() {
             header: true,
             skipEmptyLines: true,
             complete: (results) => {
-                dadosCompletos = results.data.map(row => {
+                // Deduplicar linhas do CSV: o arquivo de origem já chegou a conter
+                // linhas 100% repetidas (mesmo id_convenio, mesmos valores em todas
+                // as colunas), o que inflava as tabelas e os totais monetários.
+                // Chave preferencial: id_convenio (identificador único do convênio).
+                // Se id_convenio vier vazio em alguma linha, cai para comparação da
+                // linha inteira (JSON) como salvaguarda, mantendo sempre a 1ª ocorrência.
+                const _vistos = new Set();
+                let _duplicatasRemovidas = 0;
+                const dadosSemDuplicatas = results.data.filter(row => {
+                    const idConv = (row['id_convenio'] || row['ID_CONVENIO'] || '').toString().trim();
+                    const chave = idConv || JSON.stringify(row);
+                    if (_vistos.has(chave)) { _duplicatasRemovidas++; return false; }
+                    _vistos.add(chave);
+                    return true;
+                });
+                if (_duplicatasRemovidas > 0) {
+                    console.warn(`Convênios: ${_duplicatasRemovidas} linha(s) duplicada(s) removida(s) do CSV de origem.`);
+                }
+
+                dadosCompletos = dadosSemDuplicatas.map(row => {
                     const ano = extrairAno(row);
 
                     // Formatar CNPJ: 00.000.000/0000-00
