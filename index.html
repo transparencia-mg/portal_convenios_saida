@@ -190,6 +190,23 @@
         .table-vg { table-layout: fixed; }
         .table-fixed-header-container table.table-vg thead th { white-space: normal !important; line-height: 1.25; }
         .table-vg td.col-orgao { white-space: normal; word-break: break-word; }
+        /* Padrão: célula não quebra linha (datas, valores, código, sigla, situação
+           são strings curtas e de formato fixo — quebrar linha só piora a leitura).
+           Só as colunas de texto longo (marcadas com .col-wrap) quebram. */
+        #tabelaCI td, #tabelaPG td { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        #tabelaCI td.col-wrap, #tabelaPG td.col-wrap { white-space: normal; word-break: break-word; overflow: visible; text-overflow: clip; }
+        /* Larguras controladas por <colgroup> (ver gerarColgroupCI/PG): colunas com
+           dado curto (datas, código, sigla, situação) ficam estreitas; colunas com
+           texto longo (Razão Social, Órgão) ganham o espaço liberado. O cabeçalho
+           quebra em até 2 linhas dentro da largura da própria coluna, sem afetar
+           as demais. */
+        #tabelaCI, #tabelaPG { table-layout: fixed; }
+        #tabelaCI thead th, #tabelaPG thead th {
+            white-space: normal !important;
+            line-height: 1.2;
+            vertical-align: bottom;
+            overflow-wrap: break-word;
+        }
         .table th, .table td { border: 1px solid #d6dee6; }
         .table thead th {
             background-color: #54697b !important;
@@ -663,6 +680,17 @@ const CSV_URL_BASE = 'https://raw.githubusercontent.com/transparencia-mg/portal_
 const BASE_DADOS_URL = 'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/';
 const ANOS_PAGAMENTOS = [2022, 2023, 2024, 2025, 2026];
 
+// Nome completo do órgão por código (codigo_orgao). Usado apenas como
+// complemento quando o código não aparece em nenhum pagamentoAAAA.csv/
+// pagamentorpAAAA.csv do período carregado (ex.: órgão sem empenho nos
+// últimos anos) — a fonte primária continua sendo os arquivos de pagamento,
+// resolvidos dinamicamente em carregarEEnriquecerEmpenhos(). Atualizar esta
+// lista apenas se aparecer um código novo sem nome resolvido no console.
+const ORGAO_NOME_FALLBACK = {
+    '1321': 'SECRETARIA DE ESTADO DE SAUDE',
+    '1091': 'PROCURADORIA-GERAL DE JUSTICA',
+};
+
 // Cache-buster: raw.githubusercontent.com (CDN) e o próprio navegador podem
 // servir uma versão em cache dos CSVs por vários minutos. Anexar um parâmetro
 // variável (timestamp arredondado para a hora atual) força sempre a busca da
@@ -787,7 +815,14 @@ function formatarData(dataStr) {
 function parsearValor(v) {
     if (!v || v === '' || v === '-') return 0;
     if (typeof v === 'number') return v;
-    return parseFloat(v.toString().replace(/\./g,'').replace(',','.')) || 0;
+    let s = v.toString().trim();
+    if (s === '') return 0;
+    // Formato BR (ex.: "1.234.567,89" ou "3267500,0"): ponto = milhar, vírgula = decimal.
+    // Sem vírgula, assume-se que o ponto já é o separador decimal (ex.: export
+    // direto de planilha/sistema no formato "2379840.4"), para não inflar o valor
+    // ao remover o ponto por engano.
+    if (s.includes(',')) s = s.replace(/\./g,'').replace(',','.');
+    return parseFloat(s) || 0;
 }
 
 function getBadgeStatus(status) {
@@ -897,7 +932,7 @@ async function carregarDados() {
                         situacao_cagec:         row['situacao_cagec'] || row['SITUACAO_CAGEC'] || '',
                         id_status_convenio:     row['id_status_convenio'] || row['ID_STATUS_CONVENIO'] || '',
                         codigo_orgao:           row['codigo_orgao'] || row['CODIGO_ORGAO'] || row['cod_orgao'] || '',
-                        sigla:                  row['sigla'] || row['SIGLA'] || row['orgao_sigla'] || '',
+                        sigla:                  row['sigla'] || row['SIGLA'] || row['orgao_sigla'] || row['ORGAO_SIGLA'] || '',
                         orgao:                  row['orgao'] || row['ORGAO'] || row['nome_orgao'] || row['descricao_orgao'] || row['DESCRICAO_ORGAO'] || row['unidade_orcamentaria_nome'] || row['UNIDADE_ORCAMENTARIA_NOME'] || '',
                         descricao_orgao:        row['descricao_orgao'] || row['DESCRICAO_ORGAO'] || '',
                         numero_siafi:           limparSiafi(row['numero_siafi'] || row['NUMERO_SIAFI'] || row['numero'] || row['NUMERO'] || ''),
@@ -1170,10 +1205,22 @@ async function carregarEEnriquecerEmpenhos() {
         }
 
         // ----- Mapa código UO → nome do órgão -----
+        // Fonte primária: arquivos de pagamento (dados reais e mais atuais).
+        // Complemento: ORGAO_NOME_FALLBACK, só para códigos ausentes nos pagamentos.
         const mapaOrgaoNome = new Map();
         dadosEmpenhos.forEach(e => {
             if (e.uo_codigo && e.uo_nome && !mapaOrgaoNome.has(e.uo_codigo)) mapaOrgaoNome.set(e.uo_codigo, e.uo_nome);
         });
+        const codigosSemNome = new Set(
+            dadosCompletos.map(d => d.codigo_orgao).filter(c => c && !mapaOrgaoNome.has(c))
+        );
+        codigosSemNome.forEach(cod => {
+            if (ORGAO_NOME_FALLBACK[cod]) mapaOrgaoNome.set(cod, ORGAO_NOME_FALLBACK[cod]);
+        });
+        const codigosAindaSemNome = [...codigosSemNome].filter(c => !mapaOrgaoNome.has(c));
+        if (codigosAindaSemNome.length) {
+            console.warn('Órgão sem nome resolvido (nem pagamentos, nem ORGAO_NOME_FALLBACK):', codigosAindaSemNome);
+        }
 
         // ----- Mapa SIAFI → agregados consolidados (orçamento + RP) -----
         const mapaEmp = new Map();
@@ -1199,8 +1246,10 @@ async function carregarEEnriquecerEmpenhos() {
 
         // ----- Enriquecer dadosCompletos -----
         dadosCompletos.forEach(d => {
-            if (d.codigo_orgao && mapaOrgaoNome.has(d.codigo_orgao))
+            if (d.codigo_orgao && mapaOrgaoNome.has(d.codigo_orgao)) {
                 d.orgao = mapaOrgaoNome.get(d.codigo_orgao);
+                if (!d.descricao_orgao) d.descricao_orgao = d.orgao;
+            }
 
             const info = mapaEmp.get(d.numero_siafi);
             if (info) {
@@ -1596,6 +1645,23 @@ function obterOpcoesCI() {
     };
 }
 
+// Largura de cada coluna (px) — dados curtos ficam estreitos, texto longo (razão
+// social, órgão) ganha mais espaço. Usado para montar o <colgroup> das tabelas
+// Consulta e Pagamentos, que têm table-layout:fixed.
+const LARGURA_COLUNA_CI = {
+    ano: 55, codigo_orgao: 65, sigla: 65, orgao: 210, descricao_orgao: 210,
+    numero_siafi: 85, numero_convenio: 150, municipio: 110, cnpj_proponente: 125,
+    razao_social: 240, data_publicacao: 90, data_inicio: 90, data_termino: 90,
+    status: 95, valor_concedente: 140, valor_parlamentar: 140, acoes: 55,
+};
+
+function gerarColgroupCI() {
+    return ordemColunasCI
+        .filter(col => col === 'numero_siafi' || col === 'acoes' || colunasVisiveis[col])
+        .map(col => `<col style="width:${LARGURA_COLUNA_CI[col] || 100}px">`)
+        .join('');
+}
+
 function gerarCabecalhosCI() {
     const cabs = [];
     for (const col of ordemColunasCI) {
@@ -1701,6 +1767,7 @@ function renderizarConsulta() {
     <div class="table-container">
         <div class="table-fixed-header-container">
             <table class="table" id="tabelaCI">
+                <colgroup id="colgroupCI">${gerarColgroupCI()}</colgroup>
                 <thead><tr id="theadCI">${gerarCabecalhosCI()}</tr></thead>
                 <tbody id="tbodyCI"></tbody>
             </table>
@@ -1725,15 +1792,15 @@ function gerarLinhasCI(dados) {
         let linha = '<tr>';
         for (const col of ordemColunasCI) {
             if (col==='numero_siafi') linha += `<td><a href="#" class="processo-link" onclick="verDetalhes('${(d.numero_siafi||'').replace(/'/g,"\\'")}','${(d.id_convenio||'').toString().replace(/'/g,"\\'")}');return false;">${d.numero_siafi||'-'}</a></td>`;
-            else if (col==='numero_convenio' && colunasVisiveis.numero_convenio) linha += `<td>${linkInteiroTeor(d.numero_convenio)}</td>`;
+            else if (col==='numero_convenio' && colunasVisiveis.numero_convenio) linha += `<td class="col-wrap">${linkInteiroTeor(d.numero_convenio)}</td>`;
             else if (col==='ano' && colunasVisiveis.ano) linha += `<td>${d.ano||'-'}</td>`;
             else if (col==='codigo_orgao' && colunasVisiveis.codigo_orgao) linha += `<td>${d.codigo_orgao||'-'}</td>`;
             else if (col==='sigla' && colunasVisiveis.sigla) linha += `<td>${d.sigla||'-'}</td>`;
-            else if (col==='orgao' && colunasVisiveis.orgao) linha += `<td title="${d.orgao||''}">${(d.orgao||'-').substring(0,40)}${(d.orgao||'').length>40?'...':''}</td>`;
-            else if (col==='descricao_orgao' && colunasVisiveis.descricao_orgao) linha += `<td title="${d.descricao_orgao||''}">${(d.descricao_orgao||'-').substring(0,40)}${(d.descricao_orgao||'').length>40?'...':''}</td>`;
-            else if (col==='municipio' && colunasVisiveis.municipio) linha += `<td>${d.municipio||'-'}</td>`;
+            else if (col==='orgao' && colunasVisiveis.orgao) linha += `<td class="col-wrap">${d.orgao||'-'}</td>`;
+            else if (col==='descricao_orgao' && colunasVisiveis.descricao_orgao) linha += `<td class="col-wrap">${d.descricao_orgao||'-'}</td>`;
+            else if (col==='municipio' && colunasVisiveis.municipio) linha += `<td class="col-wrap">${d.municipio||'-'}</td>`;
             else if (col==='cnpj_proponente' && colunasVisiveis.cnpj_proponente) linha += `<td>${d.cnpj_proponente||'-'}</td>`;
-            else if (col==='razao_social' && colunasVisiveis.razao_social) linha += `<td title="${d.razao_social||''}">${(d.razao_social||'-').substring(0,35)}${(d.razao_social||'').length>35?'...':''}</td>`;
+            else if (col==='razao_social' && colunasVisiveis.razao_social) linha += `<td class="col-wrap">${d.razao_social||'-'}</td>`;
             else if (col==='data_publicacao' && colunasVisiveis.data_publicacao) linha += `<td>${formatarData(d.data_publicacao)}</td>`;
             else if (col==='data_inicio' && colunasVisiveis.data_inicio) linha += `<td>${formatarData(d.data_inicio)}</td>`;
             else if (col==='data_termino' && colunasVisiveis.data_termino) linha += `<td>${formatarData(d.data_termino)}</td>`;
@@ -1849,6 +1916,8 @@ function renderizarSeletorColunas() {
 window.toggleColumnSelector = function() { document.getElementById('columnSelectorDropdown')?.classList.toggle('show'); };
 window.atualizarColunasCI = function(col, checked) {
     colunasVisiveis[col] = checked;
+    const colgroup = document.getElementById('colgroupCI');
+    if (colgroup) colgroup.innerHTML = gerarColgroupCI();
     const thead = document.querySelector('#tabelaCI thead tr');
     if (thead) thead.innerHTML = gerarCabecalhosCI();
     atualizarTabelaCI();
@@ -2662,6 +2731,20 @@ function renderizarPagamentos() {
     <div class="table-container">
         <div class="table-fixed-header-container">
             <table class="table" id="tabelaPG">
+                <colgroup>
+                    <col style="width:80px">
+                    <col style="width:210px">
+                    <col style="width:85px">
+                    <col style="width:140px">
+                    <col style="width:85px">
+                    <col style="width:90px">
+                    <col style="width:240px">
+                    <col style="width:125px">
+                    <col style="width:95px">
+                    <col style="width:135px">
+                    <col style="width:135px">
+                    <col style="width:135px">
+                </colgroup>
                 <thead>
                     <tr>
                         <th class="sortable-header" onclick="toggleSortPG('ano_exercicio')">Exercício(s) <i class="material-icons">unfold_more</i></th>
@@ -2696,12 +2779,12 @@ function gerarLinhasPG(dados) {
     if (!dados || dados.length === 0) return '<tr><td colspan="12" class="text-center py-4">Nenhum registro encontrado</td></tr>';
     return dados.map(d => `<tr>
         <td style="white-space:nowrap">${d.ano_exercicio||'-'}</td>
-        <td title="${d.orgao||''}">${(d.orgao||'-').substring(0,30)}${(d.orgao||'').length>30?'...':''}</td>
+        <td class="col-wrap">${d.orgao||'-'}</td>
         <td><a href="#" class="processo-link" onclick="verDetalhes('${(d.numero_siafi||'').replace(/'/g,"\\'")}');return false;">${d.numero_siafi||'-'}</a></td>
-        <td>${linkInteiroTeor(d.numero_convenio)}</td>
+        <td class="col-wrap">${linkInteiroTeor(d.numero_convenio)}</td>
         <td style="white-space:nowrap;font-weight:600;color:#1a3a5c">${d.numero_empenho||'-'}</td>
         <td style="white-space:nowrap">${d.emp_data ? formatarData(d.emp_data) : '-'}</td>
-        <td title="${d.razao_social||''}">${(d.razao_social||'-').substring(0,35)}${(d.razao_social||'').length>35?'...':''}</td>
+        <td class="col-wrap">${d.razao_social||'-'}</td>
         <td>${d.cnpj_proponente||'-'}</td>
         <td><span class="badge-status ${getBadgeStatus(d.status)}">${d.status||'-'}</span></td>
         <td class="text-right">${d.valor_empenhado ? formatarMoeda(d.valor_empenhado) : '<span class="nao-aplica">—</span>'}</td>
