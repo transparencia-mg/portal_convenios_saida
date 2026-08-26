@@ -100,11 +100,14 @@ def achar_coluna(colunas, alvo_normalizado):
 
 
 def caminho_padrao(nome_arquivo):
-    """Resolve um caminho relativo à pasta onde este script está salvo,
-    não à pasta de onde o comando foi executado -- assim funciona igual em
-    qualquer computador, independentemente de onde o .py foi colocado."""
+    """Resolve um caminho relativo à RAIZ do projeto (a pasta pai de
+    "scripts/", onde este arquivo agora está salvo), e não à pasta de onde
+    o comando foi executado -- assim funciona igual em qualquer computador,
+    independentemente de onde o projeto foi colocado. É nessa raiz que
+    ficam "upload/" e "de_para.xlsx"."""
     pasta_do_script = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(pasta_do_script, nome_arquivo)
+    pasta_raiz = os.path.dirname(pasta_do_script)  # sobe de "scripts/" para a raiz
+    return os.path.join(pasta_raiz, nome_arquivo)
 
 
 def carregar_siafis_validos(caminho_xlsx):

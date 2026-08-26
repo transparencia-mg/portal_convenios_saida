@@ -4,7 +4,11 @@ import subprocess
 import os
 import re
 
-REPO = Path(__file__).parent
+# Este script agora fica em portal_convenios_saida/scripts/processar.py.
+# REPO aponta para a RAIZ do projeto (a pasta pai de "scripts"), que é onde
+# ficam "upload/" e "de_para.xlsx" -- assim ele acha tudo certo mesmo
+# rodando de dentro da subpasta scripts/.
+REPO = Path(__file__).resolve().parent.parent
 UPLOAD = REPO / "upload"
 DATA = REPO / "upload"
 
