@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 0.811,
+  "time": 0.829,
   "errors": [],
   "tasks": [
     {
@@ -135,7 +135,7 @@
           "rows": 0
         }
       },
-      "time": 0.066,
+      "time": 0.063,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -47256,7 +47256,7 @@
           "rows": 0
         }
       },
-      "time": 0.079,
+      "time": 0.08,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -84377,7 +84377,7 @@
           "rows": 0
         }
       },
-      "time": 0.076,
+      "time": 0.08,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -121498,7 +121498,7 @@
           "rows": 0
         }
       },
-      "time": 0.078,
+      "time": 0.085,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -158619,7 +158619,7 @@
           "rows": 0
         }
       },
-      "time": 0.076,
+      "time": 0.081,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -195740,7 +195740,7 @@
           "rows": 0
         }
       },
-      "time": 0.077,
+      "time": 0.08,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -196042,8 +196042,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "49854,83",
-            "49854,83",
+            "99709,66",
+            "99709,66",
             "49854,83"
           ],
           "rowNumber": 8,
@@ -196560,8 +196560,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "146515,29",
-            "146515,29",
+            "162917,72",
+            "162917,72",
             "146515,29"
           ],
           "rowNumber": 22,
@@ -196969,7 +196969,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "976005,37",
             "976005,37",
-            "655352,16"
+            "976005,37"
           ],
           "rowNumber": 33,
           "rowPosition": 34,
@@ -197006,7 +197006,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "788359,83",
             "788359,83",
-            "765530,08"
+            "788359,83"
           ],
           "rowNumber": 34,
           "rowPosition": 35,
@@ -197043,7 +197043,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "2790600,67",
             "2790600,67",
-            "2733561,2"
+            "2790600,67"
           ],
           "rowNumber": 35,
           "rowPosition": 36,
@@ -197080,7 +197080,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "3680635,15",
             "3680635,15",
-            "2364170,3"
+            "3680635,15"
           ],
           "rowNumber": 36,
           "rowPosition": 37,
@@ -197228,7 +197228,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "959083,41",
             "959083,41",
-            "933520,24"
+            "959083,41"
           ],
           "rowNumber": 40,
           "rowPosition": 41,
@@ -197413,7 +197413,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "2046453,98",
             "2046453,98",
-            "1424816,7"
+            "2046453,98"
           ],
           "rowNumber": 45,
           "rowPosition": 46,
@@ -197450,7 +197450,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "2217055,24",
             "2217055,24",
-            "1467302,24"
+            "2217055,24"
           ],
           "rowNumber": 46,
           "rowPosition": 47,
@@ -197487,7 +197487,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1936889,54",
             "1936889,54",
-            "1888435,28"
+            "1936889,54"
           ],
           "rowNumber": 47,
           "rowPosition": 48,
@@ -197561,7 +197561,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1361954,35",
             "1361954,35",
-            "1328358,72"
+            "1361954,35"
           ],
           "rowNumber": 49,
           "rowPosition": 50,
@@ -197598,7 +197598,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "2588238,76",
             "2588238,76",
-            "1827587,78"
+            "2588238,76"
           ],
           "rowNumber": 50,
           "rowPosition": 51,
@@ -197635,7 +197635,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1462127,05",
             "1462127,05",
-            "930363,02"
+            "1462127,05"
           ],
           "rowNumber": 51,
           "rowPosition": 52,
@@ -197709,7 +197709,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1227734,46",
             "1227734,46",
-            "818489,64"
+            "1227734,46"
           ],
           "rowNumber": 53,
           "rowPosition": 54,
@@ -197746,7 +197746,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "848715,97",
             "848715,97",
-            "538934,54"
+            "848715,97"
           ],
           "rowNumber": 54,
           "rowPosition": 55,
@@ -197783,7 +197783,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "2466033,83",
             "2466033,83",
-            "1644199,22"
+            "2466033,83"
           ],
           "rowNumber": 55,
           "rowPosition": 56,
@@ -197820,7 +197820,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1364861,43",
             "1364861,43",
-            "909907,62"
+            "1364861,43"
           ],
           "rowNumber": 56,
           "rowPosition": 57,
@@ -197857,7 +197857,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1248055,23",
             "1248055,23",
-            "1214459,6"
+            "1248055,23"
           ],
           "rowNumber": 57,
           "rowPosition": 58,
@@ -197894,7 +197894,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "923265,27",
             "923265,27",
-            "615510,18"
+            "923265,27"
           ],
           "rowNumber": 58,
           "rowPosition": 59,
@@ -198042,7 +198042,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1465280,82",
             "1465280,82",
-            "976853,88"
+            "1465280,82"
           ],
           "rowNumber": 62,
           "rowPosition": 63,
@@ -198116,7 +198116,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "2177416,25",
             "2177416,25",
-            "1451257,5"
+            "2177416,25"
           ],
           "rowNumber": 64,
           "rowPosition": 65,
@@ -198153,7 +198153,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "3160599,61",
             "3160599,61",
-            "2086171,02"
+            "3160599,61"
           ],
           "rowNumber": 65,
           "rowPosition": 66,
@@ -198262,8 +198262,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "47440,25",
-            "47440,25",
+            "94880,5",
+            "94880,5",
             "47440,25"
           ],
           "rowNumber": 68,
@@ -198336,8 +198336,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "40390,05",
-            "40390,05",
+            "80780,1",
+            "80780,1",
             "40390,05"
           ],
           "rowNumber": 70,
@@ -198523,7 +198523,7 @@
             "RECURSOS DO FUNDO ESTADUAL DE ERRADICACAO DA MISERIA",
             "600000,0",
             "600000,0",
-            "0,0"
+            "600000,0"
           ],
           "rowNumber": 75,
           "rowPosition": 76,
@@ -198560,7 +198560,7 @@
             "RECURSOS DO FUNDO ESTADUAL DE ERRADICACAO DA MISERIA",
             "36373,95",
             "36373,95",
-            "0,0"
+            "36373,95"
           ],
           "rowNumber": 76,
           "rowPosition": 77,
@@ -198597,7 +198597,7 @@
             "RECURSOS DO FUNDO ESTADUAL DE ERRADICACAO DA MISERIA",
             "563626,05",
             "563626,05",
-            "0,0"
+            "563626,05"
           ],
           "rowNumber": 77,
           "rowPosition": 78,
@@ -198632,8 +198632,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "86203,64",
-            "86203,64",
+            "129305,48",
+            "129305,48",
             "86203,64"
           ],
           "rowNumber": 78,
@@ -198669,8 +198669,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "105897,7",
-            "105897,7",
+            "158846,55",
+            "158846,55",
             "105897,7"
           ],
           "rowNumber": 79,
@@ -198743,8 +198743,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "136244,58",
-            "136244,58",
+            "204366,86",
+            "204366,86",
             "136244,58"
           ],
           "rowNumber": 81,
@@ -198856,7 +198856,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1283291,37",
             "1283291,37",
-            "855527,58"
+            "1283291,37"
           ],
           "rowNumber": 84,
           "rowPosition": 85,
@@ -199004,7 +199004,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1328659,05",
             "1328659,05",
-            "637440,92"
+            "1328659,05"
           ],
           "rowNumber": 88,
           "rowPosition": 89,
@@ -199078,7 +199078,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1221263,04",
             "1221263,04",
-            "610366,52"
+            "1221263,04"
           ],
           "rowNumber": 90,
           "rowPosition": 91,
@@ -199115,7 +199115,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1325974,25",
             "1325974,25",
-            "1017650,4"
+            "1325974,25"
           ],
           "rowNumber": 91,
           "rowPosition": 92,
@@ -200077,7 +200077,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1416923,79",
             "1416923,79",
-            "1383328,16"
+            "1416923,79"
           ],
           "rowNumber": 117,
           "rowPosition": 118,
@@ -200299,7 +200299,7 @@
             "RECURSOS DO FUNDO ESTADUAL DE ERRADICACAO DA MISERIA",
             "135200,0",
             "135200,0",
-            "0,0"
+            "135200,0"
           ],
           "rowNumber": 123,
           "rowPosition": 124,
@@ -200373,7 +200373,7 @@
             "RECURSOS DO FUNDO ESTADUAL DE ERRADICACAO DA MISERIA",
             "67573,01",
             "67573,01",
-            "0,0"
+            "67573,01"
           ],
           "rowNumber": 125,
           "rowPosition": 126,
@@ -200410,7 +200410,7 @@
             "RECURSOS DO FUNDO ESTADUAL DE ERRADICACAO DA MISERIA",
             "1850862,91",
             "1850862,91",
-            "0,0"
+            "1850862,91"
           ],
           "rowNumber": 126,
           "rowPosition": 127,
@@ -200891,7 +200891,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1438367,55",
             "1438367,55",
-            "1404520,4"
+            "1438367,55"
           ],
           "rowNumber": 139,
           "rowPosition": 140,
@@ -201000,9 +201000,9 @@
             "SUBVENCOES SOCIAIS",
             "60",
             "RECURSOS DIRETAMENTE ARRECADADOS",
-            "353068,71",
-            "353068,71",
-            "353068,71"
+            "537359,12",
+            "537359,12",
+            "537359,12"
           ],
           "rowNumber": 142,
           "rowPosition": 143,
@@ -232861,7 +232861,7 @@
           "rows": 577
         }
       },
-      "time": 0.057,
+      "time": 0.06,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -279797,7 +279797,7 @@
           "rows": 670
         }
       },
-      "time": 0.058,
+      "time": 0.059,
       "scope": [
         "hash-count-error",
         "byte-count-error",
