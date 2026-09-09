@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 0.84,
+  "time": 1.033,
   "errors": [],
   "tasks": [
     {
@@ -135,7 +135,7 @@
           "rows": 0
         }
       },
-      "time": 0.062,
+      "time": 0.081,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -47256,7 +47256,7 @@
           "rows": 0
         }
       },
-      "time": 0.078,
+      "time": 0.105,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -84377,7 +84377,7 @@
           "rows": 0
         }
       },
-      "time": 0.075,
+      "time": 0.098,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -121498,7 +121498,7 @@
           "rows": 0
         }
       },
-      "time": 0.087,
+      "time": 0.101,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -195740,7 +195740,7 @@
           "rows": 0
         }
       },
-      "time": 0.077,
+      "time": 0.101,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -195785,7 +195785,7 @@
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "5209543,86",
             "5209543,86",
-            "1789204,14"
+            "5209543,86"
           ],
           "rowNumber": 1,
           "rowPosition": 2,
@@ -195822,7 +195822,7 @@
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "5872457,05",
             "5872457,05",
-            "2048254,77"
+            "5872457,05"
           ],
           "rowNumber": 2,
           "rowPosition": 3,
@@ -195859,7 +195859,7 @@
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "3622312,35",
             "3622312,35",
-            "1383065,55"
+            "3622312,35"
           ],
           "rowNumber": 3,
           "rowPosition": 4,
@@ -196044,7 +196044,7 @@
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "99709,66",
             "99709,66",
-            "49854,83"
+            "99709,66"
           ],
           "rowNumber": 8,
           "rowPosition": 9,
@@ -196081,7 +196081,7 @@
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "126991,62",
             "126991,62",
-            "63495,81"
+            "126991,62"
           ],
           "rowNumber": 9,
           "rowPosition": 10,
@@ -198782,7 +198782,7 @@
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "127666,2",
             "127666,2",
-            "85110,8"
+            "127666,2"
           ],
           "rowNumber": 82,
           "rowPosition": 83,
@@ -203146,8 +203146,8 @@
             "TRANSFERENCIA PARA FINANCIAMENTO DO TRANSPORTE ESCOLAR",
             "21",
             "COTA ESTADUAL DO SALARIO EDUCACAO - QESE",
-            "3567606,58",
-            "3567606,58",
+            "5351409,87",
+            "5351409,87",
             "3567606,58"
           ],
           "rowNumber": 200,
@@ -203220,8 +203220,8 @@
             "TRANSFERENCIA PARA FINANCIAMENTO DO TRANSPORTE ESCOLAR",
             "21",
             "COTA ESTADUAL DO SALARIO EDUCACAO - QESE",
-            "2920755,64",
-            "2920755,64",
+            "4381133,46",
+            "4381133,46",
             "2920755,64"
           ],
           "rowNumber": 202,
@@ -232861,7 +232861,7 @@
           "rows": 577
         }
       },
-      "time": 0.057,
+      "time": 0.076,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -260066,7 +260066,7 @@
           "rows": 530
         }
       },
-      "time": 0.047,
+      "time": 0.061,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -279797,7 +279797,7 @@
           "rows": 670
         }
       },
-      "time": 0.058,
+      "time": 0.073,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -304708,7 +304708,7 @@
           "rows": 173
         }
       },
-      "time": 0.027,
+      "time": 0.034,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -311230,7 +311230,7 @@
           "rows": 160
         }
       },
-      "time": 0.029,
+      "time": 0.036,
       "scope": [
         "hash-count-error",
         "byte-count-error",
