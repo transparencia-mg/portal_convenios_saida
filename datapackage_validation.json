@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 1.033,
+  "time": 0.458,
   "errors": [],
   "tasks": [
     {
@@ -135,7 +135,7 @@
           "rows": 0
         }
       },
-      "time": 0.081,
+      "time": 0.038,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -47256,7 +47256,7 @@
           "rows": 0
         }
       },
-      "time": 0.105,
+      "time": 0.044,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -84377,7 +84377,7 @@
           "rows": 0
         }
       },
-      "time": 0.098,
+      "time": 0.041,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -121498,7 +121498,7 @@
           "rows": 0
         }
       },
-      "time": 0.101,
+      "time": 0.043,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -158619,7 +158619,7 @@
           "rows": 0
         }
       },
-      "time": 0.099,
+      "time": 0.041,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -195740,7 +195740,7 @@
           "rows": 0
         }
       },
-      "time": 0.101,
+      "time": 0.041,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -196005,8 +196005,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "87732,82",
-            "87732,82",
+            "175465,63",
+            "175465,63",
             "87732,82"
           ],
           "rowNumber": 7,
@@ -196301,8 +196301,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "159999,23",
-            "159999,23",
+            "239998,85",
+            "239998,85",
             "159999,23"
           ],
           "rowNumber": 15,
@@ -196340,7 +196340,7 @@
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "88687,24",
             "88687,24",
-            "44343,62"
+            "88687,24"
           ],
           "rowNumber": 16,
           "rowPosition": 17,
@@ -196375,8 +196375,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "81642,58",
-            "81642,58",
+            "163285,17",
+            "163285,17",
             "0,0"
           ],
           "rowNumber": 17,
@@ -196523,8 +196523,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "68820,66",
-            "68820,66",
+            "103230,99",
+            "103230,99",
             "0,0"
           ],
           "rowNumber": 21,
@@ -196599,7 +196599,7 @@
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "87590,52",
             "87590,52",
-            "43795,26"
+            "87590,52"
           ],
           "rowNumber": 23,
           "rowPosition": 24,
@@ -196671,8 +196671,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "105704,17",
-            "105704,17",
+            "158556,26",
+            "158556,26",
             "105704,17"
           ],
           "rowNumber": 25,
@@ -196745,8 +196745,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "103444,71",
-            "103444,71",
+            "155167,07",
+            "155167,07",
             "103444,71"
           ],
           "rowNumber": 27,
@@ -196893,8 +196893,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "59008,96",
-            "59008,96",
+            "118017,93",
+            "118017,93",
             "59008,96"
           ],
           "rowNumber": 31,
@@ -197152,8 +197152,8 @@
             "SUBVENCOES SOCIAIS",
             "60",
             "RECURSOS DIRETAMENTE ARRECADADOS",
-            "1207829,36",
-            "1207829,36",
+            "1241404,75",
+            "1241404,75",
             "1207829,36"
           ],
           "rowNumber": 38,
@@ -198819,7 +198819,7 @@
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "204366,86",
             "204366,86",
-            "136244,58"
+            "204366,86"
           ],
           "rowNumber": 83,
           "rowPosition": 84,
@@ -200667,8 +200667,8 @@
             "SUBVENCOES SOCIAIS",
             "60",
             "RECURSOS DIRETAMENTE ARRECADADOS",
-            "2026277,82",
-            "2026277,82",
+            "3039416,73",
+            "3039416,73",
             "2026277,82"
           ],
           "rowNumber": 133,
@@ -201296,8 +201296,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "2785889,01",
-            "2785889,01",
+            "0,0",
+            "0,0",
             "0,0"
           ],
           "rowNumber": 150,
@@ -232861,7 +232861,7 @@
           "rows": 577
         }
       },
-      "time": 0.076,
+      "time": 0.032,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -260066,7 +260066,7 @@
           "rows": 530
         }
       },
-      "time": 0.061,
+      "time": 0.026,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -279797,7 +279797,7 @@
           "rows": 670
         }
       },
-      "time": 0.073,
+      "time": 0.032,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -304708,7 +304708,7 @@
           "rows": 173
         }
       },
-      "time": 0.034,
+      "time": 0.016,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -311230,7 +311230,7 @@
           "rows": 160
         }
       },
-      "time": 0.036,
+      "time": 0.018,
       "scope": [
         "hash-count-error",
         "byte-count-error",
