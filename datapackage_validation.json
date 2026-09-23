@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 0.483,
+  "time": 1.02,
   "errors": [],
   "tasks": [
     {
@@ -135,7 +135,7 @@
           "rows": 0
         }
       },
-      "time": 0.037,
+      "time": 0.076,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -47256,7 +47256,7 @@
           "rows": 0
         }
       },
-      "time": 0.046,
+      "time": 0.101,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -84377,7 +84377,7 @@
           "rows": 0
         }
       },
-      "time": 0.044,
+      "time": 0.098,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -121498,7 +121498,7 @@
           "rows": 0
         }
       },
-      "time": 0.045,
+      "time": 0.099,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -158619,7 +158619,7 @@
           "rows": 0
         }
       },
-      "time": 0.043,
+      "time": 0.098,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -195740,7 +195740,7 @@
           "rows": 0
         }
       },
-      "time": 0.044,
+      "time": 0.099,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -196338,8 +196338,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "88687,24",
-            "88687,24",
+            "133030,86",
+            "133030,86",
             "88687,24"
           ],
           "rowNumber": 16,
@@ -196597,8 +196597,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "87590,52",
-            "87590,52",
+            "131385,79",
+            "131385,79",
             "87590,52"
           ],
           "rowNumber": 23,
@@ -197117,7 +197117,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1734982,92",
             "1734982,92",
-            "1435040,22"
+            "1734982,92"
           ],
           "rowNumber": 37,
           "rowPosition": 38,
@@ -197154,7 +197154,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "1241404,75",
             "1241404,75",
-            "1207829,36"
+            "1241404,75"
           ],
           "rowNumber": 38,
           "rowPosition": 39,
@@ -197707,9 +197707,9 @@
             "SUBVENCOES SOCIAIS",
             "60",
             "RECURSOS DIRETAMENTE ARRECADADOS",
-            "1227734,46",
-            "1227734,46",
-            "1227734,46"
+            "1265509,9",
+            "1265509,9",
+            "1265509,9"
           ],
           "rowNumber": 53,
           "rowPosition": 54,
@@ -198225,8 +198225,8 @@
             "SUBVENCOES SOCIAIS",
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "40572,01",
-            "40572,01",
+            "81144,03",
+            "81144,03",
             "40572,01"
           ],
           "rowNumber": 67,
@@ -198338,7 +198338,7 @@
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "80780,1",
             "80780,1",
-            "40390,05"
+            "80780,1"
           ],
           "rowNumber": 70,
           "rowPosition": 71,
@@ -198708,7 +198708,7 @@
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "129305,48",
             "129305,48",
-            "86203,64"
+            "129305,48"
           ],
           "rowNumber": 80,
           "rowPosition": 81,
@@ -198745,7 +198745,7 @@
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "158846,55",
             "158846,55",
-            "105897,7"
+            "158846,55"
           ],
           "rowNumber": 81,
           "rowPosition": 82,
@@ -200669,7 +200669,7 @@
             "RECURSOS DIRETAMENTE ARRECADADOS",
             "3039416,73",
             "3039416,73",
-            "2026277,82"
+            "3039416,73"
           ],
           "rowNumber": 133,
           "rowPosition": 134,
@@ -232861,7 +232861,7 @@
           "rows": 576
         }
       },
-      "time": 0.034,
+      "time": 0.075,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -259955,7 +259955,7 @@
           "rows": 530
         }
       },
-      "time": 0.028,
+      "time": 0.061,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -279686,7 +279686,7 @@
           "rows": 668
         }
       },
-      "time": 0.034,
+      "time": 0.073,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -304523,7 +304523,7 @@
           "rows": 172
         }
       },
-      "time": 0.017,
+      "time": 0.033,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -311002,13 +311002,13 @@
         "scheme": "file",
         "title": "Restos a Pagar 2026",
         "stats": {
-          "hash": "61792074e553785833798b0d134db6c9",
-          "bytes": 35546,
+          "hash": "6ce1acebd48ca96619329390403d91b4",
+          "bytes": 35553,
           "fields": 17,
           "rows": 160
         }
       },
-      "time": 0.018,
+      "time": 0.037,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -312125,7 +312125,7 @@
             "10",
             "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
             "0,0",
-            "0,0",
+            "1459840,09",
             "0,0"
           ],
           "rowNumber": 28,
