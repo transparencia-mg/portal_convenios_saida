@@ -6,7 +6,7 @@ gerar_pagamentos_filtrados.py
 
 O QUE ESTE SCRIPT FAZ
 ----------------------
-Le o arquivo "convenios_saida.xlsx" (a lista de convenios de saida) e usa a
+Le o arquivo "convenio_saida.xlsx" (a lista de convenios de saida) e usa a
 coluna NUMERO_SIAFI dos convenios com STATUS_CONVENIO "Vigente" ou
 "Encerrado" para filtrar os arquivos brutos de pagamento:
 
@@ -25,9 +25,10 @@ COMO FUNCIONA EM QUALQUER COMPUTADOR (não só no seu)
 O script NÃO tem nenhum caminho fixo tipo "G:\\Meu Drive\\...". Por padrão,
 ele espera esta estrutura de pastas, relativa a onde o script está salvo:
 
-    portal_convenios_saida/            <- coloque o script aqui
+    portal_convenios_saida/
+        scripts/                       <- o script fica aqui
         upload/
-            convenios_saida.xlsx
+            convenio_saida.xlsx
             pagamento2022.csv ... pagamento2026.csv
             pagamentorp2022.csv ... pagamentorp2026.csv
 
@@ -35,7 +36,7 @@ Ou seja:
 
     1. Copie este arquivo .py para a pasta "portal_convenios_saida"
        (na raiz, ao lado da pasta "upload").
-    2. Deixe o convenios_saida.xlsx e todos os pagamentoAAAA.csv /
+    2. Deixe o convenio_saida.xlsx e todos os pagamentoAAAA.csv /
        pagamentorpAAAA.csv dentro da subpasta "upload".
     3. Rode o script (veja "COMO RODAR" abaixo).
     4. Ele SUBSTITUI cada arquivo pela sua versão filtrada, mesmo nome,
@@ -61,7 +62,7 @@ Uso mais simples (estrutura padrão "portal_convenios_saida/upload/..."):
 
 Apontando pastas manualmente (caso sua estrutura seja diferente):
 
-    python gerar_pagamentos_filtrados.py --convenios "caminho\\convenios_saida.xlsx" --entrada "caminho\\da\\pasta" --saida "caminho\\de\\saida"
+    python gerar_pagamentos_filtrados.py --convenios "caminho\\convenio_saida.xlsx" --entrada "caminho\\da\\pasta" --saida "caminho\\de\\saida"
 """
 
 import argparse
@@ -225,12 +226,12 @@ def filtrar_arquivo_csv(caminho_entrada, caminho_saida_xlsx, siafis_validos):
 def main():
     parser = argparse.ArgumentParser(
         description="Gera versões filtradas (bem menores) dos CSVs de pagamento, "
-        "usando convenios_saida.xlsx como referência de SIAFIs válidos."
+        "usando convenio_saida.xlsx como referência de SIAFIs válidos."
     )
     parser.add_argument(
         "--convenios",
-        default=caminho_padrao(os.path.join("upload", "convenios_saida.xlsx")),
-        help="Caminho do arquivo convenios_saida.xlsx (padrão: pasta 'upload' ao lado do script)",
+        default=caminho_padrao(os.path.join("upload", "convenio_saida.xlsx")),
+        help="Caminho do arquivo convenio_saida.xlsx (padrão: pasta 'upload' ao lado do script)",
     )
     parser.add_argument(
         "--entrada",

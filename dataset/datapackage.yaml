@@ -8,7 +8,7 @@ resources:
     format: csv
     hashing: md5
     name: convenios_saida
-    path: data/convenios_saida.csv
+    path: data/convenio_saida.csv
     profile: tabular-data-resource
     schema:
       fields:

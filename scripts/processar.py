@@ -52,14 +52,33 @@ depara = depara.drop_duplicates(
 arquivos_gerados = 0
 
 # =====================================================
-# PROCESSA VW_V2_CONVENIO.xlsx
+# LIMPEZA DE ARQUIVOS ANTIGOS (nome antigo "convenios_saida")
+# O arquivo agora se chama convenio_saida.xlsx / convenio_saida.csv.
+# Se o antigo continuar no repositório, o GitHub Actions segue convertendo
+# ele para dataset/data/convenios_saida.csv com dados desatualizados.
+# Apagando aqui, o publicar.py (git add -A) envia a exclusão pro GitHub.
 # =====================================================
 
-arquivo_convenios = UPLOAD / "VW_V2_CONVENIO.xlsx"
+for antigo in [
+    UPLOAD / "convenios_saida.xlsx",
+    REPO / "dataset" / "data" / "convenios_saida.csv",
+]:
+    if antigo.exists():
+        antigo.unlink()
+        print(f"Removido arquivo antigo: {antigo}")
+
+# =====================================================
+# PROCESSA convenio_saida.xlsx
+# (antes o arquivo de entrada era VW_V2_CONVENIO.xlsx e a saída era
+#  convenios_saida.xlsx; agora o arquivo é um só: convenio_saida.xlsx,
+#  que é lido, tratado e regravado no MESMO lugar, com o MESMO nome)
+# =====================================================
+
+arquivo_convenios = UPLOAD / "convenio_saida.xlsx"
 
 if arquivo_convenios.exists():
 
-    print("\nProcessando VW_V2_CONVENIO.xlsx...")
+    print("\nProcessando convenio_saida.xlsx...")
 
     df = pd.read_excel(
         arquivo_convenios,
@@ -188,24 +207,25 @@ if arquivo_convenios.exists():
 
         df = df[cols]
 
-    caminho_saida = UPLOAD / "convenios_saida.xlsx"
+    # Regrava no próprio convenio_saida.xlsx (sobrescreve o original).
+    # NÃO apagamos mais o arquivo depois: entrada e saída agora são o mesmo
+    # arquivo, e o gerar_pagamentos_filtrados.py precisa dele em seguida.
+    caminho_saida = arquivo_convenios
 
     df.to_excel(
         caminho_saida,
         index=False
     )
 
-    print(f"Gerado: {caminho_saida}")
-
-    try:
-        os.remove(arquivo_convenios)
-    except:
-        pass
+    print(f"Atualizado: {caminho_saida}")
 
     arquivos_gerados += 1
 
+else:
+    print(f"\nAVISO: {arquivo_convenios.name} não encontrado em {UPLOAD}")
+
 # =====================================================
-# PROCESSA CONVENIOSAIDAAAA.xlsx
+# PROCESSA CONVENIOSAIDAAAAA.xlsx
 # =====================================================
 
 arquivos_saida = list(

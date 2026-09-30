@@ -20,7 +20,7 @@ resultado = subprocess.run(
 if resultado.stdout.strip():
 
     subprocess.run(
-        ["git", "add", "."],
+        ["git", "add", "-A"],
         cwd=REPO,
         check=True
     )

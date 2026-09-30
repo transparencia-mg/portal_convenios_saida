@@ -676,7 +676,7 @@
 // ============================================================
 // 1. CONFIGURAÇÕES E VARIÁVEIS GLOBAIS
 // ============================================================
-const CSV_URL_BASE = 'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/convenios_saida.csv';
+const CSV_URL_BASE = 'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/convenio_saida.csv';
 const BASE_DADOS_URL = 'https://raw.githubusercontent.com/transparencia-mg/portal_convenios_saida/refs/heads/main/dataset/data/';
 const ANOS_PAGAMENTOS = [2022, 2023, 2024, 2025, 2026];
 
@@ -1307,11 +1307,11 @@ async function carregarEEnriquecerEmpenhos() {
 async function setupAtualizacaoData() {
     const el = document.getElementById('data-atualizacao-header');
     // Considera o commit mais recente entre TODOS os arquivos de dados que o
-    // painel efetivamente usa (convenios_saida.csv + pagamentoAAAA.csv +
+    // painel efetivamente usa (convenio_saida.csv + pagamentoAAAA.csv +
     // pagamentorpAAAA.csv de cada ano), não só o primeiro. Antes, uma alteração
     // só em algum pagamentoAAAA.csv não atualizava a data mostrada no cabeçalho.
     const caminhos = [
-        'dataset/data/convenios_saida.csv',
+        'dataset/data/convenio_saida.csv',
         ...ANOS_PAGAMENTOS.map(a => `dataset/data/pagamento${a}.csv`),
         ...ANOS_PAGAMENTOS.map(a => `dataset/data/pagamentorp${a}.csv`)
     ];
