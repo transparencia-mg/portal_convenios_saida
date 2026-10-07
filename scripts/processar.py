@@ -225,12 +225,20 @@ else:
     print(f"\nAVISO: {arquivo_convenios.name} não encontrado em {UPLOAD}")
 
 # =====================================================
-# PROCESSA CONVENIOSAIDAAAAA.xlsx
+# PROCESSA ARQUIVOS DE CONVÊNIOS DE SAÍDA
+# Aceita tanto o nome antigo:
+#   CONVENIOSAIDA2024.xlsx
+# quanto o nome atual:
+#   Convenios_Saida2024.xlsx
 # =====================================================
 
-arquivos_saida = list(
-    UPLOAD.glob("CONVENIOSAIDA*.xlsx")
-)
+arquivos_saida = []
+
+for arquivo in UPLOAD.glob("*.xlsx"):
+    nome = arquivo.stem.upper().replace("_", "")
+
+    if nome.startswith("CONVENIOSAIDA"):
+        arquivos_saida.append(arquivo)
 
 for arquivo in arquivos_saida:
 
