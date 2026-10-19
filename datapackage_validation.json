@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 0.649,
+  "time": 0.48,
   "errors": [],
   "tasks": [
     {
@@ -135,7 +135,7 @@
           "rows": 0
         }
       },
-      "time": 0.046,
+      "time": 0.032,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -6938,466 +6938,6 @@
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
-          "cell": "758391,0",
-          "fieldName": "cd_plano_trabalho",
-          "fieldNumber": 2,
-          "fieldPosition": 2,
-          "cells": [
-            "20030",
-            "758391,0",
-            "3",
-            "INSTRUMENTO JURÍDICO",
-            "003563/2015",
-            "001693/2015",
-            "1491001836/2015",
-            "9046555,0",
-            "1491",
-            "SEGOV",
-            "BOCAIUVA",
-            "18803072000132",
-            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
-            "REGULAR",
-            "2015-12-04",
-            "2015-12-04",
-            "2018-12-03 00:00:00",
-            "0,0",
-            "50000,0",
-            "16",
-            "ENCERRADO",
-            "50000,0",
-            "50000,0",
-            "2 DIA(S), 16 HORA(S), 30 MINUTO(S)",
-            "0 DIA(S), 2 HORA(S), 19 MINUTO(S)",
-            "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
-          ],
-          "rowNumber": 14,
-          "rowPosition": 15,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"758391,0\" in row \"15\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "9046555,0",
-          "fieldName": "numero_siafi",
-          "fieldNumber": 8,
-          "fieldPosition": 8,
-          "cells": [
-            "20030",
-            "758391,0",
-            "3",
-            "INSTRUMENTO JURÍDICO",
-            "003563/2015",
-            "001693/2015",
-            "1491001836/2015",
-            "9046555,0",
-            "1491",
-            "SEGOV",
-            "BOCAIUVA",
-            "18803072000132",
-            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
-            "REGULAR",
-            "2015-12-04",
-            "2015-12-04",
-            "2018-12-03 00:00:00",
-            "0,0",
-            "50000,0",
-            "16",
-            "ENCERRADO",
-            "50000,0",
-            "50000,0",
-            "2 DIA(S), 16 HORA(S), 30 MINUTO(S)",
-            "0 DIA(S), 2 HORA(S), 19 MINUTO(S)",
-            "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
-          ],
-          "rowNumber": 14,
-          "rowPosition": 15,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9046555,0\" in row \"15\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "PREFEITURA MUNICIPAL DE BOCAIÚVA",
-          "fieldName": "cnpj_proponente",
-          "fieldNumber": 13,
-          "fieldPosition": 13,
-          "cells": [
-            "20030",
-            "758391,0",
-            "3",
-            "INSTRUMENTO JURÍDICO",
-            "003563/2015",
-            "001693/2015",
-            "1491001836/2015",
-            "9046555,0",
-            "1491",
-            "SEGOV",
-            "BOCAIUVA",
-            "18803072000132",
-            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
-            "REGULAR",
-            "2015-12-04",
-            "2015-12-04",
-            "2018-12-03 00:00:00",
-            "0,0",
-            "50000,0",
-            "16",
-            "ENCERRADO",
-            "50000,0",
-            "50000,0",
-            "2 DIA(S), 16 HORA(S), 30 MINUTO(S)",
-            "0 DIA(S), 2 HORA(S), 19 MINUTO(S)",
-            "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
-          ],
-          "rowNumber": 14,
-          "rowPosition": 15,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE BOCAIÚVA\" in row \"15\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "2015-12-04",
-          "fieldName": "data_publicacao",
-          "fieldNumber": 16,
-          "fieldPosition": 16,
-          "cells": [
-            "20030",
-            "758391,0",
-            "3",
-            "INSTRUMENTO JURÍDICO",
-            "003563/2015",
-            "001693/2015",
-            "1491001836/2015",
-            "9046555,0",
-            "1491",
-            "SEGOV",
-            "BOCAIUVA",
-            "18803072000132",
-            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
-            "REGULAR",
-            "2015-12-04",
-            "2015-12-04",
-            "2018-12-03 00:00:00",
-            "0,0",
-            "50000,0",
-            "16",
-            "ENCERRADO",
-            "50000,0",
-            "50000,0",
-            "2 DIA(S), 16 HORA(S), 30 MINUTO(S)",
-            "0 DIA(S), 2 HORA(S), 19 MINUTO(S)",
-            "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
-          ],
-          "rowNumber": 14,
-          "rowPosition": 15,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2015-12-04\" in row \"15\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "0,0",
-          "fieldName": "data_termino",
-          "fieldNumber": 18,
-          "fieldPosition": 18,
-          "cells": [
-            "20030",
-            "758391,0",
-            "3",
-            "INSTRUMENTO JURÍDICO",
-            "003563/2015",
-            "001693/2015",
-            "1491001836/2015",
-            "9046555,0",
-            "1491",
-            "SEGOV",
-            "BOCAIUVA",
-            "18803072000132",
-            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
-            "REGULAR",
-            "2015-12-04",
-            "2015-12-04",
-            "2018-12-03 00:00:00",
-            "0,0",
-            "50000,0",
-            "16",
-            "ENCERRADO",
-            "50000,0",
-            "50000,0",
-            "2 DIA(S), 16 HORA(S), 30 MINUTO(S)",
-            "0 DIA(S), 2 HORA(S), 19 MINUTO(S)",
-            "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
-          ],
-          "rowNumber": 14,
-          "rowPosition": 15,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"15\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "50000,0",
-          "fieldName": "valor_concedente",
-          "fieldNumber": 19,
-          "fieldPosition": 19,
-          "cells": [
-            "20030",
-            "758391,0",
-            "3",
-            "INSTRUMENTO JURÍDICO",
-            "003563/2015",
-            "001693/2015",
-            "1491001836/2015",
-            "9046555,0",
-            "1491",
-            "SEGOV",
-            "BOCAIUVA",
-            "18803072000132",
-            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
-            "REGULAR",
-            "2015-12-04",
-            "2015-12-04",
-            "2018-12-03 00:00:00",
-            "0,0",
-            "50000,0",
-            "16",
-            "ENCERRADO",
-            "50000,0",
-            "50000,0",
-            "2 DIA(S), 16 HORA(S), 30 MINUTO(S)",
-            "0 DIA(S), 2 HORA(S), 19 MINUTO(S)",
-            "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
-          ],
-          "rowNumber": 14,
-          "rowPosition": 15,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"50000,0\" in row \"15\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "ENCERRADO",
-          "fieldName": "id_status_convenio",
-          "fieldNumber": 21,
-          "fieldPosition": 21,
-          "cells": [
-            "20030",
-            "758391,0",
-            "3",
-            "INSTRUMENTO JURÍDICO",
-            "003563/2015",
-            "001693/2015",
-            "1491001836/2015",
-            "9046555,0",
-            "1491",
-            "SEGOV",
-            "BOCAIUVA",
-            "18803072000132",
-            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
-            "REGULAR",
-            "2015-12-04",
-            "2015-12-04",
-            "2018-12-03 00:00:00",
-            "0,0",
-            "50000,0",
-            "16",
-            "ENCERRADO",
-            "50000,0",
-            "50000,0",
-            "2 DIA(S), 16 HORA(S), 30 MINUTO(S)",
-            "0 DIA(S), 2 HORA(S), 19 MINUTO(S)",
-            "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
-          ],
-          "rowNumber": 14,
-          "rowPosition": 15,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"15\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "50000,0",
-          "fieldName": "valor_despesa_empenhada",
-          "fieldNumber": 23,
-          "fieldPosition": 23,
-          "cells": [
-            "20030",
-            "758391,0",
-            "3",
-            "INSTRUMENTO JURÍDICO",
-            "003563/2015",
-            "001693/2015",
-            "1491001836/2015",
-            "9046555,0",
-            "1491",
-            "SEGOV",
-            "BOCAIUVA",
-            "18803072000132",
-            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
-            "REGULAR",
-            "2015-12-04",
-            "2015-12-04",
-            "2018-12-03 00:00:00",
-            "0,0",
-            "50000,0",
-            "16",
-            "ENCERRADO",
-            "50000,0",
-            "50000,0",
-            "2 DIA(S), 16 HORA(S), 30 MINUTO(S)",
-            "0 DIA(S), 2 HORA(S), 19 MINUTO(S)",
-            "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
-          ],
-          "rowNumber": 14,
-          "rowPosition": 15,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"50000,0\" in row \"15\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "2 DIA(S), 16 HORA(S), 30 MINUTO(S)",
-          "fieldName": "valor_despesa_paga",
-          "fieldNumber": 24,
-          "fieldPosition": 24,
-          "cells": [
-            "20030",
-            "758391,0",
-            "3",
-            "INSTRUMENTO JURÍDICO",
-            "003563/2015",
-            "001693/2015",
-            "1491001836/2015",
-            "9046555,0",
-            "1491",
-            "SEGOV",
-            "BOCAIUVA",
-            "18803072000132",
-            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
-            "REGULAR",
-            "2015-12-04",
-            "2015-12-04",
-            "2018-12-03 00:00:00",
-            "0,0",
-            "50000,0",
-            "16",
-            "ENCERRADO",
-            "50000,0",
-            "50000,0",
-            "2 DIA(S), 16 HORA(S), 30 MINUTO(S)",
-            "0 DIA(S), 2 HORA(S), 19 MINUTO(S)",
-            "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
-          ],
-          "rowNumber": 14,
-          "rowPosition": 15,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"2 DIA(S), 16 HORA(S), 30 MINUTO(S)\" in row \"15\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "",
-          "fieldName": "tempo_a_encaminhador_continuo",
-          "fieldNumber": 27,
-          "fieldPosition": 27,
-          "cells": [
-            "20030",
-            "758391,0",
-            "3",
-            "INSTRUMENTO JURÍDICO",
-            "003563/2015",
-            "001693/2015",
-            "1491001836/2015",
-            "9046555,0",
-            "1491",
-            "SEGOV",
-            "BOCAIUVA",
-            "18803072000132",
-            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
-            "REGULAR",
-            "2015-12-04",
-            "2015-12-04",
-            "2018-12-03 00:00:00",
-            "0,0",
-            "50000,0",
-            "16",
-            "ENCERRADO",
-            "50000,0",
-            "50000,0",
-            "2 DIA(S), 16 HORA(S), 30 MINUTO(S)",
-            "0 DIA(S), 2 HORA(S), 19 MINUTO(S)",
-            "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
-          ],
-          "rowNumber": 14,
-          "rowPosition": 15,
-          "code": "missing-cell",
-          "name": "Missing Cell",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "",
-          "message": "Row at position \"15\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
-          "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
-        },
-        {
           "cell": "762216,0",
           "fieldName": "cd_plano_trabalho",
           "fieldNumber": 2,
@@ -7430,8 +6970,8 @@
             "0 DIA(S), 3 HORA(S), 26 MINUTO(S)",
             "1 DIA(S), 18 HORA(S), 21 MINUTO(S)"
           ],
-          "rowNumber": 15,
-          "rowPosition": 16,
+          "rowNumber": 14,
+          "rowPosition": 15,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -7440,7 +6980,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"762216,0\" in row \"16\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"762216,0\" in row \"15\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -7476,8 +7016,8 @@
             "0 DIA(S), 3 HORA(S), 26 MINUTO(S)",
             "1 DIA(S), 18 HORA(S), 21 MINUTO(S)"
           ],
-          "rowNumber": 15,
-          "rowPosition": 16,
+          "rowNumber": 14,
+          "rowPosition": 15,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -7486,7 +7026,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9048987,0\" in row \"16\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9048987,0\" in row \"15\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -7522,8 +7062,8 @@
             "0 DIA(S), 3 HORA(S), 26 MINUTO(S)",
             "1 DIA(S), 18 HORA(S), 21 MINUTO(S)"
           ],
-          "rowNumber": 15,
-          "rowPosition": 16,
+          "rowNumber": 14,
+          "rowPosition": 15,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -7532,7 +7072,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE CRISTAIS\" in row \"16\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE CRISTAIS\" in row \"15\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -7568,8 +7108,8 @@
             "0 DIA(S), 3 HORA(S), 26 MINUTO(S)",
             "1 DIA(S), 18 HORA(S), 21 MINUTO(S)"
           ],
-          "rowNumber": 15,
-          "rowPosition": 16,
+          "rowNumber": 14,
+          "rowPosition": 15,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -7578,7 +7118,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2015-12-15\" in row \"16\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2015-12-15\" in row \"15\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -7614,8 +7154,8 @@
             "0 DIA(S), 3 HORA(S), 26 MINUTO(S)",
             "1 DIA(S), 18 HORA(S), 21 MINUTO(S)"
           ],
-          "rowNumber": 15,
-          "rowPosition": 16,
+          "rowNumber": 14,
+          "rowPosition": 15,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -7624,7 +7164,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"16\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"15\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -7660,8 +7200,8 @@
             "0 DIA(S), 3 HORA(S), 26 MINUTO(S)",
             "1 DIA(S), 18 HORA(S), 21 MINUTO(S)"
           ],
-          "rowNumber": 15,
-          "rowPosition": 16,
+          "rowNumber": 14,
+          "rowPosition": 15,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -7670,7 +7210,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"60000,0\" in row \"16\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"60000,0\" in row \"15\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -7706,8 +7246,8 @@
             "0 DIA(S), 3 HORA(S), 26 MINUTO(S)",
             "1 DIA(S), 18 HORA(S), 21 MINUTO(S)"
           ],
-          "rowNumber": 15,
-          "rowPosition": 16,
+          "rowNumber": 14,
+          "rowPosition": 15,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -7716,7 +7256,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"16\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"15\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -7752,8 +7292,8 @@
             "0 DIA(S), 3 HORA(S), 26 MINUTO(S)",
             "1 DIA(S), 18 HORA(S), 21 MINUTO(S)"
           ],
-          "rowNumber": 15,
-          "rowPosition": 16,
+          "rowNumber": 14,
+          "rowPosition": 15,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -7762,7 +7302,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"60000,0\" in row \"16\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"60000,0\" in row \"15\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -7798,8 +7338,8 @@
             "0 DIA(S), 3 HORA(S), 26 MINUTO(S)",
             "1 DIA(S), 18 HORA(S), 21 MINUTO(S)"
           ],
-          "rowNumber": 15,
-          "rowPosition": 16,
+          "rowNumber": 14,
+          "rowPosition": 15,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -7808,7 +7348,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0 DIA(S), 17 HORA(S), 32 MINUTO(S)\" in row \"16\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0 DIA(S), 17 HORA(S), 32 MINUTO(S)\" in row \"15\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -7844,8 +7384,8 @@
             "0 DIA(S), 3 HORA(S), 26 MINUTO(S)",
             "1 DIA(S), 18 HORA(S), 21 MINUTO(S)"
           ],
-          "rowNumber": 15,
-          "rowPosition": 16,
+          "rowNumber": 14,
+          "rowPosition": 15,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -7854,7 +7394,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"16\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"15\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -7890,8 +7430,8 @@
             "0 DIA(S), 2 HORA(S), 0 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
           ],
-          "rowNumber": 16,
-          "rowPosition": 17,
+          "rowNumber": 15,
+          "rowPosition": 16,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -7900,7 +7440,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"762363,0\" in row \"17\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"762363,0\" in row \"16\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -7936,8 +7476,8 @@
             "0 DIA(S), 2 HORA(S), 0 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
           ],
-          "rowNumber": 16,
-          "rowPosition": 17,
+          "rowNumber": 15,
+          "rowPosition": 16,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -7946,7 +7486,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9049233,0\" in row \"17\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9049233,0\" in row \"16\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -7982,8 +7522,8 @@
             "0 DIA(S), 2 HORA(S), 0 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
           ],
-          "rowNumber": 16,
-          "rowPosition": 17,
+          "rowNumber": 15,
+          "rowPosition": 16,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -7992,7 +7532,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"CONSELHO DE DESENVOLVIMENTO COMUNITARIO DE CANSANÇÃO\" in row \"17\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"CONSELHO DE DESENVOLVIMENTO COMUNITARIO DE CANSANÇÃO\" in row \"16\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8028,8 +7568,8 @@
             "0 DIA(S), 2 HORA(S), 0 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
           ],
-          "rowNumber": 16,
-          "rowPosition": 17,
+          "rowNumber": 15,
+          "rowPosition": 16,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8038,7 +7578,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2015-12-17\" in row \"17\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2015-12-17\" in row \"16\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8074,8 +7614,8 @@
             "0 DIA(S), 2 HORA(S), 0 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
           ],
-          "rowNumber": 16,
-          "rowPosition": 17,
+          "rowNumber": 15,
+          "rowPosition": 16,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8084,7 +7624,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"17\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"16\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8120,8 +7660,8 @@
             "0 DIA(S), 2 HORA(S), 0 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
           ],
-          "rowNumber": 16,
-          "rowPosition": 17,
+          "rowNumber": 15,
+          "rowPosition": 16,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8130,7 +7670,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"30000,0\" in row \"17\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"30000,0\" in row \"16\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8166,8 +7706,8 @@
             "0 DIA(S), 2 HORA(S), 0 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
           ],
-          "rowNumber": 16,
-          "rowPosition": 17,
+          "rowNumber": 15,
+          "rowPosition": 16,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8176,7 +7716,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"17\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"16\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8212,8 +7752,8 @@
             "0 DIA(S), 2 HORA(S), 0 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
           ],
-          "rowNumber": 16,
-          "rowPosition": 17,
+          "rowNumber": 15,
+          "rowPosition": 16,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8222,7 +7762,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"30000,0\" in row \"17\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"30000,0\" in row \"16\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8258,8 +7798,8 @@
             "0 DIA(S), 2 HORA(S), 0 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
           ],
-          "rowNumber": 16,
-          "rowPosition": 17,
+          "rowNumber": 15,
+          "rowPosition": 16,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8268,7 +7808,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0 DIA(S), 17 HORA(S), 17 MINUTO(S)\" in row \"17\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0 DIA(S), 17 HORA(S), 17 MINUTO(S)\" in row \"16\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8304,8 +7844,8 @@
             "0 DIA(S), 2 HORA(S), 0 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 23 MINUTO(S)"
           ],
-          "rowNumber": 16,
-          "rowPosition": 17,
+          "rowNumber": 15,
+          "rowPosition": 16,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -8314,7 +7854,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"17\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"16\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -8350,8 +7890,8 @@
             "0 DIA(S), 0 HORA(S), 18 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 4 MINUTO(S)"
           ],
-          "rowNumber": 17,
-          "rowPosition": 18,
+          "rowNumber": 16,
+          "rowPosition": 17,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8360,7 +7900,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"762515,0\" in row \"18\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"762515,0\" in row \"17\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8396,8 +7936,8 @@
             "0 DIA(S), 0 HORA(S), 18 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 4 MINUTO(S)"
           ],
-          "rowNumber": 17,
-          "rowPosition": 18,
+          "rowNumber": 16,
+          "rowPosition": 17,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8406,7 +7946,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9049477,0\" in row \"18\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9049477,0\" in row \"17\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8442,8 +7982,8 @@
             "0 DIA(S), 0 HORA(S), 18 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 4 MINUTO(S)"
           ],
-          "rowNumber": 17,
-          "rowPosition": 18,
+          "rowNumber": 16,
+          "rowPosition": 17,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8452,7 +7992,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"INSTITUTO FILHOS DE CONTAGEM\" in row \"18\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"INSTITUTO FILHOS DE CONTAGEM\" in row \"17\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8488,8 +8028,8 @@
             "0 DIA(S), 0 HORA(S), 18 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 4 MINUTO(S)"
           ],
-          "rowNumber": 17,
-          "rowPosition": 18,
+          "rowNumber": 16,
+          "rowPosition": 17,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8498,7 +8038,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2015-12-19\" in row \"18\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2015-12-19\" in row \"17\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8534,8 +8074,8 @@
             "0 DIA(S), 0 HORA(S), 18 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 4 MINUTO(S)"
           ],
-          "rowNumber": 17,
-          "rowPosition": 18,
+          "rowNumber": 16,
+          "rowPosition": 17,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8544,7 +8084,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"18\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"17\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8580,8 +8120,8 @@
             "0 DIA(S), 0 HORA(S), 18 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 4 MINUTO(S)"
           ],
-          "rowNumber": 17,
-          "rowPosition": 18,
+          "rowNumber": 16,
+          "rowPosition": 17,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8590,7 +8130,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"30000,0\" in row \"18\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"30000,0\" in row \"17\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8626,8 +8166,8 @@
             "0 DIA(S), 0 HORA(S), 18 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 4 MINUTO(S)"
           ],
-          "rowNumber": 17,
-          "rowPosition": 18,
+          "rowNumber": 16,
+          "rowPosition": 17,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8636,7 +8176,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"18\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"17\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8672,8 +8212,8 @@
             "0 DIA(S), 0 HORA(S), 18 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 4 MINUTO(S)"
           ],
-          "rowNumber": 17,
-          "rowPosition": 18,
+          "rowNumber": 16,
+          "rowPosition": 17,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8682,7 +8222,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"30000,0\" in row \"18\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"30000,0\" in row \"17\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8718,8 +8258,8 @@
             "0 DIA(S), 0 HORA(S), 18 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 4 MINUTO(S)"
           ],
-          "rowNumber": 17,
-          "rowPosition": 18,
+          "rowNumber": 16,
+          "rowPosition": 17,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8728,7 +8268,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0 DIA(S), 19 HORA(S), 52 MINUTO(S)\" in row \"18\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0 DIA(S), 19 HORA(S), 52 MINUTO(S)\" in row \"17\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8764,8 +8304,8 @@
             "0 DIA(S), 0 HORA(S), 18 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 4 MINUTO(S)"
           ],
-          "rowNumber": 17,
-          "rowPosition": 18,
+          "rowNumber": 16,
+          "rowPosition": 17,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -8774,7 +8314,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"18\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"17\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -8810,8 +8350,8 @@
             "0 DIA(S), 0 HORA(S), 34 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 18,
-          "rowPosition": 19,
+          "rowNumber": 17,
+          "rowPosition": 18,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8820,7 +8360,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"762815,0\" in row \"19\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"762815,0\" in row \"18\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8856,8 +8396,8 @@
             "0 DIA(S), 0 HORA(S), 34 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 18,
-          "rowPosition": 19,
+          "rowNumber": 17,
+          "rowPosition": 18,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8866,7 +8406,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9049827,0\" in row \"19\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9049827,0\" in row \"18\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8902,8 +8442,8 @@
             "0 DIA(S), 0 HORA(S), 34 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 18,
-          "rowPosition": 19,
+          "rowNumber": 17,
+          "rowPosition": 18,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8912,7 +8452,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"FLAMENGO FUTEBOL CLUBE\" in row \"19\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"FLAMENGO FUTEBOL CLUBE\" in row \"18\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8948,8 +8488,8 @@
             "0 DIA(S), 0 HORA(S), 34 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 18,
-          "rowPosition": 19,
+          "rowNumber": 17,
+          "rowPosition": 18,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -8958,7 +8498,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2015-12-23\" in row \"19\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2015-12-23\" in row \"18\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -8994,8 +8534,8 @@
             "0 DIA(S), 0 HORA(S), 34 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 18,
-          "rowPosition": 19,
+          "rowNumber": 17,
+          "rowPosition": 18,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9004,7 +8544,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"19\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"18\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9040,8 +8580,8 @@
             "0 DIA(S), 0 HORA(S), 34 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 18,
-          "rowPosition": 19,
+          "rowNumber": 17,
+          "rowPosition": 18,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9050,7 +8590,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"830000,0\" in row \"19\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"830000,0\" in row \"18\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9086,8 +8626,8 @@
             "0 DIA(S), 0 HORA(S), 34 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 18,
-          "rowPosition": 19,
+          "rowNumber": 17,
+          "rowPosition": 18,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9096,7 +8636,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"19\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"18\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9132,8 +8672,8 @@
             "0 DIA(S), 0 HORA(S), 34 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 18,
-          "rowPosition": 19,
+          "rowNumber": 17,
+          "rowPosition": 18,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9142,7 +8682,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"830000,0\" in row \"19\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"830000,0\" in row \"18\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9178,8 +8718,8 @@
             "0 DIA(S), 0 HORA(S), 34 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 18,
-          "rowPosition": 19,
+          "rowNumber": 17,
+          "rowPosition": 18,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9188,7 +8728,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"3 DIA(S), 22 HORA(S), 44 MINUTO(S)\" in row \"19\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"3 DIA(S), 22 HORA(S), 44 MINUTO(S)\" in row \"18\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9224,8 +8764,8 @@
             "0 DIA(S), 0 HORA(S), 34 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 18,
-          "rowPosition": 19,
+          "rowNumber": 17,
+          "rowPosition": 18,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -9234,7 +8774,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"19\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"18\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -9270,8 +8810,8 @@
             "0 DIA(S), 0 HORA(S), 48 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 19,
-          "rowPosition": 20,
+          "rowNumber": 18,
+          "rowPosition": 19,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9280,7 +8820,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"773536,0\" in row \"20\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"773536,0\" in row \"19\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9316,8 +8856,8 @@
             "0 DIA(S), 0 HORA(S), 48 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 19,
-          "rowPosition": 20,
+          "rowNumber": 18,
+          "rowPosition": 19,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9326,7 +8866,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9059304,0\" in row \"20\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9059304,0\" in row \"19\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9362,8 +8902,8 @@
             "0 DIA(S), 0 HORA(S), 48 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 19,
-          "rowPosition": 20,
+          "rowNumber": 18,
+          "rowPosition": 19,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9372,7 +8912,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE SÃO GONÇALO DO PARÁ\" in row \"20\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE SÃO GONÇALO DO PARÁ\" in row \"19\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9408,8 +8948,8 @@
             "0 DIA(S), 0 HORA(S), 48 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 19,
-          "rowPosition": 20,
+          "rowNumber": 18,
+          "rowPosition": 19,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9418,7 +8958,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2016-06-24\" in row \"20\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2016-06-24\" in row \"19\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9454,8 +8994,8 @@
             "0 DIA(S), 0 HORA(S), 48 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 19,
-          "rowPosition": 20,
+          "rowNumber": 18,
+          "rowPosition": 19,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9464,7 +9004,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"20\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"19\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9500,8 +9040,8 @@
             "0 DIA(S), 0 HORA(S), 48 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 19,
-          "rowPosition": 20,
+          "rowNumber": 18,
+          "rowPosition": 19,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9510,7 +9050,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"20\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"19\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9546,8 +9086,8 @@
             "0 DIA(S), 0 HORA(S), 48 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 19,
-          "rowPosition": 20,
+          "rowNumber": 18,
+          "rowPosition": 19,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9556,7 +9096,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"20\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"19\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9592,8 +9132,8 @@
             "0 DIA(S), 0 HORA(S), 48 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 19,
-          "rowPosition": 20,
+          "rowNumber": 18,
+          "rowPosition": 19,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9602,7 +9142,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"20\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"19\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9638,8 +9178,8 @@
             "0 DIA(S), 0 HORA(S), 48 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 19,
-          "rowPosition": 20,
+          "rowNumber": 18,
+          "rowPosition": 19,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9648,7 +9188,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"3 DIA(S), 22 HORA(S), 2 MINUTO(S)\" in row \"20\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"3 DIA(S), 22 HORA(S), 2 MINUTO(S)\" in row \"19\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9684,8 +9224,8 @@
             "0 DIA(S), 0 HORA(S), 48 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 10 MINUTO(S)"
           ],
-          "rowNumber": 19,
-          "rowPosition": 20,
+          "rowNumber": 18,
+          "rowPosition": 19,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -9694,7 +9234,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"20\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"19\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -9730,8 +9270,8 @@
             "0 DIA(S), 21 HORA(S), 25 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 20,
-          "rowPosition": 21,
+          "rowNumber": 19,
+          "rowPosition": 20,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9740,7 +9280,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"762465,0\" in row \"21\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"762465,0\" in row \"20\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9776,8 +9316,8 @@
             "0 DIA(S), 21 HORA(S), 25 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 20,
-          "rowPosition": 21,
+          "rowNumber": 19,
+          "rowPosition": 20,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9786,7 +9326,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9049383,0\" in row \"21\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9049383,0\" in row \"20\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9822,8 +9362,8 @@
             "0 DIA(S), 21 HORA(S), 25 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 20,
-          "rowPosition": 21,
+          "rowNumber": 19,
+          "rowPosition": 20,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9832,7 +9372,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"APAE DE FRONTEIRA\" in row \"21\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"APAE DE FRONTEIRA\" in row \"20\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9868,8 +9408,8 @@
             "0 DIA(S), 21 HORA(S), 25 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 20,
-          "rowPosition": 21,
+          "rowNumber": 19,
+          "rowPosition": 20,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9878,7 +9418,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2015-12-18\" in row \"21\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2015-12-18\" in row \"20\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9914,8 +9454,8 @@
             "0 DIA(S), 21 HORA(S), 25 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 20,
-          "rowPosition": 21,
+          "rowNumber": 19,
+          "rowPosition": 20,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9924,7 +9464,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"21\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"20\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -9960,8 +9500,8 @@
             "0 DIA(S), 21 HORA(S), 25 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 20,
-          "rowPosition": 21,
+          "rowNumber": 19,
+          "rowPosition": 20,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -9970,7 +9510,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"20000,0\" in row \"21\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"20000,0\" in row \"20\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10006,8 +9546,8 @@
             "0 DIA(S), 21 HORA(S), 25 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 20,
-          "rowPosition": 21,
+          "rowNumber": 19,
+          "rowPosition": 20,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10016,7 +9556,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"21\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"20\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10052,8 +9592,8 @@
             "0 DIA(S), 21 HORA(S), 25 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 20,
-          "rowPosition": 21,
+          "rowNumber": 19,
+          "rowPosition": 20,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10062,7 +9602,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"20000,0\" in row \"21\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"20000,0\" in row \"20\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10098,8 +9638,8 @@
             "0 DIA(S), 21 HORA(S), 25 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 20,
-          "rowPosition": 21,
+          "rowNumber": 19,
+          "rowPosition": 20,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10108,7 +9648,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"6 DIA(S), 2 HORA(S), 30 MINUTO(S)\" in row \"21\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"6 DIA(S), 2 HORA(S), 30 MINUTO(S)\" in row \"20\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10144,8 +9684,8 @@
             "0 DIA(S), 21 HORA(S), 25 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 20,
-          "rowPosition": 21,
+          "rowNumber": 19,
+          "rowPosition": 20,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -10154,7 +9694,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"21\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"20\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -10190,8 +9730,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 21,
-          "rowPosition": 22,
+          "rowNumber": 20,
+          "rowPosition": 21,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10200,7 +9740,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9050455,0\" in row \"22\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9050455,0\" in row \"21\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10236,8 +9776,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 21,
-          "rowPosition": 22,
+          "rowNumber": 20,
+          "rowPosition": 21,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10246,7 +9786,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"DIVERCIDADE CULTURAL\" in row \"22\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"DIVERCIDADE CULTURAL\" in row \"21\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10282,8 +9822,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 21,
-          "rowPosition": 22,
+          "rowNumber": 20,
+          "rowPosition": 21,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10292,7 +9832,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2015-12-30\" in row \"22\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2015-12-30\" in row \"21\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10328,8 +9868,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 21,
-          "rowPosition": 22,
+          "rowNumber": 20,
+          "rowPosition": 21,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10338,7 +9878,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2210000,0\" in row \"22\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2210000,0\" in row \"21\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10374,8 +9914,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 21,
-          "rowPosition": 22,
+          "rowNumber": 20,
+          "rowPosition": 21,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10384,7 +9924,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"22\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"21\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10420,8 +9960,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 21,
-          "rowPosition": 22,
+          "rowNumber": 20,
+          "rowPosition": 21,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10430,7 +9970,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"CANCELADO\" in row \"22\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"CANCELADO\" in row \"21\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10466,8 +10006,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 21,
-          "rowPosition": 22,
+          "rowNumber": 20,
+          "rowPosition": 21,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10476,7 +10016,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"22\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"21\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10512,8 +10052,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 21,
-          "rowPosition": 22,
+          "rowNumber": 20,
+          "rowPosition": 21,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10522,7 +10062,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0 DIA(S), 0 HORA(S), 29 MINUTO(S)\" in row \"22\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0 DIA(S), 0 HORA(S), 29 MINUTO(S)\" in row \"21\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10558,8 +10098,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 0 MINUTO(S)"
           ],
-          "rowNumber": 21,
-          "rowPosition": 22,
+          "rowNumber": 20,
+          "rowPosition": 21,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -10568,7 +10108,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"22\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"21\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -10604,8 +10144,8 @@
             "0 DIA(S), 0 HORA(S), 25 MINUTO(S)",
             "1 DIA(S), 1 HORA(S), 18 MINUTO(S)"
           ],
-          "rowNumber": 22,
-          "rowPosition": 23,
+          "rowNumber": 21,
+          "rowPosition": 22,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10614,7 +10154,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"794819,0\" in row \"23\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"794819,0\" in row \"22\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10650,8 +10190,8 @@
             "0 DIA(S), 0 HORA(S), 25 MINUTO(S)",
             "1 DIA(S), 1 HORA(S), 18 MINUTO(S)"
           ],
-          "rowNumber": 22,
-          "rowPosition": 23,
+          "rowNumber": 21,
+          "rowPosition": 22,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10660,7 +10200,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9143401,0\" in row \"23\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9143401,0\" in row \"22\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10696,8 +10236,8 @@
             "0 DIA(S), 0 HORA(S), 25 MINUTO(S)",
             "1 DIA(S), 1 HORA(S), 18 MINUTO(S)"
           ],
-          "rowNumber": 22,
-          "rowPosition": 23,
+          "rowNumber": 21,
+          "rowPosition": 22,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10706,7 +10246,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE MEDINA\" in row \"23\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE MEDINA\" in row \"22\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10742,8 +10282,8 @@
             "0 DIA(S), 0 HORA(S), 25 MINUTO(S)",
             "1 DIA(S), 1 HORA(S), 18 MINUTO(S)"
           ],
-          "rowNumber": 22,
-          "rowPosition": 23,
+          "rowNumber": 21,
+          "rowPosition": 22,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10752,7 +10292,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2017-05-20\" in row \"23\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2017-05-20\" in row \"22\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10788,8 +10328,8 @@
             "0 DIA(S), 0 HORA(S), 25 MINUTO(S)",
             "1 DIA(S), 1 HORA(S), 18 MINUTO(S)"
           ],
-          "rowNumber": 22,
-          "rowPosition": 23,
+          "rowNumber": 21,
+          "rowPosition": 22,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10798,7 +10338,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"250000,0\" in row \"23\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"250000,0\" in row \"22\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10834,8 +10374,8 @@
             "0 DIA(S), 0 HORA(S), 25 MINUTO(S)",
             "1 DIA(S), 1 HORA(S), 18 MINUTO(S)"
           ],
-          "rowNumber": 22,
-          "rowPosition": 23,
+          "rowNumber": 21,
+          "rowPosition": 22,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10844,7 +10384,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"23\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"22\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10880,8 +10420,8 @@
             "0 DIA(S), 0 HORA(S), 25 MINUTO(S)",
             "1 DIA(S), 1 HORA(S), 18 MINUTO(S)"
           ],
-          "rowNumber": 22,
-          "rowPosition": 23,
+          "rowNumber": 21,
+          "rowPosition": 22,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10890,7 +10430,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"23\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"22\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10926,8 +10466,8 @@
             "0 DIA(S), 0 HORA(S), 25 MINUTO(S)",
             "1 DIA(S), 1 HORA(S), 18 MINUTO(S)"
           ],
-          "rowNumber": 22,
-          "rowPosition": 23,
+          "rowNumber": 21,
+          "rowPosition": 22,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10936,7 +10476,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"250000,0\" in row \"23\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"250000,0\" in row \"22\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -10972,8 +10512,8 @@
             "0 DIA(S), 0 HORA(S), 25 MINUTO(S)",
             "1 DIA(S), 1 HORA(S), 18 MINUTO(S)"
           ],
-          "rowNumber": 22,
-          "rowPosition": 23,
+          "rowNumber": 21,
+          "rowPosition": 22,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -10982,7 +10522,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"1 DIA(S), 18 HORA(S), 49 MINUTO(S)\" in row \"23\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"1 DIA(S), 18 HORA(S), 49 MINUTO(S)\" in row \"22\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11018,8 +10558,8 @@
             "0 DIA(S), 0 HORA(S), 25 MINUTO(S)",
             "1 DIA(S), 1 HORA(S), 18 MINUTO(S)"
           ],
-          "rowNumber": 22,
-          "rowPosition": 23,
+          "rowNumber": 21,
+          "rowPosition": 22,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -11028,7 +10568,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"23\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"22\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -11064,8 +10604,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 7 MINUTO(S)"
           ],
-          "rowNumber": 23,
-          "rowPosition": 24,
+          "rowNumber": 22,
+          "rowPosition": 23,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11074,7 +10614,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"774600,0\" in row \"24\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"774600,0\" in row \"23\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11110,8 +10650,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 7 MINUTO(S)"
           ],
-          "rowNumber": 23,
-          "rowPosition": 24,
+          "rowNumber": 22,
+          "rowPosition": 23,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11120,7 +10660,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9072743,0\" in row \"24\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9072743,0\" in row \"23\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11156,8 +10696,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 7 MINUTO(S)"
           ],
-          "rowNumber": 23,
-          "rowPosition": 24,
+          "rowNumber": 22,
+          "rowPosition": 23,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11166,7 +10706,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE LAVRAS\" in row \"24\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE LAVRAS\" in row \"23\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11202,8 +10742,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 7 MINUTO(S)"
           ],
-          "rowNumber": 23,
-          "rowPosition": 24,
+          "rowNumber": 22,
+          "rowPosition": 23,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11212,7 +10752,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2016-07-01\" in row \"24\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2016-07-01\" in row \"23\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11248,8 +10788,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 7 MINUTO(S)"
           ],
-          "rowNumber": 23,
-          "rowPosition": 24,
+          "rowNumber": 22,
+          "rowPosition": 23,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11258,7 +10798,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"50000,0\" in row \"24\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"50000,0\" in row \"23\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11294,8 +10834,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 7 MINUTO(S)"
           ],
-          "rowNumber": 23,
-          "rowPosition": 24,
+          "rowNumber": 22,
+          "rowPosition": 23,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11304,7 +10844,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"24\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"23\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11340,8 +10880,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 7 MINUTO(S)"
           ],
-          "rowNumber": 23,
-          "rowPosition": 24,
+          "rowNumber": 22,
+          "rowPosition": 23,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11350,7 +10890,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"24\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"23\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11386,8 +10926,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 7 MINUTO(S)"
           ],
-          "rowNumber": 23,
-          "rowPosition": 24,
+          "rowNumber": 22,
+          "rowPosition": 23,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11396,7 +10936,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"50000,0\" in row \"24\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"50000,0\" in row \"23\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11432,8 +10972,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 7 MINUTO(S)"
           ],
-          "rowNumber": 23,
-          "rowPosition": 24,
+          "rowNumber": 22,
+          "rowPosition": 23,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11442,7 +10982,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"1 DIA(S), 1 HORA(S), 21 MINUTO(S)\" in row \"24\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"1 DIA(S), 1 HORA(S), 21 MINUTO(S)\" in row \"23\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11478,8 +11018,8 @@
             "0 DIA(S), 0 HORA(S), 3 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 7 MINUTO(S)"
           ],
-          "rowNumber": 23,
-          "rowPosition": 24,
+          "rowNumber": 22,
+          "rowPosition": 23,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -11488,7 +11028,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"24\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"23\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -11524,8 +11064,8 @@
             "12 DIA(S), 0 HORA(S), 59 MINUTO(S)",
             "0 DIA(S), 3 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 24,
-          "rowPosition": 25,
+          "rowNumber": 23,
+          "rowPosition": 24,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11534,7 +11074,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"802731,0\" in row \"25\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"802731,0\" in row \"24\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11570,8 +11110,8 @@
             "12 DIA(S), 0 HORA(S), 59 MINUTO(S)",
             "0 DIA(S), 3 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 24,
-          "rowPosition": 25,
+          "rowNumber": 23,
+          "rowPosition": 24,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11580,7 +11120,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9164288,0\" in row \"25\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9164288,0\" in row \"24\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11616,8 +11156,8 @@
             "12 DIA(S), 0 HORA(S), 59 MINUTO(S)",
             "0 DIA(S), 3 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 24,
-          "rowPosition": 25,
+          "rowNumber": 23,
+          "rowPosition": 24,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11626,7 +11166,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE PAULA CANDIDO\" in row \"25\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE PAULA CANDIDO\" in row \"24\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11662,8 +11202,8 @@
             "12 DIA(S), 0 HORA(S), 59 MINUTO(S)",
             "0 DIA(S), 3 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 24,
-          "rowPosition": 25,
+          "rowNumber": 23,
+          "rowPosition": 24,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11672,7 +11212,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2017-11-09\" in row \"25\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2017-11-09\" in row \"24\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11708,8 +11248,8 @@
             "12 DIA(S), 0 HORA(S), 59 MINUTO(S)",
             "0 DIA(S), 3 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 24,
-          "rowPosition": 25,
+          "rowNumber": 23,
+          "rowPosition": 24,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11718,7 +11258,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"25\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"24\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11754,8 +11294,8 @@
             "12 DIA(S), 0 HORA(S), 59 MINUTO(S)",
             "0 DIA(S), 3 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 24,
-          "rowPosition": 25,
+          "rowNumber": 23,
+          "rowPosition": 24,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11764,7 +11304,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"44650,0\" in row \"25\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"44650,0\" in row \"24\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11800,8 +11340,8 @@
             "12 DIA(S), 0 HORA(S), 59 MINUTO(S)",
             "0 DIA(S), 3 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 24,
-          "rowPosition": 25,
+          "rowNumber": 23,
+          "rowPosition": 24,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11810,7 +11350,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"25\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"24\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11846,8 +11386,8 @@
             "12 DIA(S), 0 HORA(S), 59 MINUTO(S)",
             "0 DIA(S), 3 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 24,
-          "rowPosition": 25,
+          "rowNumber": 23,
+          "rowPosition": 24,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11856,7 +11396,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"25\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"24\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11892,8 +11432,8 @@
             "12 DIA(S), 0 HORA(S), 59 MINUTO(S)",
             "0 DIA(S), 3 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 24,
-          "rowPosition": 25,
+          "rowNumber": 23,
+          "rowPosition": 24,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11902,7 +11442,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"5 DIA(S), 23 HORA(S), 32 MINUTO(S)\" in row \"25\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"5 DIA(S), 23 HORA(S), 32 MINUTO(S)\" in row \"24\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -11938,8 +11478,8 @@
             "12 DIA(S), 0 HORA(S), 59 MINUTO(S)",
             "0 DIA(S), 3 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 24,
-          "rowPosition": 25,
+          "rowNumber": 23,
+          "rowPosition": 24,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -11948,7 +11488,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"25\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"24\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -11984,8 +11524,8 @@
             "0 DIA(S), 0 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 29 MINUTO(S)"
           ],
-          "rowNumber": 25,
-          "rowPosition": 26,
+          "rowNumber": 24,
+          "rowPosition": 25,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -11994,7 +11534,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"813540,0\" in row \"26\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"813540,0\" in row \"25\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12030,8 +11570,8 @@
             "0 DIA(S), 0 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 29 MINUTO(S)"
           ],
-          "rowNumber": 25,
-          "rowPosition": 26,
+          "rowNumber": 24,
+          "rowPosition": 25,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12040,7 +11580,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9176797,0\" in row \"26\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9176797,0\" in row \"25\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12076,8 +11616,8 @@
             "0 DIA(S), 0 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 29 MINUTO(S)"
           ],
-          "rowNumber": 25,
-          "rowPosition": 26,
+          "rowNumber": 24,
+          "rowPosition": 25,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12086,7 +11626,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"APAE DE RECREIO\" in row \"26\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"APAE DE RECREIO\" in row \"25\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12122,8 +11662,8 @@
             "0 DIA(S), 0 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 29 MINUTO(S)"
           ],
-          "rowNumber": 25,
-          "rowPosition": 26,
+          "rowNumber": 24,
+          "rowPosition": 25,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12132,7 +11672,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2017-12-28\" in row \"26\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2017-12-28\" in row \"25\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12168,8 +11708,8 @@
             "0 DIA(S), 0 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 29 MINUTO(S)"
           ],
-          "rowNumber": 25,
-          "rowPosition": 26,
+          "rowNumber": 24,
+          "rowPosition": 25,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12178,7 +11718,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"30000,0\" in row \"26\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"30000,0\" in row \"25\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12214,8 +11754,8 @@
             "0 DIA(S), 0 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 29 MINUTO(S)"
           ],
-          "rowNumber": 25,
-          "rowPosition": 26,
+          "rowNumber": 24,
+          "rowPosition": 25,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12224,7 +11764,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"26\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"25\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12260,8 +11800,8 @@
             "0 DIA(S), 0 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 29 MINUTO(S)"
           ],
-          "rowNumber": 25,
-          "rowPosition": 26,
+          "rowNumber": 24,
+          "rowPosition": 25,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12270,7 +11810,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"26\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"25\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12306,8 +11846,8 @@
             "0 DIA(S), 0 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 29 MINUTO(S)"
           ],
-          "rowNumber": 25,
-          "rowPosition": 26,
+          "rowNumber": 24,
+          "rowPosition": 25,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12316,7 +11856,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"26\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"25\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12352,8 +11892,8 @@
             "0 DIA(S), 0 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 29 MINUTO(S)"
           ],
-          "rowNumber": 25,
-          "rowPosition": 26,
+          "rowNumber": 24,
+          "rowPosition": 25,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12362,7 +11902,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0 DIA(S), 0 HORA(S), 58 MINUTO(S)\" in row \"26\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0 DIA(S), 0 HORA(S), 58 MINUTO(S)\" in row \"25\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12398,8 +11938,8 @@
             "0 DIA(S), 0 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 29 MINUTO(S)"
           ],
-          "rowNumber": 25,
-          "rowPosition": 26,
+          "rowNumber": 24,
+          "rowPosition": 25,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -12408,7 +11948,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"26\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"25\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -12444,8 +11984,8 @@
             "3 DIA(S), 16 HORA(S), 13 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 26,
-          "rowPosition": 27,
+          "rowNumber": 25,
+          "rowPosition": 26,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12454,7 +11994,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"758672,0\" in row \"27\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"758672,0\" in row \"26\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12490,8 +12030,8 @@
             "3 DIA(S), 16 HORA(S), 13 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 26,
-          "rowPosition": 27,
+          "rowNumber": 25,
+          "rowPosition": 26,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12500,7 +12040,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9046870,0\" in row \"27\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9046870,0\" in row \"26\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12536,8 +12076,8 @@
             "3 DIA(S), 16 HORA(S), 13 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 26,
-          "rowPosition": 27,
+          "rowNumber": 25,
+          "rowPosition": 26,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12546,7 +12086,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE CATAGUASES\" in row \"27\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE CATAGUASES\" in row \"26\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12582,8 +12122,8 @@
             "3 DIA(S), 16 HORA(S), 13 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 26,
-          "rowPosition": 27,
+          "rowNumber": 25,
+          "rowPosition": 26,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12592,7 +12132,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2015-12-04\" in row \"27\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2015-12-04\" in row \"26\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12628,8 +12168,8 @@
             "3 DIA(S), 16 HORA(S), 13 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 26,
-          "rowPosition": 27,
+          "rowNumber": 25,
+          "rowPosition": 26,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12638,7 +12178,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"27\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"26\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12674,8 +12214,8 @@
             "3 DIA(S), 16 HORA(S), 13 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 26,
-          "rowPosition": 27,
+          "rowNumber": 25,
+          "rowPosition": 26,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12684,7 +12224,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"150000,0\" in row \"27\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"150000,0\" in row \"26\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12720,8 +12260,8 @@
             "3 DIA(S), 16 HORA(S), 13 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 26,
-          "rowPosition": 27,
+          "rowNumber": 25,
+          "rowPosition": 26,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12730,7 +12270,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"27\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"26\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12766,8 +12306,8 @@
             "3 DIA(S), 16 HORA(S), 13 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 26,
-          "rowPosition": 27,
+          "rowNumber": 25,
+          "rowPosition": 26,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12776,7 +12316,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"150000,0\" in row \"27\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"150000,0\" in row \"26\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12812,8 +12352,8 @@
             "3 DIA(S), 16 HORA(S), 13 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 26,
-          "rowPosition": 27,
+          "rowNumber": 25,
+          "rowPosition": 26,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12822,7 +12362,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0 DIA(S), 0 HORA(S), 5 MINUTO(S)\" in row \"27\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0 DIA(S), 0 HORA(S), 5 MINUTO(S)\" in row \"26\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12858,8 +12398,8 @@
             "3 DIA(S), 16 HORA(S), 13 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 13 MINUTO(S)"
           ],
-          "rowNumber": 26,
-          "rowPosition": 27,
+          "rowNumber": 25,
+          "rowPosition": 26,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -12868,7 +12408,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"27\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"26\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -12904,8 +12444,8 @@
             "0 DIA(S), 0 HORA(S), 19 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 24 MINUTO(S)"
           ],
-          "rowNumber": 27,
-          "rowPosition": 28,
+          "rowNumber": 26,
+          "rowPosition": 27,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12914,7 +12454,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9175988,0\" in row \"28\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9175988,0\" in row \"27\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12950,8 +12490,8 @@
             "0 DIA(S), 0 HORA(S), 19 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 24 MINUTO(S)"
           ],
-          "rowNumber": 27,
-          "rowPosition": 28,
+          "rowNumber": 26,
+          "rowPosition": 27,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -12960,7 +12500,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ASSOCIAÇÃO BATISTA DO BEM ESTAR SOCIAL\" in row \"28\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ASSOCIAÇÃO BATISTA DO BEM ESTAR SOCIAL\" in row \"27\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -12996,8 +12536,8 @@
             "0 DIA(S), 0 HORA(S), 19 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 24 MINUTO(S)"
           ],
-          "rowNumber": 27,
-          "rowPosition": 28,
+          "rowNumber": 26,
+          "rowPosition": 27,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13006,7 +12546,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2017-12-23\" in row \"28\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2017-12-23\" in row \"27\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13042,8 +12582,8 @@
             "0 DIA(S), 0 HORA(S), 19 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 24 MINUTO(S)"
           ],
-          "rowNumber": 27,
-          "rowPosition": 28,
+          "rowNumber": 26,
+          "rowPosition": 27,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13052,7 +12592,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"28\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"27\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13088,8 +12628,8 @@
             "0 DIA(S), 0 HORA(S), 19 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 24 MINUTO(S)"
           ],
-          "rowNumber": 27,
-          "rowPosition": 28,
+          "rowNumber": 26,
+          "rowPosition": 27,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13098,7 +12638,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"39770,21\" in row \"28\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"39770,21\" in row \"27\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13134,8 +12674,8 @@
             "0 DIA(S), 0 HORA(S), 19 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 24 MINUTO(S)"
           ],
-          "rowNumber": 27,
-          "rowPosition": 28,
+          "rowNumber": 26,
+          "rowPosition": 27,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13144,7 +12684,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"28\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"27\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13180,8 +12720,8 @@
             "0 DIA(S), 0 HORA(S), 19 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 24 MINUTO(S)"
           ],
-          "rowNumber": 27,
-          "rowPosition": 28,
+          "rowNumber": 26,
+          "rowPosition": 27,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13190,7 +12730,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"39770,21\" in row \"28\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"39770,21\" in row \"27\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13226,8 +12766,8 @@
             "0 DIA(S), 0 HORA(S), 19 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 24 MINUTO(S)"
           ],
-          "rowNumber": 27,
-          "rowPosition": 28,
+          "rowNumber": 26,
+          "rowPosition": 27,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13236,7 +12776,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0 DIA(S), 0 HORA(S), 25 MINUTO(S)\" in row \"28\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0 DIA(S), 0 HORA(S), 25 MINUTO(S)\" in row \"27\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13272,8 +12812,8 @@
             "0 DIA(S), 0 HORA(S), 19 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 24 MINUTO(S)"
           ],
-          "rowNumber": 27,
-          "rowPosition": 28,
+          "rowNumber": 26,
+          "rowPosition": 27,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -13282,7 +12822,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"28\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"27\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -13318,8 +12858,8 @@
             "0 DIA(S), 1 HORA(S), 29 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 37 MINUTO(S)"
           ],
-          "rowNumber": 28,
-          "rowPosition": 29,
+          "rowNumber": 27,
+          "rowPosition": 28,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13328,7 +12868,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"824583,0\" in row \"29\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"824583,0\" in row \"28\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13364,8 +12904,8 @@
             "0 DIA(S), 1 HORA(S), 29 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 37 MINUTO(S)"
           ],
-          "rowNumber": 28,
-          "rowPosition": 29,
+          "rowNumber": 27,
+          "rowPosition": 28,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13374,7 +12914,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9194054,0\" in row \"29\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9194054,0\" in row \"28\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13410,8 +12950,8 @@
             "0 DIA(S), 1 HORA(S), 29 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 37 MINUTO(S)"
           ],
-          "rowNumber": 28,
-          "rowPosition": 29,
+          "rowNumber": 27,
+          "rowPosition": 28,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13420,7 +12960,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE ITABIRA\" in row \"29\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE ITABIRA\" in row \"28\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13456,8 +12996,8 @@
             "0 DIA(S), 1 HORA(S), 29 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 37 MINUTO(S)"
           ],
-          "rowNumber": 28,
-          "rowPosition": 29,
+          "rowNumber": 27,
+          "rowPosition": 28,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13466,7 +13006,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2018-06-30\" in row \"29\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2018-06-30\" in row \"28\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13502,8 +13042,8 @@
             "0 DIA(S), 1 HORA(S), 29 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 37 MINUTO(S)"
           ],
-          "rowNumber": 28,
-          "rowPosition": 29,
+          "rowNumber": 27,
+          "rowPosition": 28,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13512,7 +13052,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"29\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"28\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13548,8 +13088,8 @@
             "0 DIA(S), 1 HORA(S), 29 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 37 MINUTO(S)"
           ],
-          "rowNumber": 28,
-          "rowPosition": 29,
+          "rowNumber": 27,
+          "rowPosition": 28,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13558,7 +13098,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"47715,37\" in row \"29\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"47715,37\" in row \"28\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13594,8 +13134,8 @@
             "0 DIA(S), 1 HORA(S), 29 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 37 MINUTO(S)"
           ],
-          "rowNumber": 28,
-          "rowPosition": 29,
+          "rowNumber": 27,
+          "rowPosition": 28,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13604,7 +13144,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"29\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"28\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13640,8 +13180,8 @@
             "0 DIA(S), 1 HORA(S), 29 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 37 MINUTO(S)"
           ],
-          "rowNumber": 28,
-          "rowPosition": 29,
+          "rowNumber": 27,
+          "rowPosition": 28,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13650,7 +13190,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"29\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"28\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13686,8 +13226,8 @@
             "0 DIA(S), 1 HORA(S), 29 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 37 MINUTO(S)"
           ],
-          "rowNumber": 28,
-          "rowPosition": 29,
+          "rowNumber": 27,
+          "rowPosition": 28,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13696,7 +13236,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"4 DIA(S), 21 HORA(S), 20 MINUTO(S)\" in row \"29\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"4 DIA(S), 21 HORA(S), 20 MINUTO(S)\" in row \"28\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13732,8 +13272,8 @@
             "0 DIA(S), 1 HORA(S), 29 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 37 MINUTO(S)"
           ],
-          "rowNumber": 28,
-          "rowPosition": 29,
+          "rowNumber": 27,
+          "rowPosition": 28,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -13742,7 +13282,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"29\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"28\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -13778,8 +13318,8 @@
             "0 DIA(S), 20 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 12 MINUTO(S)"
           ],
-          "rowNumber": 29,
-          "rowPosition": 30,
+          "rowNumber": 28,
+          "rowPosition": 29,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13788,7 +13328,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"825600,0\" in row \"30\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"825600,0\" in row \"29\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13824,8 +13364,8 @@
             "0 DIA(S), 20 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 12 MINUTO(S)"
           ],
-          "rowNumber": 29,
-          "rowPosition": 30,
+          "rowNumber": 28,
+          "rowPosition": 29,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13834,7 +13374,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9195101,0\" in row \"30\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9195101,0\" in row \"29\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13870,8 +13410,8 @@
             "0 DIA(S), 20 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 12 MINUTO(S)"
           ],
-          "rowNumber": 29,
-          "rowPosition": 30,
+          "rowNumber": 28,
+          "rowPosition": 29,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13880,7 +13420,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE MONTE SANTO DE MINAS\" in row \"30\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE MONTE SANTO DE MINAS\" in row \"29\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13916,8 +13456,8 @@
             "0 DIA(S), 20 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 12 MINUTO(S)"
           ],
-          "rowNumber": 29,
-          "rowPosition": 30,
+          "rowNumber": 28,
+          "rowPosition": 29,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13926,7 +13466,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2018-07-04\" in row \"30\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2018-07-04\" in row \"29\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -13962,8 +13502,8 @@
             "0 DIA(S), 20 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 12 MINUTO(S)"
           ],
-          "rowNumber": 29,
-          "rowPosition": 30,
+          "rowNumber": 28,
+          "rowPosition": 29,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -13972,7 +13512,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"150000,0\" in row \"30\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"150000,0\" in row \"29\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14008,8 +13548,8 @@
             "0 DIA(S), 20 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 12 MINUTO(S)"
           ],
-          "rowNumber": 29,
-          "rowPosition": 30,
+          "rowNumber": 28,
+          "rowPosition": 29,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14018,7 +13558,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"30\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"29\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14054,8 +13594,8 @@
             "0 DIA(S), 20 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 12 MINUTO(S)"
           ],
-          "rowNumber": 29,
-          "rowPosition": 30,
+          "rowNumber": 28,
+          "rowPosition": 29,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14064,7 +13604,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"30\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"29\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14100,8 +13640,8 @@
             "0 DIA(S), 20 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 12 MINUTO(S)"
           ],
-          "rowNumber": 29,
-          "rowPosition": 30,
+          "rowNumber": 28,
+          "rowPosition": 29,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14110,7 +13650,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"30\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"29\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14146,8 +13686,8 @@
             "0 DIA(S), 20 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 12 MINUTO(S)"
           ],
-          "rowNumber": 29,
-          "rowPosition": 30,
+          "rowNumber": 28,
+          "rowPosition": 29,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14156,7 +13696,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0 DIA(S), 1 HORA(S), 50 MINUTO(S)\" in row \"30\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0 DIA(S), 1 HORA(S), 50 MINUTO(S)\" in row \"29\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14192,8 +13732,8 @@
             "0 DIA(S), 20 HORA(S), 2 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 12 MINUTO(S)"
           ],
-          "rowNumber": 29,
-          "rowPosition": 30,
+          "rowNumber": 28,
+          "rowPosition": 29,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -14202,7 +13742,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"30\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"29\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -14238,8 +13778,8 @@
             "0 DIA(S), 1 HORA(S), 14 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 27 MINUTO(S)"
           ],
-          "rowNumber": 30,
-          "rowPosition": 31,
+          "rowNumber": 29,
+          "rowPosition": 30,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14248,7 +13788,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"825868,0\" in row \"31\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"825868,0\" in row \"30\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14284,8 +13824,8 @@
             "0 DIA(S), 1 HORA(S), 14 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 27 MINUTO(S)"
           ],
-          "rowNumber": 30,
-          "rowPosition": 31,
+          "rowNumber": 29,
+          "rowPosition": 30,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14294,7 +13834,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9195389,0\" in row \"31\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9195389,0\" in row \"30\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14330,8 +13870,8 @@
             "0 DIA(S), 1 HORA(S), 14 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 27 MINUTO(S)"
           ],
-          "rowNumber": 30,
-          "rowPosition": 31,
+          "rowNumber": 29,
+          "rowPosition": 30,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14340,7 +13880,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE TEÓFILO OTONI\" in row \"31\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE TEÓFILO OTONI\" in row \"30\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14376,8 +13916,8 @@
             "0 DIA(S), 1 HORA(S), 14 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 27 MINUTO(S)"
           ],
-          "rowNumber": 30,
-          "rowPosition": 31,
+          "rowNumber": 29,
+          "rowPosition": 30,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14386,7 +13926,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2018-07-06\" in row \"31\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2018-07-06\" in row \"30\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14422,8 +13962,8 @@
             "0 DIA(S), 1 HORA(S), 14 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 27 MINUTO(S)"
           ],
-          "rowNumber": 30,
-          "rowPosition": 31,
+          "rowNumber": 29,
+          "rowPosition": 30,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14432,7 +13972,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"198000,0\" in row \"31\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"198000,0\" in row \"30\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14468,8 +14008,8 @@
             "0 DIA(S), 1 HORA(S), 14 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 27 MINUTO(S)"
           ],
-          "rowNumber": 30,
-          "rowPosition": 31,
+          "rowNumber": 29,
+          "rowPosition": 30,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14478,7 +14018,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"31\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"30\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14514,8 +14054,8 @@
             "0 DIA(S), 1 HORA(S), 14 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 27 MINUTO(S)"
           ],
-          "rowNumber": 30,
-          "rowPosition": 31,
+          "rowNumber": 29,
+          "rowPosition": 30,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14524,7 +14064,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"31\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"30\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14560,8 +14100,8 @@
             "0 DIA(S), 1 HORA(S), 14 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 27 MINUTO(S)"
           ],
-          "rowNumber": 30,
-          "rowPosition": 31,
+          "rowNumber": 29,
+          "rowPosition": 30,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14570,7 +14110,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"31\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"30\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14606,8 +14146,8 @@
             "0 DIA(S), 1 HORA(S), 14 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 27 MINUTO(S)"
           ],
-          "rowNumber": 30,
-          "rowPosition": 31,
+          "rowNumber": 29,
+          "rowPosition": 30,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14616,7 +14156,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"11 DIA(S), 10 HORA(S), 20 MINUTO(S)\" in row \"31\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"11 DIA(S), 10 HORA(S), 20 MINUTO(S)\" in row \"30\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14652,8 +14192,8 @@
             "0 DIA(S), 1 HORA(S), 14 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 27 MINUTO(S)"
           ],
-          "rowNumber": 30,
-          "rowPosition": 31,
+          "rowNumber": 29,
+          "rowPosition": 30,
           "code": "missing-cell",
           "name": "Missing Cell",
           "tags": [
@@ -14662,7 +14202,7 @@
             "#cell"
           ],
           "note": "",
-          "message": "Row at position \"31\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "message": "Row at position \"30\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
           "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
         },
         {
@@ -14698,8 +14238,8 @@
             "0 DIA(S), 1 HORA(S), 58 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 11 MINUTO(S)"
           ],
-          "rowNumber": 31,
-          "rowPosition": 32,
+          "rowNumber": 30,
+          "rowPosition": 31,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14708,7 +14248,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"812767,0\" in row \"32\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "message": "Type error in the cell \"812767,0\" in row \"31\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14744,8 +14284,8 @@
             "0 DIA(S), 1 HORA(S), 58 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 11 MINUTO(S)"
           ],
-          "rowNumber": 31,
-          "rowPosition": 32,
+          "rowNumber": 30,
+          "rowPosition": 31,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14754,7 +14294,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9175014,0\" in row \"32\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9175014,0\" in row \"31\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14790,8 +14330,8 @@
             "0 DIA(S), 1 HORA(S), 58 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 11 MINUTO(S)"
           ],
-          "rowNumber": 31,
-          "rowPosition": 32,
+          "rowNumber": 30,
+          "rowPosition": 31,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14800,7 +14340,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"BANCO DE LEITOS E COLCHÕES ESPECIAIS DO ROTARY CLUB DE ARAXA NORTE\" in row \"32\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "message": "Type error in the cell \"BANCO DE LEITOS E COLCHÕES ESPECIAIS DO ROTARY CLUB DE ARAXA NORTE\" in row \"31\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14836,8 +14376,8 @@
             "0 DIA(S), 1 HORA(S), 58 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 11 MINUTO(S)"
           ],
-          "rowNumber": 31,
-          "rowPosition": 32,
+          "rowNumber": 30,
+          "rowPosition": 31,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14846,7 +14386,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"2017-12-22\" in row \"32\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"2017-12-22\" in row \"31\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14882,8 +14422,8 @@
             "0 DIA(S), 1 HORA(S), 58 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 11 MINUTO(S)"
           ],
-          "rowNumber": 31,
-          "rowPosition": 32,
+          "rowNumber": 30,
+          "rowPosition": 31,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14892,7 +14432,7 @@
             "#cell"
           ],
           "note": "type is \"datetime/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"32\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"31\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14928,8 +14468,8 @@
             "0 DIA(S), 1 HORA(S), 58 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 11 MINUTO(S)"
           ],
-          "rowNumber": 31,
-          "rowPosition": 32,
+          "rowNumber": 30,
+          "rowPosition": 31,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14938,7 +14478,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"30000,0\" in row \"32\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "message": "Type error in the cell \"30000,0\" in row \"31\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -14974,8 +14514,8 @@
             "0 DIA(S), 1 HORA(S), 58 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 11 MINUTO(S)"
           ],
-          "rowNumber": 31,
-          "rowPosition": 32,
+          "rowNumber": 30,
+          "rowPosition": 31,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -14984,7 +14524,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"ENCERRADO\" in row \"32\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"31\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -15020,8 +14560,8 @@
             "0 DIA(S), 1 HORA(S), 58 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 11 MINUTO(S)"
           ],
-          "rowNumber": 31,
-          "rowPosition": 32,
+          "rowNumber": 30,
+          "rowPosition": 31,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -15030,7 +14570,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"30000,0\" in row \"32\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "message": "Type error in the cell \"30000,0\" in row \"31\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -15066,8 +14606,8 @@
             "0 DIA(S), 1 HORA(S), 58 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 11 MINUTO(S)"
           ],
-          "rowNumber": 31,
-          "rowPosition": 32,
+          "rowNumber": 30,
+          "rowPosition": 31,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -15076,7 +14616,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"5 DIA(S), 5 HORA(S), 27 MINUTO(S)\" in row \"32\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "message": "Type error in the cell \"5 DIA(S), 5 HORA(S), 27 MINUTO(S)\" in row \"31\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -15111,6 +14651,466 @@
             "5 DIA(S), 5 HORA(S), 27 MINUTO(S)",
             "0 DIA(S), 1 HORA(S), 58 MINUTO(S)",
             "0 DIA(S), 0 HORA(S), 11 MINUTO(S)"
+          ],
+          "rowNumber": 30,
+          "rowPosition": 31,
+          "code": "missing-cell",
+          "name": "Missing Cell",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "",
+          "message": "Row at position \"31\" has a missing cell in field \"tempo_a_encaminhador_continuo\" at position \"27\"",
+          "description": "This row has less values compared to the header row (the first row in the data source). A key concept is that all the rows in tabular data must have the same number of columns."
+        },
+        {
+          "cell": "811150,0",
+          "fieldName": "cd_plano_trabalho",
+          "fieldNumber": 2,
+          "fieldPosition": 2,
+          "cells": [
+            "48669",
+            "811150,0",
+            "3",
+            "INSTRUMENTO JURÍDICO",
+            "001785/2017",
+            "001516/2017",
+            "1491001019/2017",
+            "9174100,0",
+            "1491",
+            "SEGOV",
+            "BOCAIUVA",
+            "18803072000132",
+            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
+            "IRREGULAR",
+            "2017-12-16",
+            "2017-12-16",
+            "2019-06-24 00:00:00",
+            "50000,0",
+            "0,0",
+            "16",
+            "ENCERRADO",
+            "50000,0",
+            "50000,0",
+            "0 DIA(S), 3 HORA(S), 36 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 12 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 19 MINUTO(S)"
+          ],
+          "rowNumber": 31,
+          "rowPosition": 32,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"integer/default\"",
+          "message": "Type error in the cell \"811150,0\" in row \"32\" and field \"cd_plano_trabalho\" at position \"2\": type is \"integer/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "9174100,0",
+          "fieldName": "numero_siafi",
+          "fieldNumber": 8,
+          "fieldPosition": 8,
+          "cells": [
+            "48669",
+            "811150,0",
+            "3",
+            "INSTRUMENTO JURÍDICO",
+            "001785/2017",
+            "001516/2017",
+            "1491001019/2017",
+            "9174100,0",
+            "1491",
+            "SEGOV",
+            "BOCAIUVA",
+            "18803072000132",
+            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
+            "IRREGULAR",
+            "2017-12-16",
+            "2017-12-16",
+            "2019-06-24 00:00:00",
+            "50000,0",
+            "0,0",
+            "16",
+            "ENCERRADO",
+            "50000,0",
+            "50000,0",
+            "0 DIA(S), 3 HORA(S), 36 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 12 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 19 MINUTO(S)"
+          ],
+          "rowNumber": 31,
+          "rowPosition": 32,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"integer/default\"",
+          "message": "Type error in the cell \"9174100,0\" in row \"32\" and field \"numero_siafi\" at position \"8\": type is \"integer/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "PREFEITURA MUNICIPAL DE BOCAIÚVA",
+          "fieldName": "cnpj_proponente",
+          "fieldNumber": 13,
+          "fieldPosition": 13,
+          "cells": [
+            "48669",
+            "811150,0",
+            "3",
+            "INSTRUMENTO JURÍDICO",
+            "001785/2017",
+            "001516/2017",
+            "1491001019/2017",
+            "9174100,0",
+            "1491",
+            "SEGOV",
+            "BOCAIUVA",
+            "18803072000132",
+            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
+            "IRREGULAR",
+            "2017-12-16",
+            "2017-12-16",
+            "2019-06-24 00:00:00",
+            "50000,0",
+            "0,0",
+            "16",
+            "ENCERRADO",
+            "50000,0",
+            "50000,0",
+            "0 DIA(S), 3 HORA(S), 36 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 12 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 19 MINUTO(S)"
+          ],
+          "rowNumber": 31,
+          "rowPosition": 32,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"integer/default\"",
+          "message": "Type error in the cell \"PREFEITURA MUNICIPAL DE BOCAIÚVA\" in row \"32\" and field \"cnpj_proponente\" at position \"13\": type is \"integer/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "2017-12-16",
+          "fieldName": "data_publicacao",
+          "fieldNumber": 16,
+          "fieldPosition": 16,
+          "cells": [
+            "48669",
+            "811150,0",
+            "3",
+            "INSTRUMENTO JURÍDICO",
+            "001785/2017",
+            "001516/2017",
+            "1491001019/2017",
+            "9174100,0",
+            "1491",
+            "SEGOV",
+            "BOCAIUVA",
+            "18803072000132",
+            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
+            "IRREGULAR",
+            "2017-12-16",
+            "2017-12-16",
+            "2019-06-24 00:00:00",
+            "50000,0",
+            "0,0",
+            "16",
+            "ENCERRADO",
+            "50000,0",
+            "50000,0",
+            "0 DIA(S), 3 HORA(S), 36 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 12 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 19 MINUTO(S)"
+          ],
+          "rowNumber": 31,
+          "rowPosition": 32,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"datetime/default\"",
+          "message": "Type error in the cell \"2017-12-16\" in row \"32\" and field \"data_publicacao\" at position \"16\": type is \"datetime/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "50000,0",
+          "fieldName": "data_termino",
+          "fieldNumber": 18,
+          "fieldPosition": 18,
+          "cells": [
+            "48669",
+            "811150,0",
+            "3",
+            "INSTRUMENTO JURÍDICO",
+            "001785/2017",
+            "001516/2017",
+            "1491001019/2017",
+            "9174100,0",
+            "1491",
+            "SEGOV",
+            "BOCAIUVA",
+            "18803072000132",
+            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
+            "IRREGULAR",
+            "2017-12-16",
+            "2017-12-16",
+            "2019-06-24 00:00:00",
+            "50000,0",
+            "0,0",
+            "16",
+            "ENCERRADO",
+            "50000,0",
+            "50000,0",
+            "0 DIA(S), 3 HORA(S), 36 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 12 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 19 MINUTO(S)"
+          ],
+          "rowNumber": 31,
+          "rowPosition": 32,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"datetime/default\"",
+          "message": "Type error in the cell \"50000,0\" in row \"32\" and field \"data_termino\" at position \"18\": type is \"datetime/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "0,0",
+          "fieldName": "valor_concedente",
+          "fieldNumber": 19,
+          "fieldPosition": 19,
+          "cells": [
+            "48669",
+            "811150,0",
+            "3",
+            "INSTRUMENTO JURÍDICO",
+            "001785/2017",
+            "001516/2017",
+            "1491001019/2017",
+            "9174100,0",
+            "1491",
+            "SEGOV",
+            "BOCAIUVA",
+            "18803072000132",
+            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
+            "IRREGULAR",
+            "2017-12-16",
+            "2017-12-16",
+            "2019-06-24 00:00:00",
+            "50000,0",
+            "0,0",
+            "16",
+            "ENCERRADO",
+            "50000,0",
+            "50000,0",
+            "0 DIA(S), 3 HORA(S), 36 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 12 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 19 MINUTO(S)"
+          ],
+          "rowNumber": 31,
+          "rowPosition": 32,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"32\" and field \"valor_concedente\" at position \"19\": type is \"integer/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "ENCERRADO",
+          "fieldName": "id_status_convenio",
+          "fieldNumber": 21,
+          "fieldPosition": 21,
+          "cells": [
+            "48669",
+            "811150,0",
+            "3",
+            "INSTRUMENTO JURÍDICO",
+            "001785/2017",
+            "001516/2017",
+            "1491001019/2017",
+            "9174100,0",
+            "1491",
+            "SEGOV",
+            "BOCAIUVA",
+            "18803072000132",
+            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
+            "IRREGULAR",
+            "2017-12-16",
+            "2017-12-16",
+            "2019-06-24 00:00:00",
+            "50000,0",
+            "0,0",
+            "16",
+            "ENCERRADO",
+            "50000,0",
+            "50000,0",
+            "0 DIA(S), 3 HORA(S), 36 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 12 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 19 MINUTO(S)"
+          ],
+          "rowNumber": 31,
+          "rowPosition": 32,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"integer/default\"",
+          "message": "Type error in the cell \"ENCERRADO\" in row \"32\" and field \"id_status_convenio\" at position \"21\": type is \"integer/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "50000,0",
+          "fieldName": "valor_despesa_empenhada",
+          "fieldNumber": 23,
+          "fieldPosition": 23,
+          "cells": [
+            "48669",
+            "811150,0",
+            "3",
+            "INSTRUMENTO JURÍDICO",
+            "001785/2017",
+            "001516/2017",
+            "1491001019/2017",
+            "9174100,0",
+            "1491",
+            "SEGOV",
+            "BOCAIUVA",
+            "18803072000132",
+            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
+            "IRREGULAR",
+            "2017-12-16",
+            "2017-12-16",
+            "2019-06-24 00:00:00",
+            "50000,0",
+            "0,0",
+            "16",
+            "ENCERRADO",
+            "50000,0",
+            "50000,0",
+            "0 DIA(S), 3 HORA(S), 36 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 12 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 19 MINUTO(S)"
+          ],
+          "rowNumber": 31,
+          "rowPosition": 32,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"integer/default\"",
+          "message": "Type error in the cell \"50000,0\" in row \"32\" and field \"valor_despesa_empenhada\" at position \"23\": type is \"integer/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "0 DIA(S), 3 HORA(S), 36 MINUTO(S)",
+          "fieldName": "valor_despesa_paga",
+          "fieldNumber": 24,
+          "fieldPosition": 24,
+          "cells": [
+            "48669",
+            "811150,0",
+            "3",
+            "INSTRUMENTO JURÍDICO",
+            "001785/2017",
+            "001516/2017",
+            "1491001019/2017",
+            "9174100,0",
+            "1491",
+            "SEGOV",
+            "BOCAIUVA",
+            "18803072000132",
+            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
+            "IRREGULAR",
+            "2017-12-16",
+            "2017-12-16",
+            "2019-06-24 00:00:00",
+            "50000,0",
+            "0,0",
+            "16",
+            "ENCERRADO",
+            "50000,0",
+            "50000,0",
+            "0 DIA(S), 3 HORA(S), 36 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 12 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 19 MINUTO(S)"
+          ],
+          "rowNumber": 31,
+          "rowPosition": 32,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"integer/default\"",
+          "message": "Type error in the cell \"0 DIA(S), 3 HORA(S), 36 MINUTO(S)\" in row \"32\" and field \"valor_despesa_paga\" at position \"24\": type is \"integer/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "",
+          "fieldName": "tempo_a_encaminhador_continuo",
+          "fieldNumber": 27,
+          "fieldPosition": 27,
+          "cells": [
+            "48669",
+            "811150,0",
+            "3",
+            "INSTRUMENTO JURÍDICO",
+            "001785/2017",
+            "001516/2017",
+            "1491001019/2017",
+            "9174100,0",
+            "1491",
+            "SEGOV",
+            "BOCAIUVA",
+            "18803072000132",
+            "PREFEITURA MUNICIPAL DE BOCAIÚVA",
+            "IRREGULAR",
+            "2017-12-16",
+            "2017-12-16",
+            "2019-06-24 00:00:00",
+            "50000,0",
+            "0,0",
+            "16",
+            "ENCERRADO",
+            "50000,0",
+            "50000,0",
+            "0 DIA(S), 3 HORA(S), 36 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 12 MINUTO(S)",
+            "0 DIA(S), 0 HORA(S), 19 MINUTO(S)"
           ],
           "rowNumber": 31,
           "rowPosition": 32,
@@ -46273,7 +46273,7 @@
           "rows": 0
         }
       },
-      "time": 0.061,
+      "time": 0.046,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -83394,7 +83394,7 @@
           "rows": 0
         }
       },
-      "time": 0.063,
+      "time": 0.044,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -120515,7 +120515,7 @@
           "rows": 0
         }
       },
-      "time": 0.061,
+      "time": 0.045,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -157636,7 +157636,7 @@
           "rows": 0
         }
       },
-      "time": 0.059,
+      "time": 0.044,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -194757,7 +194757,7 @@
           "rows": 0
         }
       },
-      "time": 0.06,
+      "time": 0.046,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -231878,7 +231878,7 @@
           "rows": 576
         }
       },
-      "time": 0.052,
+      "time": 0.035,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -258972,7 +258972,7 @@
           "rows": 530
         }
       },
-      "time": 0.037,
+      "time": 0.028,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -278703,7 +278703,7 @@
           "rows": 668
         }
       },
-      "time": 0.046,
+      "time": 0.034,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -303540,7 +303540,7 @@
           "rows": 172
         }
       },
-      "time": 0.022,
+      "time": 0.016,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -310025,7 +310025,7 @@
           "rows": 160
         }
       },
-      "time": 0.023,
+      "time": 0.018,
       "scope": [
         "hash-count-error",
         "byte-count-error",
