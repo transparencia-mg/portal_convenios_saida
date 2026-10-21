@@ -226,33 +226,55 @@ else:
 
 # =====================================================
 # PROCESSA ARQUIVOS DE CONVÊNIOS DE SAÍDA
-# Aceita tanto o nome antigo:
-#   CONVENIOSAIDA2024.xlsx
-# quanto o nome atual:
-#   Convenios_Saida2024.xlsx
+# Aceita:
+#   CONVENIOSAIDA2024.xlsx        (nome antigo)
+#   Convenios_Saida2024.xlsx      (nome atual)
+#   Convenios_Saida_historico.xlsx -> convênios anteriores a 2021,
+#                                     gravado como pagamento2021 / pagamentorp2021
+# NÃO pega o convenio_saida.xlsx (que não tem ano nem "historico").
 # =====================================================
+
+PADRAO_SAIDA = re.compile(
+    r"^CONVENIOS?_?SAIDA_?(\d{4}|HIST[OÓ]RICO)$",
+    re.IGNORECASE
+)
+
+ANO_HISTORICO = "2021"
 
 arquivos_saida = []
 
-for arquivo in UPLOAD.glob("*.xlsx"):
-    nome = arquivo.stem.upper().replace("_", "")
+for arquivo in sorted(UPLOAD.glob("*.xlsx")):
 
-    if nome.startswith("CONVENIOSAIDA"):
-        arquivos_saida.append(arquivo)
-
-for arquivo in arquivos_saida:
-
-    nome = arquivo.stem
-
-    match = re.search(r"(\d{4})", nome)
-
-    if not match:
-        print(
-            f"Ano não encontrado em {arquivo.name}"
-        )
+    # Ignora arquivos temporários do Excel (planilha aberta)
+    if arquivo.name.startswith("~$"):
         continue
 
-    ano = match.group(1)
+    m = PADRAO_SAIDA.match(arquivo.stem.strip())
+
+    if not m:
+        continue
+
+    sufixo = m.group(1)
+
+    if sufixo.upper().startswith("HIST"):
+        ano = ANO_HISTORICO
+    else:
+        ano = sufixo
+
+    arquivos_saida.append((arquivo, ano))
+
+# Avisa se dois arquivos forem gerar a mesma saída
+# (ex.: histórico e um Convenios_Saida2021 juntos)
+anos = [ano for _, ano in arquivos_saida]
+for ano in set(anos):
+    if anos.count(ano) > 1:
+        nomes = [a.name for a, x in arquivos_saida if x == ano]
+        print(
+            f"ATENÇÃO: {nomes} geram o mesmo pagamento{ano}; "
+            f"o último processado sobrescreve o anterior."
+        )
+
+for arquivo, ano in arquivos_saida:
 
     print(f"\nProcessando {arquivo.name}")
 
@@ -340,8 +362,8 @@ for arquivo in arquivos_saida:
 
     try:
         os.remove(arquivo)
-    except:
-        pass
+    except OSError as e:
+        print(f"Não foi possível apagar {arquivo.name}: {e}")
 
 # =====================================================
 # RESUMO (o git add/commit/push agora fica só em publicar.py,
